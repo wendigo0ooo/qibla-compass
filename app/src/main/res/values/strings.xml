@@ -12,12 +12,15 @@
 
     <string name="city">Şehir</string>
     <string name="manual">Konum Gir</string>
-    <string name="refresh">Yenile</string>
+    <string name="refresh">GPS</string>
     <string name="pick_city">Şehir seç</string>
     <string name="manual_title">Enlem / Boylam girin</string>
     <string name="hint_lat">Enlem (örn: 41.0082)</string>
     <string name="hint_lon">Boylam (örn: 28.9784)</string>
     <string name="invalid_coords">Geçersiz koordinat</string>
+
+    <string name="loc_unknown">Konum belirleniyor…</string>
+    <string name="next_only">Sıradaki: %1$s  %2$s</string>
 
     <string name="menu_map">Haritada Göster</string>
     <string name="menu_theme">Tema (Açık / Koyu)</string>
@@ -40,7 +43,6 @@
     <string name="acc_unreliable">Güvenilmez</string>
 
     <string name="info_fmt">Yön: %1$s°  •  Kıble: %2$s°\nMesafe: %3$s km\nKonum: %4$s, %5$s\nSapma: %6$s°  •  Sensör: %7$s</string>
-    <string name="next_fmt">Sıradaki: %1$s %2$s (%3$s)</string>
     <string name="dur_hm">%1$d sa %2$d dk</string>
     <string name="dur_m">%1$d dk</string>
 </resources>

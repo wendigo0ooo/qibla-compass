@@ -6,6 +6,9 @@
     <color name="text_dim">#B0BEC5</color>
     <color name="text_primary">#FFFFFF</color>
 
+    <color name="panel">#131C2E</color>
+    <color name="panel_stroke">#22304A</color>
+
     <color name="compass_dial">#33FFFFFF</color>
     <color name="compass_tick">#8AFFFFFF</color>
     <color name="compass_cardinal">#EEFFFFFF</color>

@@ -5,11 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Typeface
 import android.hardware.GeomagneticField
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -19,8 +21,10 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.text.InputType
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
@@ -35,14 +39,32 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import java.util.Calendar
 import java.util.Locale
+import java.util.concurrent.Executors
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener {
 
+    private enum class LocationSource { DEVICE, MANUAL }
+
     private lateinit var compass: CompassView
     private lateinit var tvInfo: TextView
     private lateinit var tvStatus: TextView
+    private lateinit var tvCity: TextView
+    private lateinit var tvCountdown: TextView
+    private lateinit var tvNextLine: TextView
+    private lateinit var prayerRow: LinearLayout
+
+    private val prayerNameViews = ArrayList<TextView>(6)
+    private val prayerTimeViews = ArrayList<TextView>(6)
+    private val prayerLabelRes = intArrayOf(
+        R.string.p_fajr, R.string.p_sunrise, R.string.p_dhuhr,
+        R.string.p_asr, R.string.p_maghrib, R.string.p_isha
+    )
+    private val prayerRowIndex = mapOf(
+        R.string.p_fajr to 0, R.string.p_dhuhr to 2, R.string.p_asr to 3,
+        R.string.p_maghrib to 4, R.string.p_isha to 5
+    )
 
     private var sensorManager: SensorManager? = null
     private var rotationSensor: Sensor? = null
@@ -72,6 +94,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private var qiblaSun: Double? = null
     private var method = PrayerMethod.DIYANET
 
+    private var currentCityName: String? = null
+    private var geocodedKey: String? = null
+    private val geocoderExecutor = Executors.newSingleThreadExecutor()
+
     private var locationManager: LocationManager? = null
 
     private var lastInfo = ""
@@ -82,10 +108,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         private const val SMOOTH = 0.15f
         private const val ALIGN_TOLERANCE = 5f
         private const val PREFS = "qibla_prefs"
-        private const val KEY_LAT = "last_lat"
-        private const val KEY_LON = "last_lon"
+        private const val KEY_DEVICE_LAT = "device_lat"
+        private const val KEY_DEVICE_LON = "device_lon"
         private const val KEY_THEME = "theme_mode"
         private const val KEY_METHOD = "prayer_method"
+        private const val STATE_LAT = "state_lat"
+        private const val STATE_LON = "state_lon"
+        private const val STATE_MANUAL = "state_manual"
+        private const val STATE_CITY = "state_city"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,6 +129,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         compass = findViewById(R.id.compass)
         tvInfo = findViewById(R.id.tvInfo)
         tvStatus = findViewById(R.id.tvStatus)
+        tvCity = findViewById(R.id.tvCity)
+        tvCountdown = findViewById(R.id.tvCountdown)
+        tvNextLine = findViewById(R.id.tvNextLine)
+        prayerRow = findViewById(R.id.prayerRow)
+        buildPrayerRow()
 
         method = savedMethod()
 
@@ -122,10 +157,149 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             ensurePermissionAndLocate()
         }
 
-        loadSavedLocation()?.let { applyLocation(it.first, it.second, 0.0) }
+        if (!restoreState(savedInstanceState)) {
+            loadDeviceLocation()?.let { applyLocation(it.first, it.second, 0.0, LocationSource.DEVICE) }
+        }
 
         ensurePermissionAndLocate()
         updateUi()
+    }
+
+    private fun restoreState(state: Bundle?): Boolean {
+        if (state == null || !state.containsKey(STATE_LAT)) return false
+        val la = state.getDouble(STATE_LAT)
+        val lo = state.getDouble(STATE_LON)
+        val manual = state.getBoolean(STATE_MANUAL, false)
+        val city = state.getString(STATE_CITY)
+        if (city != null) {
+            currentCityName = city
+            geocodedKey = coarseKey(la, lo)
+        }
+        applyLocation(
+            la, lo, 0.0,
+            if (manual) LocationSource.MANUAL else LocationSource.DEVICE,
+            city
+        )
+        return true
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(STATE_MANUAL, manualOverride)
+        outState.putString(STATE_CITY, currentCityName)
+        val la = lat
+        val lo = lon
+        if (la != null && lo != null) {
+            outState.putDouble(STATE_LAT, la)
+            outState.putDouble(STATE_LON, lo)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        geocoderExecutor.shutdownNow()
+    }
+
+    // ---- prayer panel ----
+
+    private fun buildPrayerRow() {
+        val dim = getColor(R.color.text_dim)
+        val primary = getColor(R.color.text_primary)
+        for (labelRes in prayerLabelRes) {
+            val cell = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = Gravity.CENTER
+                layoutParams = LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
+                )
+            }
+            val name = TextView(this).apply {
+                text = getString(labelRes)
+                textSize = 10f
+                gravity = Gravity.CENTER
+                setTextColor(dim)
+            }
+            val time = TextView(this).apply {
+                text = "--:--"
+                textSize = 13f
+                gravity = Gravity.CENTER
+                setTextColor(primary)
+                typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+            }
+            cell.addView(name)
+            cell.addView(time)
+            prayerRow.addView(cell)
+            prayerNameViews.add(name)
+            prayerTimeViews.add(time)
+        }
+    }
+
+    private fun updatePrayerPanel() {
+        val la = lat
+        val lo = lon
+        tvCity.text = currentCityName
+            ?: if (la != null && lo != null) String.format(Locale.US, "%.3f, %.3f", la, lo)
+            else getString(R.string.loc_unknown)
+
+        val t = prayerToday
+        if (t == null) {
+            tvNextLine.text = ""
+            tvCountdown.text = ""
+            return
+        }
+
+        val values = doubleArrayOf(t.fajr, t.sunrise, t.dhuhr, t.asr, t.maghrib, t.isha)
+        for (i in values.indices) prayerTimeViews[i].text = PrayerTimes.format(values[i])
+
+        val next = nextPrayerResAndTime()
+        val accent = getColor(R.color.accent)
+        val dim = getColor(R.color.text_dim)
+        val primary = getColor(R.color.text_primary)
+
+        if (next == null) {
+            tvNextLine.text = ""
+            tvCountdown.text = ""
+            for (i in values.indices) {
+                prayerTimeViews[i].setTextColor(primary)
+                prayerNameViews[i].setTextColor(dim)
+            }
+            return
+        }
+
+        val highlight = prayerRowIndex[next.first] ?: -1
+        for (i in values.indices) {
+            val on = i == highlight
+            prayerTimeViews[i].setTextColor(if (on) accent else primary)
+            prayerNameViews[i].setTextColor(if (on) accent else dim)
+        }
+
+        tvNextLine.text = getString(
+            R.string.next_only, getString(next.first), PrayerTimes.format(next.second)
+        )
+        tvCountdown.text = countdownText(next.second - nowDecimalHour())
+    }
+
+    private fun nextPrayerResAndTime(): Pair<Int, Double>? {
+        val t = prayerToday ?: return null
+        val now = nowDecimalHour()
+        val today = listOf(
+            R.string.p_fajr to t.fajr,
+            R.string.p_dhuhr to t.dhuhr,
+            R.string.p_asr to t.asr,
+            R.string.p_maghrib to t.maghrib,
+            R.string.p_isha to t.isha
+        )
+        for (p in today) if (p.second > now) return p
+        val tm = prayerTomorrow ?: return null
+        return R.string.p_fajr to (tm.fajr + 24.0)
+    }
+
+    private fun countdownText(hours: Double): String {
+        val total = (hours * 60).roundToInt().coerceAtLeast(0)
+        val h = total / 60
+        val m = total % 60
+        return if (h > 0) String.format(Locale.US, "%d:%02d", h, m)
+        else String.format(Locale.US, "%d dk", m)
     }
 
     // ---- theme ----
@@ -326,9 +500,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             .setTitle(R.string.pick_city)
             .setItems(names) { _, which ->
                 val city = Cities.all[which]
-                manualOverride = true
                 stopGps()
-                applyLocation(city.lat, city.lon, 0.0)
+                applyLocation(city.lat, city.lon, 0.0, LocationSource.MANUAL, city.name)
             }
             .show()
     }
@@ -357,14 +530,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             .setTitle(R.string.manual_title)
             .setView(container)
             .setPositiveButton(android.R.string.ok) { _, _ ->
-                val la = etLat.text.toString().trim().toDoubleOrNull()
-                val lo = etLon.text.toString().trim().toDoubleOrNull()
+                val la = etLat.text.toString().trim().replace(',', '.').toDoubleOrNull()
+                val lo = etLon.text.toString().trim().replace(',', '.').toDoubleOrNull()
                 if (la == null || lo == null || la !in -90.0..90.0 || lo !in -180.0..180.0) {
                     Toast.makeText(this, R.string.invalid_coords, Toast.LENGTH_SHORT).show()
                 } else {
-                    manualOverride = true
                     stopGps()
-                    applyLocation(la, lo, 0.0)
+                    applyLocation(la, lo, 0.0, LocationSource.MANUAL)
                 }
             }
             .setNegativeButton(android.R.string.cancel, null)
@@ -376,10 +548,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     }
 
     private fun updateLocation(location: Location) {
-        applyLocation(location.latitude, location.longitude, location.altitude.toDouble())
+        applyLocation(
+            location.latitude, location.longitude,
+            location.altitude.toDouble(), LocationSource.DEVICE
+        )
     }
 
-    private fun applyLocation(la: Double, lo: Double, altitude: Double) {
+    private fun applyLocation(
+        la: Double, lo: Double, altitude: Double,
+        source: LocationSource, nameHint: String? = null
+    ) {
         lat = la
         lon = lo
         qiblaBearing = Qibla.bearingToKaaba(la, lo)
@@ -391,11 +569,61 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         } catch (_: Exception) {
             0f
         }
-        saveLocation(la, lo)
+
+        if (source == LocationSource.DEVICE) {
+            manualOverride = false
+            saveDeviceLocation(la, lo)
+            if (nameHint != null) {
+                currentCityName = nameHint
+                geocodedKey = coarseKey(la, lo)
+            } else {
+                requestCityName(la, lo)
+            }
+        } else {
+            manualOverride = true
+            if (nameHint != null) {
+                currentCityName = nameHint
+                geocodedKey = coarseKey(la, lo)
+            } else {
+                requestCityName(la, lo)
+            }
+        }
+
         recomputePrayers()
         compass.setQibla(qiblaBearing.toFloat())
         compass.setHasLocation(true)
         updateUi()
+    }
+
+    private fun coarseKey(la: Double, lo: Double): String =
+        String.format(Locale.US, "%.2f,%.2f", la, lo)
+
+    private fun requestCityName(la: Double, lo: Double) {
+        val key = coarseKey(la, lo)
+        if (geocodedKey == key) return
+        geocodedKey = key
+        geocoderExecutor.execute {
+            val name = try {
+                @Suppress("DEPRECATION")
+                val list = Geocoder(this, Locale.getDefault()).getFromLocation(la, lo, 1)
+                val a = list?.firstOrNull()
+                if (a == null) null else {
+                    val city = a.locality ?: a.subAdminArea ?: a.adminArea
+                    listOfNotNull(city, a.countryName)
+                        .filter { it.isNotBlank() }
+                        .joinToString(", ")
+                        .ifBlank { null }
+                }
+            } catch (_: Exception) {
+                null
+            }
+            if (name != null) {
+                runOnUiThread {
+                    currentCityName = name
+                    updateUi()
+                }
+            }
+        }
     }
 
     private fun recomputePrayers() {
@@ -517,28 +745,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                 c.get(Calendar.SECOND) / 3600.0
     }
 
-    private fun nextPrayer(): Pair<String, Double>? {
-        val t = prayerToday ?: return null
-        val now = nowDecimalHour()
-        val today = listOf(
-            getString(R.string.p_fajr) to t.fajr,
-            getString(R.string.p_dhuhr) to t.dhuhr,
-            getString(R.string.p_asr) to t.asr,
-            getString(R.string.p_maghrib) to t.maghrib,
-            getString(R.string.p_isha) to t.isha
-        )
-        for (p in today) if (p.second > now) return p
-        val tm = prayerTomorrow ?: return null
-        return getString(R.string.p_fajr) to (tm.fajr + 24.0)
-    }
-
-    private fun formatRemaining(hours: Double): String {
-        val total = (hours * 60).roundToInt().coerceAtLeast(0)
-        val h = total / 60
-        val m = total % 60
-        return if (h > 0) getString(R.string.dur_hm, h, m) else getString(R.string.dur_m, m)
-    }
-
     private fun updateUi() {
         val la = lat
         val lo = lon
@@ -546,6 +752,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             if (tvInfo.text != getString(R.string.waiting_location)) {
                 tvInfo.text = getString(R.string.waiting_location)
             }
+            updatePrayerPanel()
             return
         }
 
@@ -556,32 +763,22 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         if (aligned && !wasAligned) vibrateAligned()
         wasAligned = aligned
 
-        val info = StringBuilder()
-        info.append(
-            getString(
-                R.string.info_fmt,
-                azimuth.roundToInt().toString(),
-                qiblaBearing.roundToInt().toString(),
-                distanceKm.roundToInt().toString(),
-                String.format(Locale.US, "%.4f", la),
-                String.format(Locale.US, "%.4f", lo),
-                String.format(Locale.US, "%.1f", declination),
-                accuracyLabel(sensorAccuracy)
-            )
+        val info = getString(
+            R.string.info_fmt,
+            azimuth.roundToInt().toString(),
+            qiblaBearing.roundToInt().toString(),
+            distanceKm.roundToInt().toString(),
+            String.format(Locale.US, "%.4f", la),
+            String.format(Locale.US, "%.4f", lo),
+            String.format(Locale.US, "%.1f", declination),
+            accuracyLabel(sensorAccuracy)
         )
-        nextPrayer()?.let { (name, time) ->
-            val remain = if (time > 24.0) time - 24.0 - nowDecimalHour() + 24.0
-            else time - nowDecimalHour()
-            info.append('\n').append(
-                getString(R.string.next_fmt, name, PrayerTimes.format(time), formatRemaining(remain))
-            )
+        if (info != lastInfo) {
+            tvInfo.text = info
+            lastInfo = info
         }
 
-        val text = info.toString()
-        if (text != lastInfo) {
-            tvInfo.text = text
-            lastInfo = text
-        }
+        updatePrayerPanel()
 
         val calibrated = sensorAccuracy >= SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM
         setStatus(
@@ -618,17 +815,17 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         }
     }
 
-    private fun saveLocation(la: Double, lo: Double) {
+    private fun saveDeviceLocation(la: Double, lo: Double) {
         getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-            .putString(KEY_LAT, la.toString())
-            .putString(KEY_LON, lo.toString())
+            .putString(KEY_DEVICE_LAT, la.toString())
+            .putString(KEY_DEVICE_LON, lo.toString())
             .apply()
     }
 
-    private fun loadSavedLocation(): Pair<Double, Double>? {
+    private fun loadDeviceLocation(): Pair<Double, Double>? {
         val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        val la = p.getString(KEY_LAT, null)?.toDoubleOrNull() ?: return null
-        val lo = p.getString(KEY_LON, null)?.toDoubleOrNull() ?: return null
+        val la = p.getString(KEY_DEVICE_LAT, null)?.toDoubleOrNull() ?: return null
+        val lo = p.getString(KEY_DEVICE_LON, null)?.toDoubleOrNull() ?: return null
         return la to lo
     }
 }
