@@ -32,6 +32,12 @@ class MescitActivity : AppCompatActivity() {
     private companion object {
         const val REQ_LOC = 2001
         const val PREFS = "qibla_prefs"
+
+        val ENDPOINTS = arrayOf(
+            "https://overpass.private.coffee/api/interpreter",
+            "https://overpass-api.de/api/interpreter",
+            "https://overpass.kumi.systems/api/interpreter"
+        )
     }
 
     private var lat: Double? = null
@@ -152,21 +158,40 @@ class MescitActivity : AppCompatActivity() {
     }
 
     private fun fetchMosques(la: Double, lo: Double): List<Mosque> {
-        val q = "[out:json][timeout:25];(" +
-                "node[\"amenity\"=\"place_of_worship\"][\"religion\"=\"muslim\"](around:5000,$la,$lo);" +
-                "way[\"amenity\"=\"place_of_worship\"][\"religion\"=\"muslim\"](around:5000,$la,$lo);" +
-                ");out center tags 40;"
-        val conn = (URL("https://overpass-api.de/api/interpreter").openConnection() as HttpURLConnection)
-        conn.requestMethod = "POST"
-        conn.doOutput = true
-        conn.connectTimeout = 20000
-        conn.readTimeout = 25000
-        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded")
-        conn.setRequestProperty("User-Agent", "KiblePusulasi/4.0")
-        conn.outputStream.use { it.write(("data=" + URLEncoder.encode(q, "UTF-8")).toByteArray()) }
+        val q = "[out:json][timeout:40];" +
+                "nwr[\"amenity\"=\"place_of_worship\"][\"religion\"=\"muslim\"](around:5000,$la,$lo);" +
+                "out center 60;"
+        var last: Exception? = null
+        for (endpoint in ENDPOINTS) {
+            try {
+                return request(endpoint, q, la, lo)
+            } catch (e: Exception) {
+                last = e
+            }
+        }
+        throw last ?: IllegalStateException("no endpoint")
+    }
 
+    private fun request(endpoint: String, q: String, la: Double, lo: Double): List<Mosque> {
+        val conn = (URL("$endpoint?data=" + URLEncoder.encode(q, "UTF-8")).openConnection()
+                as HttpURLConnection)
+        conn.requestMethod = "GET"
+        conn.connectTimeout = 15000
+        conn.readTimeout = 60000
+        conn.setRequestProperty("User-Agent", "KiblePusulasi/4.4")
+        val code = conn.responseCode
+        if (code !in 200..299) {
+            conn.disconnect()
+            throw IllegalStateException("HTTP $code")
+        }
         val body = conn.inputStream.bufferedReader().use { it.readText() }
-        val elements = JSONObject(body).optJSONArray("elements") ?: return emptyList()
+        conn.disconnect()
+
+        val json = JSONObject(body)
+        if (!json.has("elements")) {
+            throw IllegalStateException(json.optString("remark", "overpass error"))
+        }
+        val elements = json.getJSONArray("elements")
 
         val out = ArrayList<Mosque>()
         for (i in 0 until elements.length()) {

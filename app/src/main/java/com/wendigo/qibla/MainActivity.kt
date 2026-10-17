@@ -447,9 +447,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<View>(R.id.ibDua).setOnClickListener {
             startActivity(Intent(this, DuaActivity::class.java))
         }
-        findViewById<View>(R.id.ibTesbih).setOnClickListener {
-            startActivity(Intent(this, TesbihActivity::class.java))
-        }
         findViewById<View>(R.id.ibEsma).setOnClickListener {
             startActivity(Intent(this, EsmaActivity::class.java))
         }

@@ -18,7 +18,7 @@ class ToolsActivity : AppCompatActivity() {
         Tool(R.string.tool_hijri_title, R.string.tool_hijri_sub, HijriActivity::class.java),
         Tool(R.string.tool_zakat_title, R.string.tool_zakat_sub, ZakatActivity::class.java),
         Tool(R.string.tool_mescit_title, R.string.tool_mescit_sub, MescitActivity::class.java),
-        Tool(R.string.tool_camera_title, R.string.tool_camera_sub, QiblaCameraActivity::class.java)
+        Tool(R.string.tab_tesbih, R.string.ib_tesbih_sub, TesbihActivity::class.java)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

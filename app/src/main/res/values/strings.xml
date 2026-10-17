@@ -78,7 +78,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 4.3</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 4.4</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>
@@ -104,9 +104,6 @@
     <string name="tool_zakat_sub">Nakit, altın, gümüş ve diğer mallar üzerinden zekât</string>
     <string name="tool_mescit_title">Mescit Bulucu</string>
     <string name="tool_mescit_sub">Yakınındaki cami ve mescitleri listeler</string>
-    <string name="tool_camera_title">Kıble Kamerası</string>
-    <string name="tool_camera_sub">Kamerayla canlı görüntü üzerinde kıble yönü</string>
-
     <string name="hijri_today">Bugünün hicrî tarihi</string>
     <string name="hijri_convert">Tarih dönüştür</string>
     <string name="hijri_convert_hint">Bir milâdî tarih seçin; hicrî karşılığı burada görünür.</string>
@@ -134,18 +131,12 @@
     <string name="mescit_find">Yakınımdaki mescitleri bul</string>
     <string name="mescit_hint">Konum izni verip arama yapın. Sonuçlar yakınlığa göre listelenir.</string>
     <string name="mescit_searching">Aranıyor…</string>
-    <string name="mescit_error">Arama başarısız oldu (internet gerekli).</string>
+    <string name="mescit_error">Arama başarısız oldu. İnternetinizi kontrol edip tekrar deneyin.</string>
     <string name="mescit_none">Yakında mescit bulunamadı.</string>
     <string name="mescit_count">%1$d mescit bulundu</string>
     <string name="mescit_unnamed">İsimsiz mescit</string>
     <string name="mescit_no_map">Harita uygulaması bulunamadı.</string>
     <string name="mescit_no_loc">Konum alınamadı. Ana ekranda konumunuzun belirlenmesini bekleyin.</string>
-
-    <string name="cam_hint">Telefonu düz tutup kıbleye doğru çevirin</string>
-    <string name="cam_close">Kapat</string>
-    <string name="cam_no_loc">Konum yok — önce ana ekranda konumunuzun belirlenmesini bekleyin.</string>
-    <string name="cam_denied">Kamera izni verilmedi.</string>
-    <string name="cam_error">Kamera açılamadı.</string>
 
     <string name="dur_hm">%1$d sa %2$d dk</string>
     <string name="dur_m">%1$d dk</string>

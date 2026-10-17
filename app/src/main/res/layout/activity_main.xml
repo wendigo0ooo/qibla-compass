@@ -412,34 +412,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ibTesbih"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:background="@drawable/panel_bg"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="vertical"
-                    android:padding="18dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tab_tesbih"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:text="@string/ib_tesbih_sub"
-                        android:textColor="@color/text_dim"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/ibEsma"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

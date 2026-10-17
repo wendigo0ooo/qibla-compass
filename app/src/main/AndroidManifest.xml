@@ -9,16 +9,12 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature
         android:name="android.hardware.sensor.compass"
         android:required="false" />
     <uses-feature
         android:name="android.hardware.location.gps"
-        android:required="false" />
-    <uses-feature
-        android:name="android.hardware.camera"
         android:required="false" />
 
     <application
@@ -89,11 +85,6 @@
 
         <activity
             android:name=".MescitActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".QiblaCameraActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
 
