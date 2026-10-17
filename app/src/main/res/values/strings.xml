@@ -39,7 +39,15 @@
 
     <string name="tab_qibla">Kıble</string>
     <string name="tab_prayer">Vakitler</string>
+    <string name="tab_quran">Kur\'an</string>
     <string name="tab_settings">Ayarlar</string>
+
+    <string name="quran_loading">Kur\'an yükleniyor…</string>
+    <string name="surah_meta_fmt">%1$d âyet • %2$s</string>
+    <string name="quran_play">Sûreyi dinle</string>
+    <string name="quran_stop">Durdur</string>
+    <string name="quran_audio_error">Ses yüklenemedi (internet gerekli)</string>
+    <string name="quran_meat_credit">Meal: Elmalılı Hamdi Yazır (kamu malı) • Ses: Mishary Alafasy</string>
 
     <string name="notif_enable">Vakit bildirimleri</string>
     <string name="notif_hint">Vakit girdiğinde bildirim alırsınız. Bildirimin zamanında gelmesi için uygulamanın pil tasarrufundan muaf olması önerilir.</string>
@@ -52,7 +60,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 2.0</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 2.1</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>

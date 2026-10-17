@@ -39,6 +39,11 @@
             android:exported="false"
             android:label="@string/menu_map" />
 
+        <activity
+            android:name=".SurahActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
         <receiver
             android:name=".PrayerAlarmReceiver"
             android:exported="false" />

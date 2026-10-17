@@ -33,10 +33,13 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ListView
+import android.widget.ProgressBar
 import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
@@ -70,6 +73,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private lateinit var pageQibla: View
     private lateinit var pageVakit: View
     private lateinit var pageAyarlar: View
+    private lateinit var pageQuran: View
+    private lateinit var quranList: ListView
+    private lateinit var quranProgress: ProgressBar
+    private lateinit var quranEmpty: TextView
+    private val quranSurahs = ArrayList<QuranRepository.Surah>()
+    private lateinit var quranAdapter: QuranAdapter
+    private var quranRequested = false
+    private val loadExecutor = Executors.newSingleThreadExecutor()
     private lateinit var vCity: TextView
     private lateinit var vCount: TextView
     private lateinit var vNext: TextView
@@ -186,6 +197,20 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         setupSettingsPage()
         setupNotifications()
 
+        pageQuran = findViewById(R.id.pageQuran)
+        quranList = findViewById(R.id.quranList)
+        quranProgress = findViewById(R.id.quranProgress)
+        quranEmpty = findViewById(R.id.quranEmpty)
+        quranAdapter = QuranAdapter()
+        quranList.adapter = quranAdapter
+        quranList.setOnItemClickListener { _, _, position, _ ->
+            val s = quranSurahs.getOrNull(position) ?: return@setOnItemClickListener
+            startActivity(
+                Intent(this, SurahActivity::class.java)
+                    .putExtra(SurahActivity.EXTRA_SURAH, s.number - 1)
+            )
+        }
+
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as? SensorManager
         rotationSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
         accelSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
@@ -247,6 +272,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     override fun onDestroy() {
         super.onDestroy()
         geocoderExecutor.shutdownNow()
+        loadExecutor.shutdownNow()
     }
 
     // ---- prayer panel ----
@@ -406,16 +432,23 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private fun setupBottomBar() {
         findViewById<View>(R.id.tabQibla).setOnClickListener { selectTab(0) }
         findViewById<View>(R.id.tabPrayer).setOnClickListener { selectTab(1) }
-        findViewById<View>(R.id.tabSettings).setOnClickListener { selectTab(2) }
+        findViewById<View>(R.id.tabQuran).setOnClickListener { selectTab(2) }
+        findViewById<View>(R.id.tabSettings).setOnClickListener { selectTab(3) }
         selectTab(0)
     }
 
     private fun selectTab(index: Int) {
         val accent = getColor(R.color.accent)
         val dim = getColor(R.color.text_dim)
-        val icons = intArrayOf(R.id.tabQiblaIcon, R.id.tabPrayerIcon, R.id.tabSettingsIcon)
-        val labels = intArrayOf(R.id.tabQiblaLabel, R.id.tabPrayerLabel, R.id.tabSettingsLabel)
-        val pages = intArrayOf(R.id.pageQibla, R.id.pageVakit, R.id.pageAyarlar)
+        val icons = intArrayOf(
+            R.id.tabQiblaIcon, R.id.tabPrayerIcon, R.id.tabQuranIcon, R.id.tabSettingsIcon
+        )
+        val labels = intArrayOf(
+            R.id.tabQiblaLabel, R.id.tabPrayerLabel, R.id.tabQuranLabel, R.id.tabSettingsLabel
+        )
+        val pages = intArrayOf(
+            R.id.pageQibla, R.id.pageVakit, R.id.pageQuran, R.id.pageAyarlar
+        )
         for (i in icons.indices) {
             val on = i == index
             findViewById<ImageView>(icons[i]).setColorFilter(if (on) accent else dim)
@@ -425,9 +458,48 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         supportActionBar?.title = when (index) {
             0 -> getString(R.string.app_name)
             1 -> getString(R.string.tab_prayer)
+            2 -> getString(R.string.tab_quran)
             else -> getString(R.string.tab_settings)
         }
         if (index == 1) updateVakitPage()
+        if (index == 2) ensureQuranLoaded()
+    }
+
+    private fun ensureQuranLoaded() {
+        if (quranRequested) return
+        quranRequested = true
+        quranProgress.visibility = View.VISIBLE
+        loadExecutor.execute {
+            val list = try {
+                QuranRepository.load(applicationContext)
+            } catch (_: Exception) {
+                emptyList()
+            }
+            runOnUiThread {
+                quranProgress.visibility = View.GONE
+                quranSurahs.clear()
+                quranSurahs.addAll(list)
+                quranAdapter.notifyDataSetChanged()
+                quranEmpty.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
+            }
+        }
+    }
+
+    private inner class QuranAdapter : BaseAdapter() {
+        override fun getCount(): Int = quranSurahs.size
+        override fun getItem(position: Int): Any = quranSurahs[position]
+        override fun getItemId(position: Int): Long = position.toLong()
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+            val v = convertView ?: layoutInflater.inflate(R.layout.item_surah, parent, false)
+            val s = quranSurahs[position]
+            v.findViewById<TextView>(R.id.surahNum).text = s.number.toString()
+            v.findViewById<TextView>(R.id.surahName).text = s.name
+            v.findViewById<TextView>(R.id.surahMeta).text =
+                getString(R.string.surah_meta_fmt, s.ayahs.size, s.place)
+            v.findViewById<TextView>(R.id.surahAr).text = s.arName
+            return v
+        }
     }
 
     private fun setupSettingsPage() {
