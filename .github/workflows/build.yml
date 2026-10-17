@@ -66,7 +66,7 @@ jobs:
         if: github.event_name == 'push'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: v4.1-build${{ github.run_number }}
+          tag_name: v4.2-build${{ github.run_number }}
           name: Kıble Pusulası v2.0 (build ${{ github.run_number }})
           body: |
             Otomatik derlenen Kıble Pusulası APK'ları (debug + imzalı release).

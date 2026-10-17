@@ -28,8 +28,6 @@ import android.os.VibratorManager
 import android.provider.Settings
 import android.text.InputType
 import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -525,16 +523,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<Button>(R.id.btnBgAyar).setOnClickListener { showBackgroundDialog() }
         findViewById<Button>(R.id.btnMapAyar).setOnClickListener { openMap() }
         findViewById<Button>(R.id.btnToolsAyar).setOnClickListener {
-            startActivity(Intent(this, HijriActivity::class.java))
-        }
-        findViewById<Button>(R.id.btnZakatAyar).setOnClickListener {
-            startActivity(Intent(this, ZakatActivity::class.java))
-        }
-        findViewById<Button>(R.id.btnMescitAyar).setOnClickListener {
-            startActivity(Intent(this, MescitActivity::class.java))
-        }
-        findViewById<Button>(R.id.btnCameraAyar).setOnClickListener {
-            startActivity(Intent(this, QiblaCameraActivity::class.java))
+            startActivity(Intent(this, ToolsActivity::class.java))
         }
     }
 
@@ -653,39 +642,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         val mode = if (night) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES
         getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putInt(KEY_THEME, mode).apply()
         AppCompatDelegate.setDefaultNightMode(mode)
-    }
-
-    // ---- menu ----
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_tools -> {
-                startActivity(Intent(this, ToolsActivity::class.java))
-                true
-            }
-            R.id.action_map -> {
-                openMap()
-                true
-            }
-            R.id.action_prayer -> {
-                showPrayerDialog()
-                true
-            }
-            R.id.action_bg -> {
-                showBackgroundDialog()
-                true
-            }
-            R.id.action_theme -> {
-                toggleTheme()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     private fun openMap() {
