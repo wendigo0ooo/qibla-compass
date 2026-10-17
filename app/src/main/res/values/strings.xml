@@ -36,9 +36,26 @@
     <string name="bg_credit">Görseller Wikimedia Commons (CC0 / kamu malı).</string>
     <string name="prayer_times">Namaz Vakitleri</string>
     <string name="qibla_sun">Güneş kıble hizasında</string>
+
+    <string name="tab_qibla">Kıble</string>
+    <string name="tab_prayer">Vakitler</string>
+    <string name="tab_settings">Ayarlar</string>
+
+    <string name="notif_enable">Vakit bildirimleri</string>
+    <string name="notif_hint">Vakit girdiğinde bildirim alırsınız. Bildirimin zamanında gelmesi için uygulamanın pil tasarrufundan muaf olması önerilir.</string>
+    <string name="notif_test">Test bildirimi gönder</string>
+    <string name="notif_channel_name">Namaz vakti bildirimleri</string>
+    <string name="notif_channel_desc">Vakit girdiğinde bildirim gösterilir</string>
+    <string name="notif_title_fmt">%1$s vakti</string>
+    <string name="notif_opened">Bildirimler açıldı</string>
+    <string name="notif_denied">Bildirim izni verilmedi</string>
+
+    <string name="settings_appearance">Görünüm</string>
+    <string name="about_title">Hakkında</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 2.0</string>
+
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>
-
     <string name="p_fajr">İmsak</string>
     <string name="p_sunrise">Güneş</string>
     <string name="p_dhuhr">Öğle</string>

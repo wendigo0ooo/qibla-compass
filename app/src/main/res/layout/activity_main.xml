@@ -34,124 +34,402 @@
             app:title="@string/app_name"
             app:titleTextColor="@color/text_primary" />
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="14dp">
+            android:layout_weight="1">
 
+            <!-- =================----- KIBLE -----================= -->
             <LinearLayout
-                android:id="@+id/prayerPanel"
+                android:id="@+id/pageQibla"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/panel_bg"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="14dp">
 
                 <LinearLayout
+                    android:id="@+id/prayerPanel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/panel_bg"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvCity"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:text="@string/loc_unknown"
+                            android:textColor="@color/text_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvCountdown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="8dp"
+                            android:textColor="@color/accent"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tvCity"
-                        android:layout_width="0dp"
+                        android:id="@+id/tvNextLine"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:text="@string/loc_unknown"
-                        android:textColor="@color/text_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:paddingTop="1dp"
+                        android:textColor="@color/text_dim"
+                        android:textSize="13sp" />
 
-                    <TextView
-                        android:id="@+id/tvCountdown"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/prayerRow"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingStart="8dp"
-                        android:textColor="@color/accent"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal"
+                        android:paddingTop="8dp" />
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/tvNextLine"
+                    android:id="@+id/tvStatus"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="1dp"
+                    android:gravity="center"
+                    android:paddingBottom="6dp"
+                    android:text="@string/searching"
+                    android:textColor="@color/accent"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.wendigo.qibla.CompassView
+                    android:id="@+id/compass"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tvInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="3dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
+                    android:text="@string/waiting_location"
                     android:textColor="@color/text_dim"
                     android:textSize="13sp" />
 
                 <LinearLayout
-                    android:id="@+id/prayerRow"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingTop="8dp" />
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnCity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:text="@string/city" />
+
+                    <Button
+                        android:id="@+id/btnManual"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:text="@string/manual" />
+
+                    <Button
+                        android:id="@+id/btnRefresh"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:text="@string/refresh" />
+                </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tvStatus"
+            <!-- =================----- VAKITLER -----================= -->
+            <ScrollView
+                android:id="@+id/pageVakit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:paddingBottom="6dp"
-                android:text="@string/searching"
-                android:textColor="@color/accent"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:layout_height="match_parent"
+                android:visibility="gone">
 
-            <com.wendigo.qibla.CompassView
-                android:id="@+id/compass"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tvInfo"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/panel_bg"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/vCity"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="@string/loc_unknown"
+                                android:textColor="@color/text_primary"
+                                android:textSize="18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/vCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingStart="8dp"
+                                android:textColor="@color/accent"
+                                android:textSize="26sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/vNext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="2dp"
+                            android:textColor="@color/text_dim"
+                            android:textSize="14sp" />
+
+                        <LinearLayout
+                            android:id="@+id/vList"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingTop="10dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/panel_bg"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/notif_enable"
+                                android:textColor="@color/text_primary"
+                                android:textSize="16sp" />
+
+                            <androidx.appcompat.widget.SwitchCompat
+                                android:id="@+id/switchNotif"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="4dp"
+                            android:text="@string/notif_hint"
+                            android:textColor="@color/text_dim"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btnNotifTest"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/notif_test" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/bg_credit"
+                        android:textColor="@color/text_dim"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </ScrollView>
+
+            <!-- =================----- AYARLAR -----================= -->
+            <ScrollView
+                android:id="@+id/pageAyarlar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:lineSpacingExtra="3dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:text="@string/waiting_location"
-                android:textColor="@color/text_dim"
-                android:textSize="13sp" />
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="8dp"
+                        android:text="@string/settings_appearance"
+                        android:textColor="@color/accent"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnThemeAyar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/menu_theme" />
+
+                    <Button
+                        android:id="@+id/btnBgAyar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/menu_bg" />
+
+                    <Button
+                        android:id="@+id/btnMapAyar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/menu_map" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="24dp"
+                        android:paddingBottom="6dp"
+                        android:text="@string/about_title"
+                        android:textColor="@color/accent"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:lineSpacingExtra="4dp"
+                        android:text="@string/about_text"
+                        android:textColor="@color/text_dim"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </ScrollView>
+        </FrameLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/panel_stroke" />
+
+        <LinearLayout
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="@color/panel"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:id="@+id/tabQibla"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btnCity"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="6dp"
-                    android:layout_weight="1"
-                    android:text="@string/city" />
+                <ImageView
+                    android:id="@+id/tabQiblaIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@string/tab_qibla"
+                    android:src="@drawable/ic_qibla" />
 
-                <Button
-                    android:id="@+id/btnManual"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tabQiblaLabel"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
-                    android:layout_weight="1"
-                    android:text="@string/manual" />
+                    android:text="@string/tab_qibla"
+                    android:textSize="11sp" />
+            </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnRefresh"
-                    android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/tabPrayer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/tabPrayerIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@string/tab_prayer"
+                    android:src="@drawable/ic_prayer" />
+
+                <TextView
+                    android:id="@+id/tabPrayerLabel"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="6dp"
-                    android:layout_weight="1"
-                    android:text="@string/refresh" />
+                    android:text="@string/tab_prayer"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tabSettings"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/tabSettingsIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@string/tab_settings"
+                    android:src="@drawable/ic_settings" />
+
+                <TextView
+                    android:id="@+id/tabSettingsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_settings"
+                    android:textSize="11sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

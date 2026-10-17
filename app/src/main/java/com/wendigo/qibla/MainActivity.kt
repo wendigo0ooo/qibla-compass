@@ -1,8 +1,10 @@
 package com.wendigo.qibla
 
 import android.Manifest
+import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -17,11 +19,13 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import android.provider.Settings
 import android.text.InputType
 import android.view.Gravity
 import android.view.Menu
@@ -39,6 +43,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -61,6 +66,18 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private lateinit var tvCountdown: TextView
     private lateinit var tvNextLine: TextView
     private lateinit var prayerRow: LinearLayout
+
+    private lateinit var pageQibla: View
+    private lateinit var pageVakit: View
+    private lateinit var pageAyarlar: View
+    private lateinit var vCity: TextView
+    private lateinit var vCount: TextView
+    private lateinit var vNext: TextView
+    private lateinit var vList: LinearLayout
+    private lateinit var switchNotif: SwitchCompat
+    private val vNameViews = ArrayList<TextView>(6)
+    private val vTimeViews = ArrayList<TextView>(6)
+    private var suppressNotifListener = false
 
     private val prayerNameViews = ArrayList<TextView>(6)
     private val prayerTimeViews = ArrayList<TextView>(6)
@@ -113,6 +130,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
 
     companion object {
         private const val REQ_LOCATION = 1001
+        private const val REQ_NOTIF = 1002
         private const val ALIGN_TOLERANCE = 5f
         private const val PREFS = "qibla_prefs"
         private const val KEY_DEVICE_LAT = "device_lat"
@@ -154,6 +172,19 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         tvNextLine = findViewById(R.id.tvNextLine)
         prayerRow = findViewById(R.id.prayerRow)
         buildPrayerRow()
+
+        pageQibla = findViewById(R.id.pageQibla)
+        pageVakit = findViewById(R.id.pageVakit)
+        pageAyarlar = findViewById(R.id.pageAyarlar)
+        vCity = findViewById(R.id.vCity)
+        vCount = findViewById(R.id.vCount)
+        vNext = findViewById(R.id.vNext)
+        vList = findViewById(R.id.vList)
+        switchNotif = findViewById(R.id.switchNotif)
+        buildVakitList()
+        setupBottomBar()
+        setupSettingsPage()
+        setupNotifications()
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as? SensorManager
         rotationSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
@@ -296,6 +327,192 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         )
         tvCountdown.text = countdownText(next.second - nowDecimalHour())
     }
+
+    // ---- vakitler page ----
+
+    private fun buildVakitList() {
+        val dim = getColor(R.color.text_dim)
+        val primary = getColor(R.color.text_primary)
+        for (labelRes in prayerLabelRes) {
+            val row = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                setPadding(0, dp(7), 0, dp(7))
+            }
+            val name = TextView(this).apply {
+                text = getString(labelRes)
+                textSize = 15f
+                setTextColor(dim)
+                layoutParams = LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
+                )
+            }
+            val time = TextView(this).apply {
+                text = "--:--"
+                textSize = 16f
+                setTextColor(primary)
+                typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
+            }
+            row.addView(name)
+            row.addView(time)
+            vList.addView(row)
+            vNameViews.add(name)
+            vTimeViews.add(time)
+        }
+    }
+
+    private fun updateVakitPage() {
+        val la = lat
+        val lo = lon
+        vCity.text = currentCityName
+            ?: if (la != null && lo != null) String.format(Locale.US, "%.3f, %.3f", la, lo)
+            else getString(R.string.loc_unknown)
+
+        val t = prayerToday
+        if (t == null) {
+            vNext.text = ""
+            vCount.text = ""
+            return
+        }
+        val values = doubleArrayOf(t.fajr, t.sunrise, t.dhuhr, t.asr, t.maghrib, t.isha)
+        val accent = getColor(R.color.accent)
+        val dim = getColor(R.color.text_dim)
+        val primary = getColor(R.color.text_primary)
+        for (i in values.indices) vTimeViews[i].text = PrayerTimes.format(values[i])
+
+        val next = nextPrayerResAndTime()
+        if (next == null) {
+            vNext.text = ""
+            vCount.text = ""
+            for (i in values.indices) {
+                vTimeViews[i].setTextColor(primary)
+                vNameViews[i].setTextColor(dim)
+            }
+            return
+        }
+        val highlight = prayerRowIndex[next.first] ?: -1
+        for (i in values.indices) {
+            val on = i == highlight
+            vTimeViews[i].setTextColor(if (on) accent else primary)
+            vNameViews[i].setTextColor(if (on) accent else dim)
+        }
+        vNext.text = getString(
+            R.string.next_only, getString(next.first), PrayerTimes.format(next.second)
+        )
+        vCount.text = countdownText(next.second - nowDecimalHour())
+    }
+
+    // ---- bottom navigation ----
+
+    private fun setupBottomBar() {
+        findViewById<View>(R.id.tabQibla).setOnClickListener { selectTab(0) }
+        findViewById<View>(R.id.tabPrayer).setOnClickListener { selectTab(1) }
+        findViewById<View>(R.id.tabSettings).setOnClickListener { selectTab(2) }
+        selectTab(0)
+    }
+
+    private fun selectTab(index: Int) {
+        val accent = getColor(R.color.accent)
+        val dim = getColor(R.color.text_dim)
+        val icons = intArrayOf(R.id.tabQiblaIcon, R.id.tabPrayerIcon, R.id.tabSettingsIcon)
+        val labels = intArrayOf(R.id.tabQiblaLabel, R.id.tabPrayerLabel, R.id.tabSettingsLabel)
+        val pages = intArrayOf(R.id.pageQibla, R.id.pageVakit, R.id.pageAyarlar)
+        for (i in icons.indices) {
+            val on = i == index
+            findViewById<ImageView>(icons[i]).setColorFilter(if (on) accent else dim)
+            findViewById<TextView>(labels[i]).setTextColor(if (on) accent else dim)
+            findViewById<View>(pages[i]).visibility = if (on) View.VISIBLE else View.GONE
+        }
+        supportActionBar?.title = when (index) {
+            0 -> getString(R.string.app_name)
+            1 -> getString(R.string.tab_prayer)
+            else -> getString(R.string.tab_settings)
+        }
+        if (index == 1) updateVakitPage()
+    }
+
+    private fun setupSettingsPage() {
+        findViewById<Button>(R.id.btnThemeAyar).setOnClickListener { toggleTheme() }
+        findViewById<Button>(R.id.btnBgAyar).setOnClickListener { showBackgroundDialog() }
+        findViewById<Button>(R.id.btnMapAyar).setOnClickListener { openMap() }
+    }
+
+    // ---- prayer notifications ----
+
+    private fun setupNotifications() {
+        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        suppressNotifListener = true
+        switchNotif.isChecked = p.getBoolean(PrayerScheduler.KEY_ENABLED, false)
+        suppressNotifListener = false
+        switchNotif.setOnCheckedChangeListener { _, checked -> onNotifToggled(checked) }
+        findViewById<Button>(R.id.btnNotifTest).setOnClickListener {
+            NotificationHelper.show(
+                this,
+                getString(R.string.notif_title_fmt, getString(R.string.p_dhuhr)),
+                currentCityName ?: getString(R.string.app_name),
+                101
+            )
+        }
+    }
+
+    private fun onNotifToggled(enabled: Boolean) {
+        if (suppressNotifListener) return
+        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        if (!enabled) {
+            p.edit().putBoolean(PrayerScheduler.KEY_ENABLED, false).apply()
+            PrayerScheduler.cancel(this)
+            return
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), REQ_NOTIF
+            )
+            return
+        }
+        enableNotifications(p)
+    }
+
+    private fun enableNotifications(p: SharedPreferences) {
+        p.edit().putBoolean(PrayerScheduler.KEY_ENABLED, true).apply()
+        NotificationHelper.ensureChannel(this)
+        val la = lat
+        val lo = lon
+        if (la != null && lo != null) {
+            p.edit().putString(PrayerScheduler.KEY_CITY, currentCityName).apply()
+            PrayerScheduler.schedule(this, la, lo, currentCityName)
+        }
+        maybePromptExactAlarm()
+        Toast.makeText(this, R.string.notif_opened, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun maybePromptExactAlarm() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val am = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            if (!am.canScheduleExactAlarms()) {
+                try {
+                    startActivity(
+                        Intent(
+                            Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
+                            Uri.parse("package:$packageName")
+                        )
+                    )
+                } catch (_: Exception) {
+                }
+            }
+        }
+    }
+
+    private fun rescheduleIfEnabled(la: Double, lo: Double) {
+        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        if (p.getBoolean(PrayerScheduler.KEY_ENABLED, false)) {
+            p.edit().putString(PrayerScheduler.KEY_CITY, currentCityName).apply()
+            PrayerScheduler.schedule(this, la, lo, currentCityName)
+        }
+    }
+
+    private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
 
     private fun nextPrayerResAndTime(): Pair<Int, Double>? {
         val t = prayerToday ?: return null
@@ -558,6 +775,17 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                 setStatus(getString(R.string.permission_denied))
                 Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_LONG).show()
             }
+        } else if (requestCode == REQ_NOTIF) {
+            val granted = grantResults.isNotEmpty() &&
+                    grantResults.all { it == PackageManager.PERMISSION_GRANTED }
+            if (granted) {
+                enableNotifications(getSharedPreferences(PREFS, Context.MODE_PRIVATE))
+            } else {
+                suppressNotifListener = true
+                switchNotif.isChecked = false
+                suppressNotifListener = false
+                Toast.makeText(this, R.string.notif_denied, Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -659,6 +887,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         recomputePrayers()
         compass.setQibla(qiblaBearing.toFloat())
         compass.setHasLocation(true)
+        rescheduleIfEnabled(la, lo)
         updateUi()
     }
 
@@ -727,6 +956,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         java.util.Arrays.fill(geomagnetic, 0f)
         registerSensors()
         if (!manualOverride && hasLocationPermission()) startLocationUpdates()
+        PrayerScheduler.rescheduleFromPrefs(this)
     }
 
     override fun onPause() {
@@ -837,6 +1067,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                 tvInfo.text = getString(R.string.waiting_location)
             }
             updatePrayerPanel()
+            updateVakitPage()
             return
         }
 
@@ -863,6 +1094,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         }
 
         updatePrayerPanel()
+        updateVakitPage()
 
         val calibrated = sensorAccuracy >= SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM
         setStatus(
