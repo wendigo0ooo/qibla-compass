@@ -1,8 +1,6 @@
 package com.wendigo.qibla
 
 import android.content.Context
-import android.media.AudioAttributes
-import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +10,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import androidx.media3.common.AudioAttributes
+import androidx.media3.common.C
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -30,13 +34,12 @@ class SurahActivity : AppCompatActivity() {
         )
     }
 
-    private var mediaPlayer: MediaPlayer? = null
-    private var playing = false
+    private var player: ExoPlayer? = null
+    private var hostIndex = 0
     private var surah: QuranRepository.Surah? = null
     private lateinit var list: RecyclerView
     private lateinit var adapter: AyahAdapter
     private lateinit var btnPlay: Button
-    private var urlIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +70,8 @@ class SurahActivity : AppCompatActivity() {
                 surah = s
                 bind(s)
                 if (lastSurah == index && lastAyah in s.ayahs.indices) {
-                    (list.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(lastAyah, 0)
+                    (list.layoutManager as LinearLayoutManager)
+                        .scrollToPositionWithOffset(lastAyah, 0)
                 }
             }
         }.start()
@@ -86,63 +90,63 @@ class SurahActivity : AppCompatActivity() {
     }
 
     private fun toggleAudio() {
-        if (playing) {
+        if (player != null) {
             stopAudio()
             return
         }
-        val s = surah ?: return
-        urlIndex = 0
-        tryStart(s.number)
+        val s = surah
+        if (s == null) {
+            Toast.makeText(this, R.string.quran_loading, Toast.LENGTH_SHORT).show()
+            return
+        }
+        hostIndex = 0
+        startHost(s.number)
     }
 
-    private fun tryStart(number: Int) {
-        if (urlIndex >= AUDIO_HOSTS.size) {
-            Toast.makeText(this, R.string.quran_audio_error, Toast.LENGTH_SHORT).show()
+    private fun startHost(number: Int) {
+        if (hostIndex >= AUDIO_HOSTS.size) {
+            Toast.makeText(this, R.string.quran_audio_error, Toast.LENGTH_LONG).show()
             stopAudio()
             return
         }
-        val url = AUDIO_HOSTS[urlIndex](number)
-        try {
-            val mp = MediaPlayer()
-            mp.setAudioAttributes(
+        val url = AUDIO_HOSTS[hostIndex](number)
+        val exo = ExoPlayer.Builder(this)
+            .setAudioAttributes(
                 AudioAttributes.Builder()
-                    .setUsage(AudioAttributes.USAGE_MEDIA)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                    .build()
-            )
-            mp.setDataSource(url)
-            mp.setOnPreparedListener {
-                it.start()
-                playing = true
-                btnPlay.text = getString(R.string.quran_stop)
-            }
-            mp.setOnCompletionListener { stopAudio() }
-            mp.setOnErrorListener { _, _, _ ->
-                mediaPlayer = null
-                runCatching { mp.release() }
-                urlIndex++
-                tryStart(number)
+                    .setUsage(C.USAGE_MEDIA)
+                    .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
+                    .build(),
                 true
+            )
+            .build()
+        player = exo
+        btnPlay.text = getString(R.string.quran_buffering)
+        exo.addListener(object : Player.Listener {
+            override fun onPlaybackStateChanged(state: Int) {
+                when (state) {
+                    Player.STATE_READY -> {
+                        if (player === exo) btnPlay.text = getString(R.string.quran_stop)
+                    }
+                    Player.STATE_ENDED -> stopAudio()
+                }
             }
-            mediaPlayer = mp
-            mp.prepareAsync()
-        } catch (_: Exception) {
-            mediaPlayer = null
-            urlIndex++
-            tryStart(number)
-        }
+
+            override fun onPlayerError(error: PlaybackException) {
+                runCatching { exo.release() }
+                if (player === exo) player = null
+                hostIndex++
+                startHost(number)
+            }
+        })
+        exo.setMediaItem(MediaItem.fromUri(url))
+        exo.prepare()
+        exo.playWhenReady = true
     }
 
     private fun stopAudio() {
-        val mp = mediaPlayer
-        mediaPlayer = null
-        playing = false
-        runCatching {
-            if (mp != null) {
-                if (mp.isPlaying) mp.stop()
-                mp.release()
-            }
-        }
+        val exo = player
+        player = null
+        runCatching { exo?.release() }
         btnPlay.text = getString(R.string.quran_play)
     }
 
