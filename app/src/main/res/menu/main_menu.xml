@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_map"
+        android:title="@string/menu_map"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_prayer"
+        android:title="@string/prayer_times"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_method"
+        android:title="@string/prayer_method"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_theme"
+        android:title="@string/menu_theme"
+        app:showAsAction="never" />
+
+</menu>

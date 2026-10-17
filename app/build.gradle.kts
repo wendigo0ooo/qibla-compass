@@ -11,13 +11,31 @@ android {
         applicationId = "com.wendigo.qibla"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.1"
+    }
+
+    signingConfigs {
+        create("release") {
+            val ksPath = System.getenv("RELEASE_KEYSTORE_PATH")
+            val ksFile = if (ksPath != null) file(ksPath) else null
+            if (ksFile != null && ksFile.exists() && ksFile.length() > 0L) {
+                storeFile = ksFile
+                storePassword = System.getenv("RELEASE_STORE_PASSWORD")
+                keyAlias = System.getenv("RELEASE_KEY_ALIAS")
+                keyPassword = System.getenv("RELEASE_KEY_PASSWORD")
+            }
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+            val ksPath = System.getenv("RELEASE_KEYSTORE_PATH")
+            val ksFile = if (ksPath != null) file(ksPath) else null
+            if (ksFile != null && ksFile.exists() && ksFile.length() > 0L) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -39,4 +57,5 @@ dependencies {
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("org.osmdroid:osmdroid-android:6.1.20")
 }

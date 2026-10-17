@@ -2,7 +2,6 @@ package com.wendigo.qibla
 
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Path
 import android.graphics.Typeface
@@ -13,8 +12,8 @@ import kotlin.math.min
 import kotlin.math.sin
 
 /**
- * Compass rose that rotates with the device heading and shows a green arrow
- * pointing toward the Qibla direction.
+ * Compass rose that rotates with the device heading and shows an arrow
+ * pointing toward the Qibla direction (gold when aligned).
  */
 class CompassView @JvmOverloads constructor(
     context: Context,
@@ -31,14 +30,23 @@ class CompassView @JvmOverloads constructor(
     private var cy = 0f
     private var radius = 0f
 
+    private val colorDial = context.getColor(R.color.compass_dial)
+    private val colorTick = context.getColor(R.color.compass_tick)
+    private val colorCardinal = context.getColor(R.color.compass_cardinal)
+    private val colorNorth = context.getColor(R.color.compass_north)
+    private val colorNeedleSouth = context.getColor(R.color.compass_needle_south)
+    private val colorQibla = context.getColor(R.color.compass_qibla)
+    private val colorQiblaAligned = context.getColor(R.color.compass_qibla_aligned)
+    private val colorHub = context.getColor(R.color.compass_hub)
+
     private val dialPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
-        color = Color.parseColor("#33FFFFFF")
+        color = colorDial
     }
     private val tickPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
-        color = Color.WHITE
+        color = colorTick
     }
     private val cardinalPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textAlign = Paint.Align.CENTER
@@ -46,24 +54,25 @@ class CompassView @JvmOverloads constructor(
     }
     private val needleNorthPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
-        color = Color.parseColor("#E53935")
+        color = colorNorth
     }
     private val needleSouthPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
-        color = Color.parseColor("#90A4AE")
+        color = colorNeedleSouth
     }
     private val qiblaPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
-        color = Color.parseColor("#00E676")
+        color = colorQibla
     }
     private val qiblaLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
-        color = Color.parseColor("#6600E676")
+        color = colorQibla
+        alpha = 102
     }
     private val hubPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
-        color = Color.WHITE
+        color = colorHub
     }
 
     fun setHeading(deg: Float) {
@@ -139,8 +148,7 @@ class CompassView @JvmOverloads constructor(
     private fun drawCardinals(canvas: Canvas) {
         val labels = arrayOf("N" to 0f, "E" to 90f, "S" to 180f, "W" to 270f)
         for ((text, angle) in labels) {
-            cardinalPaint.color =
-                if (text == "N") Color.parseColor("#E53935") else Color.parseColor("#EEFFFFFF")
+            cardinalPaint.color = if (text == "N") colorNorth else colorCardinal
             val a = Math.toRadians((angle - heading).toDouble())
             val r = radius * 0.76f
             val x = cx + r * sin(a).toFloat()
@@ -175,8 +183,8 @@ class CompassView @JvmOverloads constructor(
     private fun drawQibla(canvas: Canvas) {
         if (!hasLocation) return
 
-        qiblaPaint.color = Color.parseColor(if (aligned) "#FFD600" else "#00E676")
-        qiblaLinePaint.color = Color.parseColor(if (aligned) "#66FFD600" else "#6600E676")
+        qiblaPaint.color = if (aligned) colorQiblaAligned else colorQibla
+        qiblaLinePaint.color = if (aligned) colorQiblaAligned else colorQibla
 
         canvas.save()
         canvas.rotate(qibla - heading, cx, cy)

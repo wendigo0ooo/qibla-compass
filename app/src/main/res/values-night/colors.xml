@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark theme -->
+    <color name="bg">#0B1220</color>
+    <color name="accent">#00E676</color>
+    <color name="text_dim">#B0BEC5</color>
+    <color name="text_primary">#FFFFFF</color>
+
+    <color name="compass_dial">#33FFFFFF</color>
+    <color name="compass_tick">#8AFFFFFF</color>
+    <color name="compass_cardinal">#EEFFFFFF</color>
+    <color name="compass_north">#E53935</color>
+    <color name="compass_needle_south">#90A4AE</color>
+    <color name="compass_qibla">#00E676</color>
+    <color name="compass_qibla_aligned">#FFD600</color>
+    <color name="compass_hub">#FFFFFF</color>
+</resources>

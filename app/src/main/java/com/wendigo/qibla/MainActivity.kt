@@ -2,7 +2,9 @@ package com.wendigo.qibla
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.hardware.GeomagneticField
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -17,6 +19,8 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.text.InputType
+import android.view.Menu
+import android.view.MenuItem
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
@@ -25,8 +29,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import java.util.Calendar
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -60,6 +67,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private var qiblaBearing = 0.0
     private var distanceKm = 0.0
 
+    private var prayerToday: PrayerTimes.Times? = null
+    private var prayerTomorrow: PrayerTimes.Times? = null
+    private var qiblaSun: Double? = null
+    private var method = PrayerMethod.DIYANET
+
     private var locationManager: LocationManager? = null
 
     private var lastInfo = ""
@@ -72,16 +84,23 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         private const val PREFS = "qibla_prefs"
         private const val KEY_LAT = "last_lat"
         private const val KEY_LON = "last_lon"
+        private const val KEY_THEME = "theme_mode"
+        private const val KEY_METHOD = "prayer_method"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        applySavedTheme()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
+        setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
+
         compass = findViewById(R.id.compass)
         tvInfo = findViewById(R.id.tvInfo)
         tvStatus = findViewById(R.id.tvStatus)
+
+        method = savedMethod()
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as? SensorManager
         rotationSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
@@ -108,6 +127,117 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         ensurePermissionAndLocate()
         updateUi()
     }
+
+    // ---- theme ----
+
+    private fun applySavedTheme() {
+        val mode = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getInt(KEY_THEME, AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+        AppCompatDelegate.setDefaultNightMode(mode)
+    }
+
+    private fun toggleTheme() {
+        val night = (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+                Configuration.UI_MODE_NIGHT_YES
+        val mode = if (night) AppCompatDelegate.MODE_NIGHT_NO else AppCompatDelegate.MODE_NIGHT_YES
+        getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putInt(KEY_THEME, mode).apply()
+        AppCompatDelegate.setDefaultNightMode(mode)
+    }
+
+    // ---- menu ----
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_map -> {
+                openMap()
+                true
+            }
+            R.id.action_prayer -> {
+                showPrayerDialog()
+                true
+            }
+            R.id.action_method -> {
+                showMethodDialog()
+                true
+            }
+            R.id.action_theme -> {
+                toggleTheme()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun openMap() {
+        val la = lat
+        val lo = lon
+        val intent = Intent(this, MapActivity::class.java)
+        if (la != null && lo != null) {
+            intent.putExtra(MapActivity.EXTRA_LAT, la)
+            intent.putExtra(MapActivity.EXTRA_LON, lo)
+        }
+        startActivity(intent)
+    }
+
+    private fun showPrayerDialog() {
+        val t = prayerToday
+        if (t == null) {
+            Toast.makeText(this, R.string.waiting_location, Toast.LENGTH_SHORT).show()
+            return
+        }
+        val rows = listOf(
+            getString(R.string.p_fajr) to t.fajr,
+            getString(R.string.p_sunrise) to t.sunrise,
+            getString(R.string.p_dhuhr) to t.dhuhr,
+            getString(R.string.p_asr) to t.asr,
+            getString(R.string.p_maghrib) to t.maghrib,
+            getString(R.string.p_isha) to t.isha
+        )
+        val sb = StringBuilder()
+        for ((name, value) in rows) {
+            sb.append(String.format(Locale.US, "%-9s %s", name, PrayerTimes.format(value)))
+                .append('\n')
+        }
+        qiblaSun?.let {
+            sb.append('\n')
+                .append(getString(R.string.qibla_sun))
+                .append(": ")
+                .append(PrayerTimes.format(it))
+        }
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.prayer_times) + " — " + method.label)
+            .setMessage(sb.toString().trim())
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
+    }
+
+    private fun showMethodDialog() {
+        val methods = PrayerMethod.values()
+        val labels = methods.map { it.label }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle(R.string.prayer_method)
+            .setSingleChoiceItems(labels, method.ordinal) { dialog, which ->
+                method = methods[which]
+                getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+                    .putInt(KEY_METHOD, method.ordinal).apply()
+                recomputePrayers()
+                updateUi()
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    private fun savedMethod(): PrayerMethod {
+        val idx = getSharedPreferences(PREFS, Context.MODE_PRIVATE).getInt(KEY_METHOD, 0)
+        return PrayerMethod.values().getOrElse(idx) { PrayerMethod.DIYANET }
+    }
+
+    // ---- location ----
 
     private fun ensurePermissionAndLocate() {
         if (hasLocationPermission()) {
@@ -262,9 +392,31 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             0f
         }
         saveLocation(la, lo)
+        recomputePrayers()
         compass.setQibla(qiblaBearing.toFloat())
         compass.setHasLocation(true)
         updateUi()
+    }
+
+    private fun recomputePrayers() {
+        val la = lat ?: return
+        val lo = lon ?: return
+        val now = Calendar.getInstance()
+        val tz = now.timeZone.getOffset(now.timeInMillis) / 3_600_000.0
+        val y = now.get(Calendar.YEAR)
+        val mo = now.get(Calendar.MONTH) + 1
+        val d = now.get(Calendar.DAY_OF_MONTH)
+        prayerToday = PrayerTimes.compute(y, mo, d, la, lo, tz, method)
+        qiblaSun = PrayerTimes.qiblaSunTime(prayerToday!!, la, lo, tz, qiblaBearing, y, mo, d)
+
+        val next = now.clone() as Calendar
+        next.add(Calendar.DAY_OF_MONTH, 1)
+        prayerTomorrow = PrayerTimes.compute(
+            next.get(Calendar.YEAR),
+            next.get(Calendar.MONTH) + 1,
+            next.get(Calendar.DAY_OF_MONTH),
+            la, lo, tz, method
+        )
     }
 
     override fun onLocationChanged(location: Location) {
@@ -358,6 +510,35 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         else -> getString(R.string.acc_unreliable)
     }
 
+    private fun nowDecimalHour(): Double {
+        val c = Calendar.getInstance()
+        return c.get(Calendar.HOUR_OF_DAY) +
+                c.get(Calendar.MINUTE) / 60.0 +
+                c.get(Calendar.SECOND) / 3600.0
+    }
+
+    private fun nextPrayer(): Pair<String, Double>? {
+        val t = prayerToday ?: return null
+        val now = nowDecimalHour()
+        val today = listOf(
+            getString(R.string.p_fajr) to t.fajr,
+            getString(R.string.p_dhuhr) to t.dhuhr,
+            getString(R.string.p_asr) to t.asr,
+            getString(R.string.p_maghrib) to t.maghrib,
+            getString(R.string.p_isha) to t.isha
+        )
+        for (p in today) if (p.second > now) return p
+        val tm = prayerTomorrow ?: return null
+        return getString(R.string.p_fajr) to (tm.fajr + 24.0)
+    }
+
+    private fun formatRemaining(hours: Double): String {
+        val total = (hours * 60).roundToInt().coerceAtLeast(0)
+        val h = total / 60
+        val m = total % 60
+        return if (h > 0) getString(R.string.dur_hm, h, m) else getString(R.string.dur_m, m)
+    }
+
     private fun updateUi() {
         val la = lat
         val lo = lon
@@ -375,19 +556,31 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         if (aligned && !wasAligned) vibrateAligned()
         wasAligned = aligned
 
-        val info = getString(
-            R.string.info_fmt,
-            azimuth.roundToInt().toString(),
-            qiblaBearing.roundToInt().toString(),
-            distanceKm.roundToInt().toString(),
-            String.format(Locale.US, "%.4f", la),
-            String.format(Locale.US, "%.4f", lo),
-            String.format(Locale.US, "%.1f", declination),
-            accuracyLabel(sensorAccuracy)
+        val info = StringBuilder()
+        info.append(
+            getString(
+                R.string.info_fmt,
+                azimuth.roundToInt().toString(),
+                qiblaBearing.roundToInt().toString(),
+                distanceKm.roundToInt().toString(),
+                String.format(Locale.US, "%.4f", la),
+                String.format(Locale.US, "%.4f", lo),
+                String.format(Locale.US, "%.1f", declination),
+                accuracyLabel(sensorAccuracy)
+            )
         )
-        if (info != lastInfo) {
-            tvInfo.text = info
-            lastInfo = info
+        nextPrayer()?.let { (name, time) ->
+            val remain = if (time > 24.0) time - 24.0 - nowDecimalHour() + 24.0
+            else time - nowDecimalHour()
+            info.append('\n').append(
+                getString(R.string.next_fmt, name, PrayerTimes.format(time), formatRemaining(remain))
+            )
+        }
+
+        val text = info.toString()
+        if (text != lastInfo) {
+            tvInfo.text = text
+            lastInfo = text
         }
 
         val calibrated = sensorAccuracy >= SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM

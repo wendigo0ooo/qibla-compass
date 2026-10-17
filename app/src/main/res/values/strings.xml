@@ -19,10 +19,28 @@
     <string name="hint_lon">Boylam (örn: 28.9784)</string>
     <string name="invalid_coords">Geçersiz koordinat</string>
 
+    <string name="menu_map">Haritada Göster</string>
+    <string name="menu_theme">Tema (Açık / Koyu)</string>
+    <string name="prayer_times">Namaz Vakitleri</string>
+    <string name="prayer_method">Hesaplama Yöntemi</string>
+    <string name="qibla_sun">Güneş kıble hizasında</string>
+    <string name="kaaba">Kâbe</string>
+    <string name="you">Siz</string>
+
+    <string name="p_fajr">İmsak</string>
+    <string name="p_sunrise">Güneş</string>
+    <string name="p_dhuhr">Öğle</string>
+    <string name="p_asr">İkindi</string>
+    <string name="p_maghrib">Akşam</string>
+    <string name="p_isha">Yatsı</string>
+
     <string name="acc_high">Yüksek</string>
     <string name="acc_medium">Orta</string>
     <string name="acc_low">Düşük</string>
     <string name="acc_unreliable">Güvenilmez</string>
 
     <string name="info_fmt">Yön: %1$s°  •  Kıble: %2$s°\nMesafe: %3$s km\nKonum: %4$s, %5$s\nSapma: %6$s°  •  Sensör: %7$s</string>
+    <string name="next_fmt">Sıradaki: %1$s %2$s (%3$s)</string>
+    <string name="dur_hm">%1$d sa %2$d dk</string>
+    <string name="dur_m">%1$d dk</string>
 </resources>
