@@ -51,6 +51,13 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".FetvaActivity"
+            android:exported="false"
+            android:label="@string/tab_fetva"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
             android:name=".DuaActivity"
             android:exported="false"
             android:label="@string/tab_dua"

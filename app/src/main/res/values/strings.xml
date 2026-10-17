@@ -42,6 +42,14 @@
     <string name="tab_quran">Kur\'an</string>
     <string name="tab_ibadah">Hadis ve İbadet</string>
     <string name="tab_hadis">Hadis</string>
+    <string name="tab_fetva">Fetvalar</string>
+    <string name="ib_fetva_sub">Aklına takılan soruyu yaz, Diyanet kaynaklı cevabı gör</string>
+    <string name="fetva_hint">Sorunuzu yazın (örn. sakız orucu bozar mı)</string>
+    <string name="fetva_search">Ara</string>
+    <string name="fetva_sub">Soru-cevap arama. Aklına takılan soruyu yazıp Ara\'ya bas; cevap ve kaynak görünür.</string>
+    <string name="fetva_none">Bu soruya uygun cevap bulunamadı. Farklı kelimelerle deneyin.</string>
+    <string name="fetva_count">%1$d cevap bulundu</string>
+    <string name="fetva_mezhep">Mezhep</string>
     <string name="tab_tools">Araçlar</string>
     <string name="tab_settings">Ayarlar</string>
 
@@ -80,7 +88,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 4.5</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun.\n\nSürüm 4.6</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>
