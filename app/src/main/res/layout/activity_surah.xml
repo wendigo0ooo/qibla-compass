@@ -55,14 +55,12 @@
             android:text="@string/quran_play" />
     </LinearLayout>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ayahList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:clipToPadding="false"
-        android:divider="@color/panel_stroke"
-        android:dividerHeight="1dp"
         android:paddingTop="8dp"
         android:paddingBottom="16dp"
         android:scrollbars="vertical" />

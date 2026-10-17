@@ -60,7 +60,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 2.1</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 2.1.1</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>
