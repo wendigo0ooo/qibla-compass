@@ -652,6 +652,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+            R.id.action_tools -> {
+                startActivity(Intent(this, ToolsActivity::class.java))
+                true
+            }
             R.id.action_map -> {
                 openMap()
                 true
