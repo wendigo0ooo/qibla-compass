@@ -94,7 +94,7 @@ class FetvaActivity : AppCompatActivity() {
         return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
     }
 
-    /** Opens the device browser with a Diyanet-restricted web search for the current query. */
+    /** Lets the user pick a web source for the current query, then opens the browser. */
     private fun openWebSearch() {
         val q = queryField.text.toString().trim()
         if (q.isBlank()) {
@@ -105,8 +105,28 @@ class FetvaActivity : AppCompatActivity() {
             Toast.makeText(this, getString(R.string.fetva_no_internet), Toast.LENGTH_LONG).show()
             return
         }
-        val full = "$q site:diyanet.gov.tr"
-        val url = "https://www.google.com/search?q=${URLEncoder.encode(full, "UTF-8")}"
+        val options = arrayOf(
+            getString(R.string.fetva_web_general),
+            getString(R.string.fetva_web_diyanet),
+            getString(R.string.fetva_web_youtube)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.fetva_web_title)
+            .setItems(options) { _, which ->
+                val url = when (which) {
+                    1 -> googleUrl("$q site:diyanet.gov.tr")
+                    2 -> "https://www.youtube.com/results?search_query=${URLEncoder.encode(q, "UTF-8")}"
+                    else -> googleUrl(q)
+                }
+                openUrl(url)
+            }
+            .show()
+    }
+
+    private fun googleUrl(query: String): String =
+        "https://www.google.com/search?q=${URLEncoder.encode(query, "UTF-8")}"
+
+    private fun openUrl(url: String) {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
         } catch (_: ActivityNotFoundException) {

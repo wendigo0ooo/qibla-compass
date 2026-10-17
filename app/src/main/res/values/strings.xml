@@ -47,11 +47,15 @@
     <string name="fetva_hint">Sorunuzu yazın (örn. sakız orucu bozar mı)</string>
     <string name="fetva_search">Ara</string>
     <string name="fetva_sub">Soru-cevap arama. Aklına takılan soruyu yazıp Ara\'ya bas; cevap ve kaynak görünür.</string>
-    <string name="fetva_none">Bu soruya uygulamada hazır cevap yok. Farklı kelimelerle deneyebilir veya internetten Diyanet kaynaklarında araştırabilirsin.</string>
+    <string name="fetva_none">Bu soruya uygulamada hazır cevap yok. Farklı kelimelerle deneyebilir veya aşağıdaki butonla internetten araştırabilirsin.</string>
     <string name="fetva_count">%1$d cevap bulundu</string>
     <string name="fetva_mezhep">Mezhep</string>
-    <string name="fetva_web_btn">İnternette Ara (Diyanet)</string>
+    <string name="fetva_web_btn">İnternette Ara</string>
     <string name="fetva_web_always">Cevap yok mu? İnternette ara</string>
+    <string name="fetva_web_title">Nerede aransın?</string>
+    <string name="fetva_web_general">Google (genel arama)</string>
+    <string name="fetva_web_diyanet">Diyanet kaynakları (site:diyanet.gov.tr)</string>
+    <string name="fetva_web_youtube">YouTube</string>
     <string name="fetva_no_internet">İnternet bağlantısı yok. Bağlantını kontrol edip tekrar dene.</string>
     <string name="fetva_no_browser">Açılacak bir tarayıcı bulunamadı.</string>
     <string name="fetva_web_query">Sorunuzu yazın, sonra internette arayın.</string>
@@ -93,7 +97,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru diyanet.gov.tr kaynaklarında web taramasıyla aranabilir.\n\nSürüm 4.8</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru genel web araması, diyanet.gov.tr kaynakları veya YouTube üzerinden aranabilir.\n\nSürüm 4.9</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>
