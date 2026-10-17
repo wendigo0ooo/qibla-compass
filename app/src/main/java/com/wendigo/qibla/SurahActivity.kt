@@ -1,6 +1,7 @@
 package com.wendigo.qibla
 
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.media3.common.AudioAttributes
 import androidx.media3.common.C
@@ -26,20 +28,17 @@ class SurahActivity : AppCompatActivity() {
         private const val PREFS = "qibla_prefs"
         private const val KEY_LAST_SURAH = "last_surah"
         private const val KEY_LAST_AYAH = "last_ayah"
-
-        private val AUDIO_HOSTS = listOf(
-            { n: Int -> "https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/$n.mp3" },
-            { n: Int -> "https://download.quranicaudio.com/quran/mishaari_raashid_al_3afaasee/${"%03d".format(n)}.mp3" },
-            { n: Int -> "https://cdn.mp3quran.net/audio/mishary-alafasy/r1/${"%03d".format(n)}.mp3" }
-        )
     }
 
     private var player: ExoPlayer? = null
-    private var hostIndex = 0
     private var surah: QuranRepository.Surah? = null
+    private var ayahOffset = 0
+    private var currentPlaying = -1
     private lateinit var list: RecyclerView
     private lateinit var adapter: AyahAdapter
     private lateinit var btnPlay: Button
+    private var playColor = Color.TRANSPARENT
+    private var accentColor = Color.BLACK
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,10 +48,13 @@ class SurahActivity : AppCompatActivity() {
         list = findViewById(R.id.ayahList)
         btnPlay = findViewById(R.id.btnPlaySurah)
 
+        playColor = ContextCompat.getColor(this, R.color.ayah_playing)
+        accentColor = ContextCompat.getColor(this, R.color.accent)
+
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.surahToolbar)
         toolbar.setNavigationOnClickListener { finish() }
 
-        adapter = AyahAdapter(emptyList())
+        adapter = AyahAdapter(emptyList()) { pos -> playFrom(pos) }
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = adapter
 
@@ -61,13 +63,16 @@ class SurahActivity : AppCompatActivity() {
         val lastAyah = prefs.getInt(KEY_LAST_AYAH, 0)
 
         Thread {
-            val s = try {
-                QuranRepository.load(applicationContext).getOrNull(index)
+            val all = try {
+                QuranRepository.load(applicationContext)
             } catch (_: Exception) {
-                null
-            } ?: return@Thread
+                emptyList()
+            }
+            val s = all.getOrNull(index) ?: return@Thread
+            val offset = all.take(index).sumOf { it.ayahs.size }
             runOnUiThread {
                 surah = s
+                ayahOffset = offset
                 bind(s)
                 if (lastSurah == index && lastAyah in s.ayahs.indices) {
                     (list.layoutManager as LinearLayoutManager)
@@ -85,7 +90,7 @@ class SurahActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.surahTitle).text = s.name
         findViewById<TextView>(R.id.surahSub).text =
             s.arName + "\n" + getString(R.string.surah_meta_fmt, s.ayahs.size, s.place)
-        adapter = AyahAdapter(s.ayahs)
+        adapter = AyahAdapter(s.ayahs) { pos -> playFrom(pos) }
         list.adapter = adapter
     }
 
@@ -94,22 +99,30 @@ class SurahActivity : AppCompatActivity() {
             stopAudio()
             return
         }
-        val s = surah
-        if (s == null) {
+        if (surah == null) {
             Toast.makeText(this, R.string.quran_loading, Toast.LENGTH_SHORT).show()
             return
         }
-        hostIndex = 0
-        startHost(s.number)
+        buildAndPlay(0, 0)
     }
 
-    private fun startHost(number: Int) {
-        if (hostIndex >= AUDIO_HOSTS.size) {
-            Toast.makeText(this, R.string.quran_audio_error, Toast.LENGTH_LONG).show()
-            stopAudio()
-            return
+    private fun playFrom(position: Int) {
+        stopAudio()
+        buildAndPlay(0, position)
+    }
+
+    private fun perAyahUrl(host: Int, position: Int): String {
+        val s = surah!!
+        return if (host == 0) {
+            "https://everyayah.com/data/Alafasy_128kbps/${"%03d%03d".format(s.number, position + 1)}.mp3"
+        } else {
+            val global = ayahOffset + position + 1
+            "https://cdn.islamic.network/quran/audio/128/ar.alafasy/$global.mp3"
         }
-        val url = AUDIO_HOSTS[hostIndex](number)
+    }
+
+    private fun buildAndPlay(host: Int, startPosition: Int) {
+        val s = surah ?: return
         val exo = ExoPlayer.Builder(this)
             .setAudioAttributes(
                 AudioAttributes.Builder()
@@ -121,7 +134,13 @@ class SurahActivity : AppCompatActivity() {
             .build()
         player = exo
         btnPlay.text = getString(R.string.quran_buffering)
+
+        val items = (s.ayahs.indices).map { MediaItem.fromUri(perAyahUrl(host, it)) }
         exo.addListener(object : Player.Listener {
+            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                setPlaying(exo.currentMediaItemIndex)
+            }
+
             override fun onPlaybackStateChanged(state: Int) {
                 when (state) {
                     Player.STATE_READY -> {
@@ -132,15 +151,35 @@ class SurahActivity : AppCompatActivity() {
             }
 
             override fun onPlayerError(error: PlaybackException) {
+                val resume = exo.currentMediaItemIndex.coerceAtLeast(0)
                 runCatching { exo.release() }
                 if (player === exo) player = null
-                hostIndex++
-                startHost(number)
+                if (host == 0) {
+                    buildAndPlay(1, resume)
+                } else {
+                    Toast.makeText(
+                        this@SurahActivity, R.string.quran_audio_error, Toast.LENGTH_LONG
+                    ).show()
+                    stopAudio()
+                }
             }
         })
-        exo.setMediaItem(MediaItem.fromUri(url))
+        exo.setMediaItems(items, startPosition.coerceIn(0, items.size - 1), 0L)
         exo.prepare()
         exo.playWhenReady = true
+        setPlaying(startPosition)
+    }
+
+    private fun setPlaying(position: Int) {
+        if (position == currentPlaying) return
+        val old = currentPlaying
+        currentPlaying = position
+        adapter.playing = position
+        if (old in 0 until adapter.itemCount) adapter.notifyItemChanged(old)
+        if (position in 0 until adapter.itemCount) {
+            adapter.notifyItemChanged(position)
+            list.smoothScrollToPosition(position)
+        }
     }
 
     private fun stopAudio() {
@@ -148,6 +187,12 @@ class SurahActivity : AppCompatActivity() {
         player = null
         runCatching { exo?.release() }
         btnPlay.text = getString(R.string.quran_play)
+        val old = currentPlaying
+        currentPlaying = -1
+        if (old in 0 until adapter.itemCount) {
+            adapter.playing = -1
+            adapter.notifyItemChanged(old)
+        }
     }
 
     override fun onPause() {
@@ -168,10 +213,15 @@ class SurahActivity : AppCompatActivity() {
         stopAudio()
     }
 
-    private class AyahAdapter(private val ayahs: List<QuranRepository.Ayah>) :
-        RecyclerView.Adapter<AyahAdapter.VH>() {
+    private inner class AyahAdapter(
+        private val ayahs: List<QuranRepository.Ayah>,
+        private val onClick: (Int) -> Unit
+    ) : RecyclerView.Adapter<AyahAdapter.VH>() {
 
-        class VH(v: View) : RecyclerView.ViewHolder(v) {
+        var playing = -1
+
+        inner class VH(v: View) : RecyclerView.ViewHolder(v) {
+            val row: View = v.findViewById(R.id.ayahRow)
             val num: TextView = v.findViewById(R.id.ayahNum)
             val arabic: TextView = v.findViewById(R.id.ayahArabic)
             val turkish: TextView = v.findViewById(R.id.ayahTr)
@@ -190,6 +240,10 @@ class SurahActivity : AppCompatActivity() {
             holder.num.text = (position + 1).toString()
             holder.arabic.text = a.ar
             holder.turkish.text = a.tr
+            val on = position == playing
+            holder.row.setBackgroundColor(if (on) playColor else Color.TRANSPARENT)
+            holder.num.setTextColor(accentColor)
+            holder.row.setOnClickListener { onClick(position) }
         }
     }
 }
