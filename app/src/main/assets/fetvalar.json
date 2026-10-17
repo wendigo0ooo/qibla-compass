@@ -1,59 +1,1621 @@
 {
-  "fetvalar": [
-    {"s":"Sakız çiğnemek orucu bozar mı?","k":"Oruç","c":"Sakız çiğnenip içindeki tat ve maddeler yutulduğu için orucu bozar. Çiğneyip tükettikten sonra hiçbir şey yutmamak şartıyla, tadı kalmayan bir sakız hakkında ihtilaf bulunsa da ihtiyaten orucu bozduğu kabul edilir; bozulursa kaza edilir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Diş fırçalamak veya misvak kullanmak orucu bozar mı?","k":"Oruç","c":"Diş macununu yutmamak şartıyla diş fırçalamak ve misvak kullanmak orucu bozmaz. Macunun tadı boğaza kaçarsa oruç bozulur ve kaza gerekir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Unutarak yemek içmek orucu bozar mı?","k":"Oruç","c":"Unutarak yiyip içen kimsenin orucu bozulmaz; bu, Allah'ın bir ikramıdır. Hatırlayınca hemen ağzındakini çıkarıp oruca devam eder; kaza da gerekmez.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"İğne yaptırmak (aşı, tedavi iğnesi) orucu bozar mı?","k":"Oruç","c":"Besleyici ve gıda yerine geçen iğneler (serum, glikoz) orucu bozar. Aşı ve tedavi amaçlı, besleyici olmayan iğneler orucu bozmaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Serum taktırmak orucu bozar mı?","k":"Oruç","c":"Besleyici (glikoz vb. içeren) serum orucu bozar; sade su-tuz veya sadece ilaç amaçlı serum orucu bozmaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Kan vermek veya kan aldırmak orucu bozar mı?","k":"Oruç","c":"Kan vermek veya tahlil için az kan aldırmak orucu bozmaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Göz damlası veya kulak damlası orucu bozar mı?","k":"Oruç","c":"Göz ve kulak damlası, Diyanet'e göre orucu bozmaz. Ancak kulak zarında delik varsa kulak damlası mideye ulaşabileceğinden orucu bozar.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Astım spreyi (inhaler) orucu bozar mı?","k":"Oruç","c":"Ağıza sıkılan spreyin bir kısmı soluk borusu ve akciğere ulaştığından Diyanet'e göre orucu bozar; kaza edilmesi gerekir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Sigara veya elektronik sigara içmek orucu bozar mı?","k":"Oruç","c":"Duman ve buhar yoluyla vücuda ulaştığından sigara ve elektronik sigara orucu bozar.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Oruçluyken eşini öpmek orucu bozar mı?","k":"Oruç","c":"Şehvetle öpüşüp temas etmek ve boşalma olması hâlinde oruç bozulur; şehvetsiz, kendine hâkim olunan öpüşme orucu bozmaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Kadın adet (hayız) hâlindeyken oruç tutar mı?","k":"Oruç","c":"Adet hâlindeki kadın oruç tutmaz; tutmuşsa geçersizdir. Temizlendikten sonra tutamadığı günleri kaza eder.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Diyaliz orucu bozar mı?","k":"Oruç","c":"Diyaliz sırasında kanın makineden geçirilip besleyici sıvı verildiğinden Diyanet'e göre oruç bozulur ve kaza gerekir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Parmaktan şeker ölçmek için kan almak orucu bozar mı?","k":"Oruç","c":"Şeker ölçümü veya tahlil için az miktarda kan almak orucu bozmaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Kusmak orucu bozar mı?","k":"Oruç","c":"Kendiliğinden (az) kusmak orucu bozmaz. Ağız dolusu olacak şekilde kendi isteğiyle kusmak orucu bozar ve kaza gerekir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Diş dolgusu veya tedavisi orucu bozar mı?","k":"Oruç","c":"Yutulacak bir madde olmadıkça diş dolgusu, tedavi ve lokal anestezi iğnesi orucu bozmaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Seferde (yolculukta) oruç tutulur mu?","k":"Oruç","c":"Yolcu, isterse orucunu tutar; isterse tutmayıp sonradan kaza eder. Tutmakta zorlanmayan için tutmak daha faziletlidir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Hanefî mezhebine göre vücuttan kan çıkması abdesti bozar mı?","k":"Abdest","m":"Hanefî","c":"Hanefî mezhebine göre bedenin herhangi bir yerinden kan, irin veya sarı su çıkıp da o yerin üzerinden yayılıp akacak kadar olursa abdest bozulur. Çıktığı yerden akmayan, yayılmayan az miktardaki kan abdesti bozmaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Şâfiî mezhebine göre vücuttan kan çıkması abdesti bozar mı?","k":"Abdest","m":"Şâfiî","c":"Şâfiî mezhebine göre deri yarılıp bedenden kan, irin veya necaset (pislik) çıkması —az veya çok— abdesti bozar. Bu sebeple kan aldırmak, burun kanaması ve yaradan çıkan kan abdesti bozar.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Burun kanaması abdesti bozar mı?","k":"Abdest","c":"Hanefî'ye göre kan burundan akıp yayılacak kadar çıkarsa abdest bozulur; yayılmayan az miktar bozmaz. Şâfiî'ye göre ise kan bedenden çıktığı için mutlak olarak abdesti bozar.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Namazda gülmek abdesti bozar mı?","k":"Abdest","c":"Namazda sesli gülmek (kahkaha) Hanefî'ye göre hem abdesti bozar hem namazı geçersiz kılar. Sadece tebessüm etmek bozmaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Uyumak abdesti bozar mı?","k":"Abdest","c":"Yaslanarak veya yatarak ağır uykuya dalmak abdesti bozar. Oturarak kısa süre uyuklamak (hafif uyku) abdesti bozmaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Yellenmek (gaz çıkarmak) abdesti bozar mı?","k":"Abdest","c":"Evet, arka veya ön taraftan yel/gaz çıkması abdesti bozar.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Karşı cinsten birine dokunmak abdesti bozar mı?","k":"Abdest","c":"Hanefî'ye göre şehvetle bile olsa karşı cinse dokunmak abdesti bozmaz. Şâfiî'ye göre ise iki tarafın da ergin ve cinsiyeti farklıysa deri teması, şehvet şartı olmaksızın abdesti bozar.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Ağız dolusu kusmak abdesti bozar mı?","k":"Abdest","c":"Ağız dolusu kusmak abdesti bozar; az miktardaki kusuntu bozmaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Hacamat yaptırmak (kan aldırmak) abdesti bozar mı?","k":"Abdest","c":"Hanefî'ye göre hacamatla vücuttan çıkan kan, akıp yayılacak miktarda ise abdesti bozar. Şâfiî'ye göre ise kan çıkması abdesti bozar.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Vücuda su değmeden gusül olur mu?","k":"Gusül","c":"Gusülde ağız ve burun da dâhil bütün bedenin yıkanması gerekir. Elde edilemeyen bir engel veya zarar yoksa oje, tırnak cilası gibi suyun deriye ulaşmasını engelleyen tabakalar gusle ve abdeste mânidir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Gusül abdesti gerektiren hâller nelerdir?","k":"Gusül","c":"Cünüplük (ilişki veya boşalma sonrası), kadının hayız ve nifas (lohusalık) hâlinin sona ermesi guslü gerektirir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Gusülde ağzı ve burnu yıkamak farz mı?","k":"Gusül","c":"Evet; Hanefî ve Şâfiî mezheplerinde gusülde ağzı gargara yaparcasına ve burna su çekecek şekilde yıkamak farzdır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Kadının vajinal akıntısı abdesti bozar mı?","k":"Abdest","c":"Hanefî'ye göre normal (hastalık dışı) akıntı, çıktığı yerin üzerinden yayılmadıkça abdesti bozmaz. Sürekli akıntısı olan kişi \"özür sahibi\" sayılır ve her vakit için abdest alır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Namazı kaçırınca ne yapılır?","k":"Namaz","c":"Vaktinde kılınamayan farz namaz kaza edilir. Kazanın belirli bir vakti yoktur; imkân bulunca kılınır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Seferî (yolcu) namazı nasıl kılınır?","k":"Namaz","c":"Yolcu, öğle, ikindi ve yatsı gibi dört rekâtlı farz namazları iki rekât olarak kılar; sabah ve akşam namazları tam kılınır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Cemaatle namaz kılmanın hükmü nedir?","k":"Namaz","c":"Hanefî'ye göre cemaatle namaz sünnet-i müekkededir; gücü yeten erkeklerin cami cemaatine devam etmesi kuvvetle tavsiye edilmiştir. Diğer bazı mezheplerde farz-ı kifâye veya farz-ı ayın sayılmıştır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Tilavet secdesi nedir, ne zaman yapılır?","k":"Namaz","c":"Kur'an'da secde âyeti okunduğunda veya işitildiğinde yapılan secdeye tilavet secdesi denir. Bir secdedir; abdestli olarak kıbleye yönelip tek secde yapılır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Adet hâlindeki kadın namaz kılar mı?","k":"Namaz","c":"Adet ve lohusalık hâlinde kadın namaz kılmaz; bu günlerde kılınmayan namazlar sonradan kaza edilmez.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Zekâtın nisabı (sınırı) ne kadardır?","k":"Zekât","c":"Nakit ve ticarî malda nisab, 80,18 gram altın veya 595 gram gümüşün değeridir. Bu miktara ulaşan ve üzerinden bir yıl geçen mala, kırkta bir (%2,5) zekât verilir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Borçlu olan kişi zekât verir mi?","k":"Zekât","c":"Zekâtta, ödenecek borçlar mal varlığından düşülür. Kalan net mal nisabı aşıyorsa zekât verilir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Altın ve gümüşe zekât düşer mi?","k":"Zekât","c":"Altın ve gümüş, nisab miktarına ulaşıp üzerinden bir yıl geçtiğinde kırkta bir (%2,5) oranında zekâta tâbidir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Bir mezhebe uymak (taklid) gerekli midir?","k":"Mezhep","c":"Kur'an ve sünnetten hüküm çıkaracak ilmi yeterliliği olmayan kişinin, güvenilir bir mezhebe uyarak amel etmesi dinen uygun görülmüştür. Dört büyük mezhep de hak kabul edilir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Mezhepler arasındaki farklar neden vardır?","k":"Mezhep","c":"Farklar, dinin özünden değil; nasların yorumu, hadislere ulaşım ve hüküm çıkarma yöntemlerindeki içtihat farklılıklarından doğar. Hepsi rahmet ve genişlik sayılır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Bir mezhepten diğerine geçmek caiz mi?","k":"Mezhep","c":"Kişi, ilmi yeterliliği ölçüsünde bir mezhebin görüşünü benimseyebilir. Ancak keyfî olarak nefsine kolay gelen görüşleri seçmek (teşehhî) doğru değildir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Faiz (ribâ) caiz midir?","k":"Helal-Haram","c":"Faiz, Kur'an'da açıkça yasaklanmıştır ve büyük günahlardandır. Banka faizi, faizli kredi ve faizli mevduat dinen caiz görülmez.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Sigara içmek haram mı?","k":"Helal-Haram","c":"Diyanet İşleri Başkanlığı sigarayı harama yakın (tahrîmen mekruh) veya sağlığa verdiği zarar nedeniyle haram kabul eder; içilmemesi dinen gereklidir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Enflasyon karşısında paranın zekâtı nasıl olur?","k":"Zekât","c":"Zekât, elde kalan nakit ve malın nisabı aşan kısmından verilir. Enflasyon sebebiyle paranın değeri düşse de nisab kontrolü güncel değere göre yapılır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Organ bağışı caiz mi?","k":"Tıp ve Sağlık","c":"Zaruret ve ölüm sonrası rıza şartlarıyla organ nakli ve bağışı, insan hayatını kurtarma amacı taşıdığından Diyanet tarafından caiz görülmüştür.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Estetik ameliyat caiz mi?","k":"Tıp ve Sağlık","c":"Vücutta gerçek bir kusuru giderme veya tedavi amacı taşıyan estetik müdahaleler caiz görülür; sırf güzelleşme amaçlı, sağlık riski taşıyan müdahaleler ise uygun bulunmaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Domuz kaynaklı maddeler (jelatin vb.) haram mı?","k":"Helal-Haram","c":"Domuz ve ürünleri dinen necistir ve haramdır. Gıdalarda domuz kaynaklı jelatin/katkı bulunması helal olmamasına sebep olur; bu tür katkılardan kaçınılmalıdır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Kripto para alım satımı caiz mi?","k":"Helal-Haram","c":"Kripto paralar, belirsizlik (garar) ve spekülatif yapısı nedeniyle Diyanet tarafından caiz görülmemektedir; ihtiyatlı davranılması tavsiye edilir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Müzik dinlemek caiz mi?","k":"Helal-Haram","c":"Diyanet, haram-helal sınırları içinde, ahlaka aykırı söz ve görüntü içermeyen müziğin kendisinin haram olmadığını; ancak Allah sevgisini ve ibadeti unutturacak ölçüde aşırılığın uygun olmadığını belirtir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Taksitli alışveriş ve kredi caiz mi?","k":"Helal-Haram","c":"Vade farkı ayrı bir bedel olarak belirlenen taksitli satış caiz görülür. Buna karşılık faiz işletilen banka kredisi caiz değildir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Kan bağışı caiz mi?","k":"Tıp ve Sağlık","c":"İhtiyaç hâlinde hayat kurtarmak için kan bağışlamak caizdir.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Nikâhsız birlikte yaşamak (imam nikâhı hariç) caiz mi?","k":"Aile","c":"İslam'da birliktelik ancak resmî/ser'î nikâh ile meşru olur. Nikâh olmadan birlikte yaşamak ve ilişki haramdır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Boşanma sonrası iddet (bekleme) süresi nedir?","k":"Aile","c":"Kadın, boşanma veya kocasının ölümü hâlinde iddet süresi kadar bekler; bu süre hamilelik, ölüm gibi durumlara göre değişir ve yeni bir nikâh yapılamaz.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Miras Kur'an'da belirlenmiş midir?","k":"Aile","c":"Miras payları (ferâiz) Kur'an'da (Nisâ sûresi) ayrıntılı olarak belirlenmiştir. Paylar, mirasçıların durumuna göre belirli oranlarda dağıtılır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Mehir nedir?","k":"Aile","c":"Mehir, evlenmede erkeğin kadına verdiği ve kadının malı sayılan mallık/paradır. Miktarı taraflarca belirlenir ve kadının hakkıdır.","rf":"Diyanet İşleri Başkanlığı (özet)"},
-    {"s":"Oruçluyken göz damlası veya burun spreyi kullanmak orucu bozar mı?","k":"Oruç","c":"Göz damlası orucu bozmaz. Burna sıkılan sprey, mideye ulaşma ihtimali nedeniyle ihtilaflıdır; genel görüş, mideye ulaşmaması hâlinde bozmadığıdır, ihtiyaten kaza edilmesi tavsiye edilir.","rf":"Diyanet İşleri Başkanlığı (özet)"}
-  ]
+ "fetvalar": [
+  {
+   "s": "Oruç ne zaman farz olur?",
+   "k": "Oruç",
+   "c": "Oruç, ergenlik çağına ulaşmış ve orucun farz olduğunu bilen akıllı her Müslümana Ramazan ayı girince farz olur. Ergenlik belirtisi görülmemişse çocuğa farz değildir, fakat alıştırması için teşvik edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Orucu bozan şeyler nelerdir?",
+   "k": "Oruç",
+   "c": "Bilerek yiyip içmek, karışık cinsel ilişki, oruçlu olduğunu hatırlayarak ve kasıtlı olarak yemek-içmek veya cinsel ilişkide bulunmak orucu bozar. Unutarak yemek-içmek ise orucu bozmaz; hatırlayınca hemen durulur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Sakız çiğnemek orucu bozar mı?",
+   "k": "Oruç",
+   "c": "Sakız çiğnenip içindeki tat ve maddeler yutulduğu için orucu bozar. Çiğneyip tükettikten sonra hiçbir şey yutmamak şartıyla, tadı kalmayan bir sakız hakkında ihtilaf bulunsa da ihtiyaten orucu bozduğu kabul edilir; bozulursa kaza edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Diş fırçalamak veya macun tatmak orucu bozar mı?",
+   "k": "Oruç",
+   "c": "Diş macununu yutmadıkça fırçalamak orucu bozmaz; ancak yoğun tadı yutulur endişesiyle ihtiyaten dikkat edilir. Fırçaladıktan sonra ağzı iyice çalkalamak gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Sigara içmek orucu bozar mı?",
+   "k": "Oruç",
+   "c": "Sigara ve nargile dumanını kasten içe çekmek orucu bozar. Bilerek içilirse kaza gerekir; oruçlu olduğunu hatırlayarak kasten içildiğinde bazı mezheplere göre hem kaza hem kefaret gerekir. Hanefî görüşünde kefaret erkek için kuvvetlidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Astım spreyi kullanmak orucu bozar mı?",
+   "k": "Oruç",
+   "c": "Astım spreyi ağız yoluyla alındığında içindeki madde mideye ulaşmadığı için Diyanet'e göre orucu bozmaz; gıda değil, gaz-hava niteliğindedir. Yine de ihtiyaten iftardan sonra kullanılması önerilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Göz, burun ve kulak damlası orucu bozar mı?",
+   "k": "Oruç",
+   "c": "Göz damlası ve kulağa damlatılan ilaç, mideye ulaşmadığı için Diyanet'e göre orucu bozmaz. Burna akıtılan ilaç boğaza ulaşırsa orucu bozar; ihtiyaten iftardan sonraya bırakılması önerilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İğne (aşı, serum, enjeksiyon) orucu bozar mı?",
+   "k": "Oruç",
+   "c": "Teşhis ve tedavi amaçlı kas içine veya damar içine yapılan iğne ile serum, besleyici değilse Diyanet'e göre orucu bozmaz. Ancak gıda/şeker takviyesi içeren serum ihtiyaten orucu bozar sayılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kan vermek veya kan aldırmak orucu bozar mı?",
+   "k": "Oruç",
+   "c": "Hacamat ve kan bağışı gibi bedenden kan çıkarma işlemleri orucu bozmaz. Ancak halsizliğe yol açacaksa iftardan sonra yapılması daha uygun görülür.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kusmak orucu bozar mı?",
+   "k": "Oruç",
+   "c": "Kendiliğinden gelen az miktar kusmak orucu bozmaz. Ağız dolusu kasten kusmak orucu bozar ve kaza edilir. Mide bulantısıyla gelen kusmanın ağız dolusu olması hâlinde de kaza gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Unutarak yiyip içmek orucu bozar mı?",
+   "k": "Oruç",
+   "c": "Oruçlu olduğunu unutarak yiyip içenin orucu bozulmaz; hatırladığı anda durması gerekir. Bu hüküm hadisle sabittir; oruç geçerli sayılır ve kaza gerekmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Uçakla yolculukta imsak ve iftar nasıl belirlenir?",
+   "k": "Oruç",
+   "c": "Uçakla seyahatte imsak ve iftar, bulunulan anda güneşin doğuş-batış vaktine göre ayarlanır. Uçuş sırasında tan yerinin ağarması ve güneşin batması esas alınır; bir günde birden fazla imsak-iftar yaşanabilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Âdet (hayız) hâlindeki kadın oruç tutar mı?",
+   "k": "Oruç",
+   "c": "Âdet ve loğusa hâlinde kadın oruç tutmaz; tutması haramdır. Bu günler tutulmaz ve ardından kaza edilir. Kıldığı namazlar ise kaza edilmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Yolculuk (seferî) hâlinde oruç tutulur mu?",
+   "k": "Oruç",
+   "c": "Yolcu için oruç tutmak farz değildir, tutulması serbesttir; ancak tutmamak ruhsattır. Tutulmayan günler sonradan kaza edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hastalık sebebiyle oruç tutamayan ne yapar?",
+   "k": "Oruç",
+   "c": "İyileşme ümidi olan hasta oruç tutmayabilir ve tutmadığı günleri iyileşince kaza eder. İyileşme ümidi bulunmayan ağır hastalar ise tutamadıkları her gün için fidye verir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Yaşlılık sebebiyle oruç tutamayan ne yapar?",
+   "k": "Oruç",
+   "c": "Oruç tutamayacak kadar yaşlı olan kimse, tutamadığı her gün için bir fidye (bir kişiyi doyuracak kadar yiyecek veya bedeli) verir. Fidyenin miktarı fitre kadardır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hamile ve emziren kadın oruç tutmazsa ne gerekir?",
+   "k": "Oruç",
+   "c": "Hamile veya emziren kadın, kendisi ya da bebeği için endişe duyarsa oruç tutmayabilir. Tutamadığı günleri şartlar elverince kaza eder; bazı durumlarda fidye de verilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Cünüp hâlde oruç tutulur mu?",
+   "k": "Oruç",
+   "c": "Cünüp olmak oruca engel değildir; cünüp kişi guslünü geciktirse bile orucu geçerlidir. Ancak namaz için mutlaka gusül gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ramazan'da imsak vakti ne zaman başlar?",
+   "k": "Oruç",
+   "c": "İmsak vakti, tan yerinin ağarması (fecr-i sâdık) ile başlar ve güneş doğana kadar sürer. Sabah ezanının okunması imsak vaktinden sonradır; imsakla ezan arasındaki fark temkine dayanır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Fidye kimlere verilir ve miktarı nedir?",
+   "k": "Oruç",
+   "c": "Fidye, oruç tutamayacak kadar yaşlı veya iyileşmeyen hastaya, ya da ölüp de kaza imkânı bulamayan kimsenin ardından verilir. Miktarı bir fitre değerindedir; bir fakirin bir günlük gıdasıdır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kaza orucu ne zaman tutulur ve önceliği nedir?",
+   "k": "Oruç",
+   "c": "Bozulan veya tutulmayan Ramazan oruçlarının kazası, başka Ramazan gelmeden tutulur. Kaza oruçları arasında öncelik sırası yoktur; sadece Ramazan borcu nafile oruçlardan önce gelir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kaza orucu yerine fidye verilebilir mi?",
+   "k": "Oruç",
+   "c": "Normalde tutulmamış oruç kaza edilir; kaza edilemeyecek durumda ise (ölüm gibi) fidye verilir. Sağlıklı kişi keyfî olarak kaza yerine fidye veremez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ramazan'da bilerek oruç bozmanın cezası (kefaret) nedir?",
+   "k": "Oruç",
+   "c": "Ramazan orucunu cinsel ilişki ile kasten bozmak hem kazayı hem de kefareti gerektirir. Kefaret, iki ay peş peşe oruç tutmak veya altmış fakiri doyurmaktır. Yiyip içmekle bozma, Hanefî görüşünde kefareti gerektirmez, kaza gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Bayram günü oruç tutulur mu?",
+   "k": "Oruç",
+   "c": "Ramazan ve Kurban Bayramı günlerinde oruç tutmak haramdır. Bu günler aynı zamanda sadece nafile oruç için de yasaklanmıştır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Şevval ayında altı gün oruç tutmanın hükmü nedir?",
+   "k": "Oruç",
+   "c": "Şevval ayında tutulan altı gün oruç, Ramazan'dan sonra müstehap/nafile bir ibadettir. Hadiste, Ramazan orucunun ardından bu altı günü tutanın bütün yılı oruçlu geçirmiş gibi sevap kazanacağı belirtilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Aşure günü oruç tutmanın fazileti nedir?",
+   "k": "Oruç",
+   "c": "Muharrem ayının onuncu günü olan Aşure'de oruç tutmak sünnettir; hadiste geçen yılın küçük günahlarına kefaret olacağı bildirilmiştir. Sadece Aşure günü tek başına değil, bir gün öncesi veya sonrasıyla birlikte tutulması önerilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Üç aylarda (Recep, Şaban) oruç tutmanın hükmü nedir?",
+   "k": "Oruç",
+   "c": "Recep ve Şaban aylarında nafile oruç tutmak menduptur. Ramazan'a hazırlık için oruç, dua ve istiğfar artırılır; ancak farz bir oruç yoktur, tamamı nafiledir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Pazartesi ve Perşembe günleri oruç tutmanın hükmü nedir?",
+   "k": "Oruç",
+   "c": "Pazartesi ve Perşembe günleri oruç tutmak sünnettir. Bu günler amellerin Allah'a arz edildiği günler olarak bildirilmiş ve nafile oruç tavsiye edilmiştir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Cuma günü yalnız başına oruç tutulur mu?",
+   "k": "Oruç",
+   "c": "Cuma günü yalnız başına nafile oruç tutmak tenzihen mekruhtur. Ancak bir gün öncesi (Perşembe) veya sonrası (Cumartesi) ile birlikte tutulması caizdir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Fıtır sadakası (fitre) nedir ve miktarı ne kadardır?",
+   "k": "Oruç",
+   "c": "Fıtır sadakası, Ramazan Bayramı namazından önce verilen sadakadır; bir kişi için kişi başı bir sa' (yaklaşık 3,3 kg) gıda veya bedelidir. Diyanet her yıl fitre miktarını ayrıca ilan eder.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Denize veya havuza girmek orucu bozar mı?",
+   "k": "Oruç",
+   "c": "Yüzme veya banyo yapmak, ağız ve burundan su girmemesine dikkat edildikçe orucu bozmaz. Boğaza su kaçarsa oruç bozulur ve kaza gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Oruçlu iken ağız dolusu kusunca oruç bozulur mu?",
+   "k": "Oruç",
+   "c": "İstemeden ağız dolusu kusmak orucu bozmaz; kişi kendisi kasten kusmaya sebep olursa oruç bozulur ve kaza edilir. Kasten kusma kefareti gerektirmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İftar duası ve vakti nasıldır?",
+   "k": "Oruç",
+   "c": "İftar vakti, güneş batınca başlar; akşam ezanı ile açılır. İftar açılmadan önce dua edilmesi ve besmele ile orucun açılması sünnettir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Teravih namazı farz mı, kaç rekâttır?",
+   "k": "Oruç",
+   "c": "Teravih namazı Ramazan gecelerine mahsus sünnet bir namazdır, yirmi rekâttır. Cemaatle kılınması sünnet; evde de kılınabilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İtikâf nedir ve hükmü nedir?",
+   "k": "Oruç",
+   "c": "İtikâf, Ramazan'ın son on gününde mescidde ibadet niyetiyle kalmaktır. Sünnet-i müekkede bir ibadettir; niyetle başlar, özel şartları vardır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Oruçluya oruç tutturan kişi sevap alır mı?",
+   "k": "Oruç",
+   "c": "Başkasına iftar vermek ve oruç tutturmak büyük sevaptır; hadiste, iftar verenin oruçlunun sevabı kadar sevap kazanacağı bildirilmiştir. Bu, oruçlunun sevabından hiçbir şey eksiltmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Abdesti bozan şeyler nelerdir?",
+   "k": "Abdest",
+   "c": "Abdest; ön ve arkadan çıkan her şey (idrar, dışkı, yellenme), cinsel organa dokunma, bedenden kan-irin akması, uyku (dayanmaksızın), bayılma ve delilik ile bozulur. Farz namaz için abdest şarttır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Yellenmek (gaz çıkarmak) abdesti bozar mı?",
+   "k": "Abdest",
+   "c": "Önden veya arkadan yellenmek abdesti bozar. Ses ve koku bulunmasa da gaz çıkması abdesti bozmak için yeterlidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Uyumak abdesti bozar mı?",
+   "k": "Abdest",
+   "c": "Dayanıksız hâlde uyumak (yatarak, iyice dalarak) abdesti bozar. Oturur hâlde kısa süreli uyuklamak ise Hanefî görüşünde abdesti bozmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Bayılmak ve kendinden geçmek abdesti bozar mı?",
+   "k": "Abdest",
+   "c": "Bayılma, delilik, sarhoşluk ve akıl kaybı abdesti bozar. Uyanınca veya ayılınca yeniden abdest alınması gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Vücuttan kan akması abdesti bozar mı?",
+   "k": "Abdest",
+   "c": "Hanefî mezhebine göre bedenden akan kan, irin veya sarı su, yara yerinden dışarı çıkıp çevreye yayılırsa abdesti bozar. Az miktarda olup yayılmayan kan abdesti bozmaz. Şâfiî mezhebinde ise kan abdesti bozmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Diş dolgusu ve kaplama abdest ve guslü engeller mi?",
+   "k": "Abdest",
+   "c": "Diş dolgusu ve kaplama abdest ve gusle engel değildir; farz olan deri ve saçların ıslanmasıdır. Ağız içinin temizlenmesi yeterlidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Oje, protez tırnak ve dövme abdest/gusle engel olur mu?",
+   "k": "Abdest",
+   "c": "Tırnak üzerindeki su geçirmez oje, kalıcı oje ve protez tırnak abdest ve gusle engeldir; altındaki deri ıslanmadığı için su geçirir hâle gelinceye kadar çıkarılmalıdır. Su geçirir oje ise engel oluşturmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ruj ve makyaj abdesti engeller mi?",
+   "k": "Abdest",
+   "c": "Dudak veya yüz üzerindeki su geçirmeyen kalın makyaj ve ruj abdestin geçerliliğine engel olabilir. Su geçirir nitelikteki hafif makyaj ise engel oluşturmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Karşı cinse dokunmak abdesti bozar mı?",
+   "k": "Abdest",
+   "c": "Hanefî ve Hanbelî mezheplerine göre şehvetli de olsa karşı cinse dokunmak abdesti bozmaz. Şâfiî mezhebinde ise şehvetle dokunmak abdesti bozar. Bu yüzden mezhebe göre hüküm değişir.",
+   "m": "Hanefî/Şâfiî",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kadının saçına veya cinsiyet organına dokunmak abdesti bozar mı?",
+   "k": "Abdest",
+   "c": "Hanefî mezhebinde kadının saçına dokunmak abdesti bozmaz; Şâfiî ve Hanbelî mezheplerinde ise kadının kendi cinsiyet organına önden dokunması abdesti bozar. Mezhebe göre fark vardır.",
+   "m": "Hanefî/Şâfiî",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Abdest alırken niyet ve dualar farz mı?",
+   "k": "Abdest",
+   "c": "Abdestte niyet sünnet, besmele sünnettir; farz değildir. Farzlar yüzü, dirseklerle birlikte kolları yıkamak, başın dörtte birini meshetmek ve topuklarla birlikte ayakları yıkamaktır. Tertip (sıra) ise sünnettir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Başın meshi ne kadardır?",
+   "k": "Abdest",
+   "c": "Farz olan mesh, başın dörtte birini ıslak elle meshetmektir. Tamamını meshetmek sünnettir. Mesh, başın saçlı derisine veya başörtüsü üzerine yapılabilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Abdestte ara vermeden (muvalat) yıkamak şart mı?",
+   "k": "Abdest",
+   "c": "Abdestte organları ara vermeden peş peşe yıkamaya muvalat denir; sünnettir. Normal şartlarda olmasına dikkat edilir, ancak farz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Abdestsiz Kur'an okunur ve dua edilir mi?",
+   "k": "Abdest",
+   "c": "Abdestsiz durumda dua ve zikir yapılabilir; ancak mushafı elle tutup Kur'an okumak abdest gerektirir. Ezberden veya ezberden dua okumak abdestsiz caizdir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Abdestim var mı, yok mu şüphesi olursa ne yapılır?",
+   "k": "Abdest",
+   "c": "Abdestten sonra bozulup bozulmadığında şüphe eden kişi, kesin bilgi abdestin bozulduğuna dair yoksa abdestli sayılır. Şüphe tek başına abdesti bozmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Namaz kılarken abdest bozulursa ne yapılır?",
+   "k": "Abdest",
+   "c": "Namaz esnasında abdest bozulursa namaz bozulur; kişi yeniden abdest alıp namaza baştan başlar. Bozulmadan önce kılınan kısım geçerli olmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Mest veya çorap üzerine mesh yapılır mı?",
+   "k": "Abdest",
+   "c": "Abdestli iken giyilen mest, deri çorap veya su geçirmeyen kalın çorap üzerine mesh yapılabilir. Mesh süresi mukim için bir gün, yolcu için üç gündür; süre abdestin bozulmasıyla başlar.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Gusül abdesti ne zaman farz olur?",
+   "k": "Gusül",
+   "c": "Gusül; cinsel ilişki, ihtilam (meni gelmesi) hâlinde ve kadının âdet/loğusa hâlinin sona ermesinden sonra farz olur. Cünüp kişinin namaz için gusül alması gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Guslün farzları nelerdir?",
+   "k": "Gusül",
+   "c": "Guslün farzı; ağıza, burna su vermek ve bütün bedeni hiç kuru yer kalmayacak şekilde yıkamaktır. Niyet sünnet, besmele ve sağdan başlamak da sünnettir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Cünüplük nasıl giderilir?",
+   "k": "Gusül",
+   "c": "Cünüplük ancak gusül abdesti ile giderilir. Gusül alınca hem cünüplük hem de abdest ihtiyacı ortadan kalkar; ayrıca abdest almak gerekmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Rüyada ihtilam olmak gusül gerektirir mi?",
+   "k": "Gusül",
+   "c": "Rüyada meni gelirse gusül farz olur; meni gelmezse gusül gerekmez. Rüya görmek tek başına gusül gerektirmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Eşiyle ilişkiden sonra gusül nasıl alınır?",
+   "k": "Gusül",
+   "c": "Cinsel ilişkiden sonra gusül farz olur; meni gelmese bile ilişki teması guslü gerektirir. Gusülde ağız-burun ve bütün beden yıkanır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Saç boyası gusle engel olur mu?",
+   "k": "Gusül",
+   "c": "Saç boyası suyun deriye ulaşmasına engel olmuyorsa gusle engel değildir. Deri üzerinde su geçirmeyen film tabakası oluşturan boya çıkarılmalıdır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Gusülde ağız ve burun gargara şart mı?",
+   "k": "Gusül",
+   "c": "Gusülde ağıza ve burna su vermek farzdır. Ağızda en az gargara, burunda da yumuşak kısma kadar su ulaştırmak gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Gusülde niyet ve sıralama gerekli mi?",
+   "k": "Gusül",
+   "c": "Gusülde niyet sünnet, sağ taraftan başlamak ve abdest alıp ardından gusletmek sünnettir. Farz olan, bedenin tamamının yıkanmasıdır; sıralama şart değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Duş almak gusül yerine geçer mi?",
+   "k": "Gusül",
+   "c": "Duş alırken gusle niyet edilip ağız-burun ve bütün beden yıkanırsa gusül yerine geçer. Sadece ıslanmak ve ağız-burun yıkamamak yeterli olmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Âdetten sonra ne zaman gusül alınır?",
+   "k": "Gusül",
+   "c": "Kadında âdet veya loğusa kanaması sona erince gusül farz olur. Gusülden sonra namaz kılınır, oruç tutulabilir; geciktirmek günah olur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Beş vakit namaz farz mıdır?",
+   "k": "Namaz",
+   "c": "Beş vakit namaz, ergenlik çağına ulaşan akıllı her Müslümana günde beş vakit farzdır. İnkârı küfrü gerektirir, tembellikle terk etmek büyük günahtır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Beş vakit namazın rekât sayıları kaçtır?",
+   "k": "Namaz",
+   "c": "Sabah 2 farz, öğle 4, ikindi 4, akşam 3, yatsı 4 farzdır. Ayrıca sabah 2, öğle 6, ikindi 4, akşam 2 ve yatsı 2+3 sünnet/vitir namazları vardır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Vitir namazı farz mı, hükmü nedir?",
+   "k": "Namaz",
+   "c": "Vitir namazı Hanefî mezhebinde vacip, diğer mezheplerde sünnettir. Yatsı namazından sonra üç rekât olarak kılınır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Teravih namazı hükmü nedir?",
+   "k": "Namaz",
+   "c": "Teravih namazı Ramazan ayına mahsus sünnet-i müekkede bir namazdır, yirmi rekâttır. Cemaatle kılınması sünnet, evde kılınması da caizdir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Sehiv secdesi nedir ve ne zaman yapılır?",
+   "k": "Namaz",
+   "c": "Sehiv secdesi, namazda unutma veya hata sebebiyle yapılan bir eksiklik/fazlalığı düzeltmek için yapılan iki secdedir. Namazın sonunda oturuşta iki tarafa selam verdikten sonra yapılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Tilavet secdesi nedir, nasıl yapılır?",
+   "k": "Namaz",
+   "c": "Tilavet secdesi, Kur'an'da secde âyeti okununca veya işitilince yapılması gereken secdedir. Abdestli olarak tek secde yapılır; Hanefî'ye göre vaciptir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Namazda Fatiha ve sûre okumak şart mı?",
+   "k": "Namaz",
+   "c": "Farz namazların ilk iki rekâtında ve bütün nafile rekâtlarda Fatiha farzdır; ardından en az üç âyet sûre okumak vaciptir. Son rekâtlarda ise sadece Fatiha gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Cemaatle namaz kılmanın hükmü nedir?",
+   "k": "Namaz",
+   "c": "Cemaatle namaz, sünnet-i müekkede olup kuvvetle tavsiye edilir. Beş vakit için camiye gitmek faziletlidir; farz namazlarda cemaat büyük sevaptır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Namazda gülmek namazı bozar mı?",
+   "k": "Namaz",
+   "c": "Namazda yüksek sesle gülmek hem namazı bozar hem de abdesti bozar; gülümsemek (tebessüm) ise namazı bozmaz. Bozulursa yeniden abdest alınıp namaz kılınır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Namazda cep telefonu çalarsa namaz bozulur mu?",
+   "k": "Namaz",
+   "c": "Telefonun çalması tek başına namazı bozmaz; ancak zil sesini kapatmak ve namaza konsantre olmak gerekir. Sesle meşgul olup kelâm etmek namazı bozar.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Namazda göz kırpmak veya kaşınmak namazı bozar mı?",
+   "k": "Namaz",
+   "c": "Namazda hafif göz kırpma ve zaruretsiz küçük hareketler namazı bozmaz. Ancak dışarıdan bakanın fiil sayacağı büyük hareketler namaza zarar verir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kazâya kalan namazlar nasıl kaza edilir?",
+   "k": "Namaz",
+   "c": "Kazâya kalan farz namazlar belirli bir sıraya göre kaza edilir; her farzın sadece farzı kaza edilir. Kazâ namazları en kısa sürede ödenmelidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Yolculukta (seferî) namaz kısaltılır mı?",
+   "k": "Namaz",
+   "c": "Yolcu, dört rekâtlı farzları iki rekât olarak kılabilir; bu ruhsattır. Sünnetleri kılmaz; kılarsa kendi bilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İki namazı birleştirmek (cem) caiz mi?",
+   "k": "Namaz",
+   "c": "Cem, öğle-ikindi veya akşam-yatsı namazlarını bir vakitte kılmaktır. Hanefî mezhebinde sadece Arafat ve Müzdelife'de caiz görülür; yolculukta cem bazı mezheplerde caizdir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kıble nasıl bulunur?",
+   "k": "Namaz",
+   "c": "Kıble, Kâbe yönüdür; pusula veya namaz vakit uygulamalarıyla yön belirlenir. Emin olunamazsa kıbleye en yakın tahmin ile namaz kılınır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Namaz kılarken tesettür şartları nedir?",
+   "k": "Namaz",
+   "c": "Erkekte göbek ile diz arası, kadında yüz-el-ayak dışında bütün beden örtülü olmalıdır. Örtüsüz kılınan namaz sahih olmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Sabah namazı kaçırılırsa ne yapılır?",
+   "k": "Namaz",
+   "c": "Kaçırılan sabah namazı, güneş doğduktan sonra kerâhet vakti çıkınca kaza edilir. Uyanamayan kişi kaza eder, ayrıca günah işlemez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Namazda sûre sırasına uymak şart mı?",
+   "k": "Namaz",
+   "c": "Namazda sûreleri Kur'an'daki sıraya göre okumak vaciptir; aykırı davranmak sehiv secdesi gerektirebilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kuşluk (Duhâ) namazı nedir?",
+   "k": "Namaz",
+   "c": "Kuşluk namazı, güneş yükseldikten sonra kılınan nafile bir namazdır; en az iki, en çok on iki rekâttır. Sabah ile öğle arasında kılınır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Namazın sonunda tesbihat nasıl yapılır?",
+   "k": "Namaz",
+   "c": "Namazdan sonra 33 kez Sübhanallah, 33 kez Elhamdülillah, 33 kez Allahu ekber denir ve ardından dua edilir. Bu tesbihler sünnettir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Zekât farz olmasının şartları nelerdir?",
+   "k": "Zekât",
+   "c": "Zekât; Müslüman, akıllı, ergen ve hür olup nisap miktarı mala sahip olan ve üzerinden bir yıl geçen kimseye farzdır. Malın artıcı ve sahibinin mülkiyetinde olması gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Nisap miktarı ne kadardır?",
+   "k": "Zekât",
+   "c": "Nisap, asgarî zenginlik ölçüsüdür; 85 gram altın veya eşdeğeri para/ticaret malıdır. Bu miktara ulaşan mal üzerinden bir yıl geçince zekât farz olur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Zekâtın oranı ne kadardır?",
+   "k": "Zekât",
+   "c": "Para, altın, gümüş ve ticaret mallarının zekâtı kırkta bir (1/40, yüzde 2,5) oranındadır. Toprak ürünleri ve hayvanlarda ise ayrı oranlar vardır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Havâic-i asliyye nedir?",
+   "k": "Zekât",
+   "c": "Havâic-i asliyye, kişinin aslî ihtiyaçlarıdır: oturduğu ev, giyim, binek ve iş aletleri gibi. Bu mallar zekât hesabından düşülür; zekâta tabi tutulmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ticaret malının zekâtı nasıl hesaplanır?",
+   "k": "Zekât",
+   "c": "Ticaret malının değeri, yıl sonunda nisaba ulaşırsa zekâta tabidir. Alacaklar ve borçlar dâhil edilerek kırkta bir oranında zekât verilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ziynet (takı) eşyasının zekâtı var mı?",
+   "k": "Zekât",
+   "c": "Kadının kullandığı ziynet eşyası (altın, gümüş) nisaba ulaşırsa Hanefî'ye göre zekâta tabidir. Şâfiî'de ise kullanılan ziynet zekâta tabi değildir.",
+   "m": "Hanefî/Şâfiî",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Farklı ayarlı altının zekâtı nasıl hesaplanır?",
+   "k": "Zekât",
+   "c": "Altın ve ziynet, ayarı ne olursa olsun piyasa değeri üzerinden nisaba ulaşıyorsa hesaplanır. Has altın miktarı veya rayiç değeri esas alınarak kırkta bir verilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Taşınmaz gelirinin ve kira gelirinin zekâtı nasıl olur?",
+   "k": "Zekât",
+   "c": "Kiraya verilen taşınmaz ticaret için alınmadıysa zekâta tabi değildir; ancak kira geliri nisaba ulaşıp yıl geçerse zekâta tabidir. Ticaret için alınmışsa mevcut değerinden zekât verilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hisse senetlerinin zekâtı nasıl hesaplanır?",
+   "k": "Zekât",
+   "c": "Hisse senetleri, ticaret amaçlı elde tutuluyorsa güncel piyasa değeri üzerinden zekâta tabidir. Temettü gelirleri de kâr olarak zekât hesabına dâhil edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kripto paranın zekâtı var mı?",
+   "k": "Zekât",
+   "c": "Kripto para, yatırım aracı olarak elde tutuluyorsa nisaba ulaşıp bir yıl geçince zekâta tabidir. Piyasa değeri üzerinden kırkta bir zekât hesaplanır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Zekât hesabında borçlar düşülür mü?",
+   "k": "Zekât",
+   "c": "Ödenmesi gereken ve vadesi yaklaşan borçlar zekât hesabından düşülür. Ancak uzun vadeli borçların tamamı değil, yıllık ödemeler düşülür.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Alacaklar zekâta dâhil edilir mi?",
+   "k": "Zekât",
+   "c": "Tahsil edilmesi beklenen kuvvetli alacaklar zekât hesabına dâhil edilir. Tahsili şüpheli alacaklar ise İslam âlimlerince farklı değerlendirilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Şirket ortakları zekâtı nasıl verir?",
+   "k": "Zekât",
+   "c": "Şirket malı, ortakların hisseleri oranında kişisel servetlerine dâhil edilerek zekâta tabi tutulur. Her ortak kendi payının zekâtını verir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Havl (bir yıl geçmesi) şartı nedir?",
+   "k": "Zekât",
+   "c": "Zekâtın farz olması için nisap miktarı malın üzerinden bir kamerî yıl geçmesi gerekir. Buna havl denir; yıl içinde azalıp artması ölçüyü değiştirir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Zekât kimlere verilir?",
+   "k": "Zekât",
+   "c": "Zekât; fakirler, miskinler, borçlular, yolda kalanlar, zekât toplayanlar, kalpleri İslam'a ısındırılacaklar, köle âzat edecekler ve Allah yolunda olanlara verilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı Fetva Kurulu (özet)"
+  },
+  {
+   "s": "Zekât kimlere verilemez?",
+   "k": "Zekât",
+   "c": "Zekât; kişinin annesi-babası, dede-ninesi, çocukları-torunları ve hanımına verilemez. Ayrıca zengine ve gayrimeşru yolla kazananlara zekât verilmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı Fetva Kurulu (özet)"
+  },
+  {
+   "s": "Zekât üvey akraba ve kayınlara verilebilir mi?",
+   "k": "Zekât",
+   "c": "Zekât, üvey anne-baba, kayınvalide-kayınpeder, gelin-damat ve süt akrabalara verilebilir. Bunlar zekâtın yasaklandığı asıl/usûl ve fürû akrabalar arasında sayılmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Gayrimeşru kazanç sahibine zekât verilir mi?",
+   "k": "Zekât",
+   "c": "Kazancının tamamı haram yollardan olan kişiye zekât verilmez; ancak kazancı karışık ve ihtiyaç sahibi ise fakir kabul edilerek verilebilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Zekât aynî (mal olarak) verilebilir mi?",
+   "k": "Zekât",
+   "c": "Zekât, malın cinsinden aynî olarak veya piyasa değeri üzerinden nakdî olarak verilebilir. Hangisi fakirin yararına ise o tercih edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Zekât sadece Ramazan'da mı verilir?",
+   "k": "Zekât",
+   "c": "Zekât için belirli bir ay şartı yoktur; havl dolunca yılın herhangi bir vaktinde verilir. Ramazan'da vermek faziletli olup sevabı artırır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Emekli maaşı ve ikramiye zekâta tabi mi?",
+   "k": "Zekât",
+   "c": "Emekli maaşı ve ikramiye, nisaba ulaşıp üzerinden yıl geçerse zekâta tabidir. Elde tutulmayıp hemen harcanan kısım için ayrıca hesap gerekmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Zekât borçluya verilir mi?",
+   "k": "Zekât",
+   "c": "Borcu sebebiyle ihtiyaç sahibi durumuna düşen ve nisap miktarı malı bulunmayan borçluya zekât verilebilir. Borcun haram yolla olması hâlinde ise verilmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Fıtır sadakası (fitre) kimlere farzdır?",
+   "k": "Sadaka",
+   "c": "Fıtır sadakası, nisap miktarı mala sahip olan hür ve Müslüman herkese farzdır. Kişi kendisi ve bakmakla yükümlü olduğu aile fertleri için fitre verir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Fitre ne zaman verilir?",
+   "k": "Sadaka",
+   "c": "Fitre, Ramazan Bayramı namazından önce verilir. Bayramdan önce verilmesi sünnet, bayram günü verilmesi caiz; bayramdan sonraya bırakmak ise kazâ niteliğindedir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Fidye ile fitre arasındaki fark nedir?",
+   "k": "Sadaka",
+   "c": "Fitre, tutulan orucun karşılığı olarak bayram öncesi verilen sadakadır. Fidye ise oruç tutamayanın her gün için verdiği bedeldir. İkisi farklı ibadetlerdir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Sadaka-i câriye nedir?",
+   "k": "Sadaka",
+   "c": "Sadaka-i câriye, faydası devam eden sadakadır: vakıf, çeşme, ilim öğretme, hayır kurumu gibi. Kişi öldükten sonra da sevabı devam eder.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Adak (nezir) yerine getirilmezse ne olur?",
+   "k": "Sadaka",
+   "c": "Adak, yerine getirilmesi gereken bir yükümlülüktür; şartları uygunsa yerine getirilir. Yerine getirilmeyecek bir adağın kefareti gerekir veya haram olan şey için adak geçersizdir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kurban yerine para vermek ya da bağışlamak caiz mi?",
+   "k": "Sadaka",
+   "c": "Kurban bizzat kesilmesi gereken bir ibadettir; kurban bayramında vekâletle başkasına kestirilebilir. Ancak kurban yerine parayı doğrudan fakire bağışlamak kurban yerine geçmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hac farz olmasının şartları nelerdir?",
+   "k": "Hac",
+   "c": "Hac; Müslüman, akıllı, ergen, hür, bedenen ve malî yönden gücü yeten kimseye ömürde bir kez farzdır. Yol güvenliği ve kadın için mahrem şartı da aranır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hac ne zaman farz olur?",
+   "k": "Hac",
+   "c": "Hac, şartlar oluştuğu vakit ömürde bir defa farz olur. İmkân varken geciktirmek günah sayılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Umrenin hükmü nedir?",
+   "k": "Hac",
+   "c": "Umre, Hanefî mezhebinde sünnet-i müekkede, Şâfiî ve Hanbelî'de farzdır. Hac mevsimi dışında yılın herhangi bir vaktinde yapılabilir.",
+   "m": "Hanefî/Şâfiî",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İhram yasakları nelerdir?",
+   "k": "Hac",
+   "c": "İhramlı iken; dikişli elbise (erkek), saç-sakal-tırnak kesmek, koku kullanmak, avlanmak, cinsel ilişki ve nikâh kıymak yasaktır. Bu yasaklara uymamak fidye gerektirebilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Tavaf ve Sa'y nedir?",
+   "k": "Hac",
+   "c": "Tavaf, Kâbe'nin etrafında yedi kez dönmektir; Sa'y ise Safâ ile Merve arasında yedi kez gidip gelmektir. Her ikisi de haccın önemli rükünlerindendir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Arafat vakfesi nedir?",
+   "k": "Hac",
+   "c": "Arafat vakfesi, hac ibadetinin en önemli rüknüdür; arefe günü Arafat'ta belirli vakitte durulur. Vakfe yapılmazsa hac sahih olmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Şeytan taşlama nasıl yapılır?",
+   "k": "Hac",
+   "c": "Şeytan taşlama, Mina'da Cemrelere belirli günlerde taş atma ibadetidir. Her bir cemreye yedi taş atılır; sırası ve vakti önemlidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hacda kurban kesmek gerekli mi?",
+   "k": "Hac",
+   "c": "Hacda (temettu ve kıran haccında) kurban kesmek vaciptir. Kesemeyen kimse ise altı gün oruç tutar; üç gün hacda, üç gün memlekete dönünce.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Bedel (vekâleten) hac yapılabilir mi?",
+   "k": "Hac",
+   "c": "Ağır hastalık veya ölüm sebebiyle kendisi hac yapamayan kimse için başkası bedel hac yapabilir. Bedel hac, aslî mükellefiyeti düşürmez; vekâlet şartları aranır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kadın tek başına hacca gidebilir mi?",
+   "k": "Hac",
+   "c": "Hanefî mezhebinde kadın, yanında mahremi olduğu sürece hacca gider. Şâfiî mezhebi, güvenli yol arkadaşlığı bulunduğunda tek başına gitmeye izin verir.",
+   "m": "Hanefî/Şâfiî",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hac esnasında cinsel ilişki olursa hac bozulur mu?",
+   "k": "Hac",
+   "c": "İhramlı iken cinsel ilişki, haccı bozar ve büyük bir günahtır. Bu durumda hem kaza hem de ceza (bedene kurbanı) gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Mîkat nedir, neresidir?",
+   "k": "Hac",
+   "c": "Mîkat, ihrama girilmesi gereken sınır yerleridir. Hac veya umre için mikât sınırını ihramsız geçmek caiz değildir; geçen kimse kurban cezası verir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kurban kesmenin hükmü nedir?",
+   "k": "Kurban",
+   "c": "Kurban, şartları taşıyan hür ve Müslüman kimseye vaciptir. Nisap miktarı mala sahip olup yolcu olmayan kişi Kurban Bayramı'nda kurban keser.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kurban hayvanının şartları nelerdir?",
+   "k": "Kurban",
+   "c": "Kurban hayvanı; koyun-keçi bir yaşını, sığır-manda iki yaşını, deve beş yaşını doldurmuş olmalıdır. Ayrıca sağlıklı, kusursuz ve azaları tam olmalıdır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hangi hayvanlar kurban edilebilir?",
+   "k": "Kurban",
+   "c": "Kurban; koyun, keçi, sığır, manda ve deve ile kesilir. Bu hayvanların erkek-dişi olması fark etmez; şartları taşıması gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Bir hayvanı kaç kişi kurban edebilir?",
+   "k": "Kurban",
+   "c": "Koyun ve keçi bir kişi için; sığır, manda ve deve ise yedi kişiye kadar ortak kurban edilebilir. Ortakların ibadet niyeti taşıması gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kurban ne zaman kesilir?",
+   "k": "Kurban",
+   "c": "Kurban, Kurban Bayramı'nın birinci günü bayram namazından sonra kesilmeye başlanır. Kesim vakti, bayramın dördüncü günü güneş batıncaya kadar devam eder.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Vekâletle kurban kesmek caiz mi?",
+   "k": "Kurban",
+   "c": "Kişi bizzat kesebileceği gibi vekâletle de kestirebilir. Vekil edilen kuruluş veya kişi, kurbanı ibadet niyetiyle keser; kurban hassasiyetine uyulur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kurban eti nasıl dağıtılır?",
+   "k": "Kurban",
+   "c": "Kurban eti üçe ayrılır: bir kısmı fakirlere, bir kısmı akraba ve komşulara, bir kısmı da ev halkına ayrılır. Eti tamamen sadaka olarak dağıtmak da caizdir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kurban derisi ne yapılır?",
+   "k": "Kurban",
+   "c": "Kurban derisi ya ihtiyaç sahibine verilir ya da hayır kurumuna bağışlanır. Deriyi kasap ücreti olarak vermek caiz değildir; ücret ayrıca ödenir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Adak kurbanı nasıl kesilir?",
+   "k": "Kurban",
+   "c": "Adak kurbanı, adakta bulunan kişi için kesilir; etinden adak sahibi ve bakmakla yükümlü olduğu aile fertleri yiyemez. Tamamının dağıtılması gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Borçlu kişi kurban kesebilir mi?",
+   "k": "Kurban",
+   "c": "Borçlu olmak tek başına kurban kesmeye engel değildir; nisap miktarı mala sahip olması ölçüdür. Ancak borcunu ödemede zorlanan kişi, önce borcunu ödemesi daha uygundur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Nikâhın şartları nelerdir?",
+   "k": "Aile",
+   "c": "Nikâh; şahitler huzurunda tarafların rızası ve dînî akitle kıyılır. Tarafların ve şahitlerin akıllı olması, mehir (mihr) belirlenmesi şarttır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Resmî nikâh olmadan imam nikâhı geçerli mi?",
+   "k": "Aile",
+   "c": "Dînen nikâh, şartları taşıyan akitle geçerlidir; ancak resmî/hukukî kayıt, hakların korunması ve çocukların geleceği için gereklidir. Diyanet her iki nikâhı birlikte tavsiye eder.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Mehir (mihr) nedir ve ne kadardır?",
+   "k": "Aile",
+   "c": "Mehir, erkeğin kadına nikâh sebebiyle verdiği mal/paradır; farzdır. Miktarı taraflar arasında anlaşmayla belirlenir; miktar sınırı yoktur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Görücü usulü ile evlenmek caiz mi?",
+   "k": "Aile",
+   "c": "Görücü usulü evlenmek caizdir; önemli olan tarafların rızasının alınmasıdır. Zorla evlendirme İslam'da yasaktır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Nişan bozulursa verilen hediyeler ne olur?",
+   "k": "Aile",
+   "c": "Nişan bozulunca hediye ve mehir olarak verilen eşyalar geri istenebilir; mehir ise nişan bozulsa bile kadında kalır. Borç niteliğindeki mallar iade edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Boşanma (talâk) nasıl olur?",
+   "k": "Aile",
+   "c": "Boşanma, erkeğin talâk sözüyle veya mahkeme kararıyla olur; en makbulü tek sözle ve iddetli olarak yapılanıdır. Boşanma İslam'da son çaredir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Üç talâkla boşama nedir?",
+   "k": "Aile",
+   "c": "Aynı anda veya aralıksız üç talâk, büyük (beynûnet-i kübrâ) boşama sayılır. Bu durumda taraflar bir daha evlenmek isterse kadının başka biriyle evlenip boşanması şartı aranır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Muhâlaa (hul') nedir?",
+   "k": "Aile",
+   "c": "Muhâlaa, kadının bir bedel ödeyerek evlilikten ayrılmasıdır; kadına da boşanma hakkı tanınmıştır. Şartları ve karşılıklı rıza önemlidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İddet nedir?",
+   "k": "Aile",
+   "c": "İddet, boşanma veya eşin ölümü sonrası kadının yeni bir evlilik yapmadan beklemesi gereken süredir. Boşanmada üç âdet, ölümde ise dört ay on gündür.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kadının boşanma hakkı var mı?",
+   "k": "Aile",
+   "c": "Kadın, nikâh sözleşmesine boşanma yetkisi koydurabilir veya muhâlaa ile ayrılabilir. Ayrıca mahkemeye başvurarak boşanma talep edebilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İslam'da miras payları nasıl belirlenir?",
+   "k": "Aile",
+   "c": "Miras payları Kur'an'da belirlenmiştir; örneğin erkek çocuğa kız çocuğun iki katı verilir. Bu nispet, malî yükümlülüklerin erkeğe daha fazla yüklenmesiyle ilişkilidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Miras paylaşımında kadın mağdur edilir mi?",
+   "k": "Aile",
+   "c": "Kadına verilen pay asgari olup sağlığında verilenlerle artırılabilir. Miras payı, baba ve kocanın nafaka yükümlülüğüyle birlikte değerlendirilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Evlilik dışı ilişki caiz mi?",
+   "k": "Aile",
+   "c": "Evlilik dışı cinsel ilişki (zina) büyük haramdır ve hem dünyevî hem uhrevî sorumluluk doğurur. Nikâhla kurulan aile, İslam'ın temel yapısıdır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kocanın eşine şiddet uygulaması caiz mi?",
+   "k": "Aile",
+   "c": "İslam, eşe karşı şiddeti ve kötü muameleyi kesinlikle yasaklar. Kocanın eşine şiddeti zulümdür; hukuken ve dînen sorumluluk gerektirir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kadının çalışması caiz mi?",
+   "k": "Aile",
+   "c": "Kadın, aile huzurunu bozmamak ve helâl iş şartlarını taşımak kaydıyla çalışabilir. Çalışma ve kazancı üzerinde tasarruf hakkı kendisine aittir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Süt akrabalığı evlenme engeli mi?",
+   "k": "Aile",
+   "c": "Süt akrabalığı (radâ), belirli şartlarda evlenme engeli oluşturur; süt anne, süt kız kardeş gibi yakınlıklar kan akrabalığı hükmündedir. Hanefî'ye göre bir kez emmek de bazı hükümler doğurur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Eşler arasındaki haklar nelerdir?",
+   "k": "Aile",
+   "c": "Eşler; karşılıklı iyi geçim, sadakat, nafaka ve çocukların bakımıyla yükümlüdür. Kocanın nafaka; kadının da evin düzenine katkı sorumluluğu vardır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Doğum kontrolü caiz mi?",
+   "k": "Aile",
+   "c": "Kendiliğinden zarar vermeyen geri dönüşsüz olmayan doğum kontrol yöntemleri, gerektiğinde caiz görülür. Kalıcı kısırlaştırma ise zaruret olmadıkça caiz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Çocuğun velayeti kime aittir?",
+   "k": "Aile",
+   "c": "Velâyet, çocuğun yararına göre öncelikle anne-babanın ortak sorumluluğundadır. Boşanma hâlinde çocuğun maslahatına en uygun olan taraf esas alınır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kayınvalide ile evlenmek caiz mi?",
+   "k": "Aile",
+   "c": "Kişi, eşinin annesi (kayınvalide) ve eşinin kız kardeşi gibi akrabalarıyla evlenemez; bunlar ebedî evlenme engelidir. Şaka yoluyla bile olsa bu yasak geçerlidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Faiz neden haramdır?",
+   "k": "Helal-Haram",
+   "c": "Faiz, karşılıksız kazanç olduğu ve borçluyu sömürdüğü için kesin olarak haramdır. Kur'an'da faiz yasaklanmış; alan ve veren sorumlu tutulmuştur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Bankada faizli mevduat caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Faizli mevduat hesabı açmak ve faiz geliri almak caiz değildir. Kazanılan faiz gelirinin, hak sahibi bulunamadığı için fakirlere sadaka olarak verilmesi gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kripto para helâl mi?",
+   "k": "Helal-Haram",
+   "c": "Kripto para, para birimi olarak kullanılması ve değer kazanması açısından ihtilaflıdır; Diyanet gelişimini DİYK kararıyla değerlendirmiştir. Yatırım aracı olarak ele alınıp gelir vergisi ve zekâtı gözetilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Borsada hisse senedi alıp satmak caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Borsada hisse alıp satmak, şirketin helâl faaliyetlerine ortaklık ve aşırı belirsizlik (garar) içermediği sürece caizdir. Spekülatif ve kumar niteliğindeki işlemlerden kaçınılmalıdır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Sigara içmek haram mı?",
+   "k": "Helal-Haram",
+   "c": "Sigara, bedene verdiği zarardan dolayı Diyanet'e göre haram sayılmıştır. Sigara içen kişi bırakmaya gayret etmelidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Alkol (içki) içmek haram mı?",
+   "k": "Helal-Haram",
+   "c": "Şarap ve sarhoşluk veren her türlü içki haramdır. Alkol içeren gıda maddelerinin kullanımı da karışık durumlarda dikkatle değerlendirilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Müzik dinlemek ve çalgı aletleri helâl mi?",
+   "k": "Helal-Haram",
+   "c": "Müzik aleti çalmak ve dinlemek, çoğu İslam âlimine göre haram veya mekruhtur; fakat iffet ve gösterişten uzak, edepli meşru müzik konusunda farklı görüşler vardır. İffeti bozan ve ibadeti engelleyen müzikten kaçınılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Domuz eti ve jelatin haram mı?",
+   "k": "Helal-Haram",
+   "c": "Domuz eti ve domuzdan elde edilen jelatin gibi maddeler haramdır. Helâl sertifikalı ürünler tercih edilmelidir; haram katkı içeren ürünlerden kaçınılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kumar, loto ve piyango haram mı?",
+   "k": "Helal-Haram",
+   "c": "Kumar, şans oyunları ve piyango haramdır; kazanç karşılıksız risk içerdiği için yasaktır. Bu yolla elde edilen para haram sayılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Pornografi izlemek haram mı?",
+   "k": "Helal-Haram",
+   "c": "Pornografi ve müstehcen yayınları izlemek haramdır; gözü haramdan korumak emredilmiştir. Kişiyi manevî kir ve aile huzursuzluğuna götürür.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Beyaz yalan söylenebilir mi?",
+   "k": "Helal-Haram",
+   "c": "Yalan söylemek büyük günahtır; ancak savaşta, küskünleri barıştırmada ve aile içi huzurda kullanılan ruhsatı aşan yalanlar caiz görülmemiştir. Bu ruhsat, kısırlığa yol açmadan ve bozmadan söylenebilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Gıybet ve dedikodu neden günahtır?",
+   "k": "Helal-Haram",
+   "c": "Gıybet, kişinin olmadığı yerde arkasından konuşmaktır ve büyük günahtır. Kur'an'da gıybet, ölmüş kardeşinin etini yemeye benzetilmiştir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ticarette hile ve aldatma caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Ticarette hile, aldatma ve gizli kusurları saklamak haramdır. Satıcı, malın kusurunu açıkça belirtmekle yükümlüdür.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Rüşvet almak caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Rüşvet, hakkı gasp eden ve kamu düzenini bozan haram bir kazançtır. Alan ve veren sorumludur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Sigorta yaptırmak caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Klasik sigorta, içerdiği faiz ve belirsizlik (garar) sebebiyle çoğu âlime göre caiz görülmemiştir. Tekafül (İslamî sigorta) modeli ise caiz görülür.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Banka kredisi (konut/ihtiyaç) caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Faiz içeren krediyle konut veya ihtiyaç finansmanı caiz değildir. Katılım bankacılığının murâbaha ve müşâreke gibi faizsiz modelleri tercih edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Katılım bankası kullanmak caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Katılım bankaları, faiz yerine kâr-zarar ortaklığı ve faizsiz finansman modelleri sunduğu için caiz görülür. Yine de sözleşme şartlarının incelenmesi önerilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Helâl sertifikalı ürünlere güvenilir mi?",
+   "k": "Helal-Haram",
+   "c": "Helâl sertifikası, ürünün şartlarına göre üretildiğini gösterir; belgelendirme kuruluşunun güvenilirliği önemlidir. Helâl katkı maddeleri (E kodları) takip edilmelidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Saç boyası kullanmak caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Saç boyası kullanmak, saçı siyaha boyamak mekruh görülse de birkaç rivayette siyah dışı renkler caizdir. Sağlığa zararlı kimyasallardan kaçınılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Çocuk oyunlarında vakit geçirmek caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Faydalı oyun ve eğlence caizdir; ancak kumar, şiddet ve haram içerikli oyunlardan kaçınılır. İbadet ve dersleri aksatmamak şarttır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kredi kartı kullanmak caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Kredi kartı, geç ödeme hâlinde faiz işletilmiyorsa ve borcun zamanında ödenmesine dikkat ediliyorsa caiz görülür. Faizli taksitli işlemlerden kaçınılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Organ nakli caiz mi?",
+   "k": "Tıp ve Sağlık",
+   "c": "Organ nakli, zaruret hâlinde ve vericinin izni/ölüm sonrası rızasıyla caiz görülür. Ticaret amaçlı organ nakli kesinlikle yasaktır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Estetik ameliyat caiz mi?",
+   "k": "Tıp ve Sağlık",
+   "c": "Sadece tedavi veya doğuştan gelen fiziksel kusurun giderilmesi amacıyla yapılan estetik ameliyat caiz görülür. Salt güzellik/aldatma amaçlı, zarar veren estetik caiz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Aşı yaptırmak caiz mi?",
+   "k": "Tıp ve Sağlık",
+   "c": "Hastalıklardan korunmak için aşı yaptırmak caizdir. İçeriğinde haram madde bulunsa bile zaruret ve fayda esas alınır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Tüp bebek yöntemi caiz mi?",
+   "k": "Tıp ve Sağlık",
+   "c": "Tüp bebek, yalnızca kendi karı-koca arasında ve üçüncü kişinin müdahalesi olmadan yapıldığı sürece caiz görülür. Donör/üçüncü kişi sperm-yumurta kullanımı haramdır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Gebeliği sonlandırmak (kürtaj) caiz mi?",
+   "k": "Tıp ve Sağlık",
+   "c": "Kürtaj, annenin hayatî tehlikesi gibi zaruret durumu dışında caiz görülmemiştir. Ruh üflenmesinden (yaklaşık 120. gün) sonra ise ağırlıklı olarak caiz görülmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kan bağışı caiz mi?",
+   "k": "Tıp ve Sağlık",
+   "c": "İhtiyaç hâlinde başkasının hayatını kurtarmak için kan bağışı caizdir. Kan ticareti ise caiz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Otopsi yapılması caiz mi?",
+   "k": "Tıp ve Sağlık",
+   "c": "Adlî veya tıbbî zaruret hâlinde otopsi caiz görülür; aksi hâlde cesede saygı esastır. Karar, fayda ve zarar dengesine göre verilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ötanazi caiz mi?",
+   "k": "Tıp ve Sağlık",
+   "c": "Ötanazi, can alma anlamına geldiği için kesinlikle haramdır. Tedaviden ümidin kesilmesi hâlinde bile sabır ve dua tavsiye edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İçeriğinde alkol bulunan ilaç kullanılır mı?",
+   "k": "Tıp ve Sağlık",
+   "c": "Tedavi için zorunlu olan ve alkol içeren ilaç, alkol miktarı sarhoş edici olmadığı sürece caiz görülür. Alternatifi varsa tercih edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kadın-erkek arasında tıbbî muayene caiz mi?",
+   "k": "Tıp ve Sağlık",
+   "c": "Tedavi için karşı cinsin muayenesi, aynı cinsten hekim bulunmadığında ve zaruret ölçüsünde caiz görülür. Mahremiyete riayet esastır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Cinsiyet değiştirme ameliyatı caiz mi?",
+   "k": "Tıp ve Sağlık",
+   "c": "Cinsiyet değiştirme, fıtrî yapıya müdahale kabul edildiğinden caiz görülmemiştir. Ancak doğuştan cinsiyet belirsizliği (intersex) durumunda tıbbî gereklilik değerlendirilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Genetik test ve klonlama caiz mi?",
+   "k": "Tıp ve Sağlık",
+   "c": "Hastalıkların teşhisi amacıyla genetik test caizdir. İnsan klonlaması ise insan fıtratına müdahale olduğu için caiz görülmemiştir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Faizli kredi ile ev almak caiz mi?",
+   "k": "Ticaret",
+   "c": "Faizli banka kredisiyle ev almak caiz değildir. Katılım bankacılığının faizsiz konut finansmanı veya peşin-güven modeli tercih edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Katılım bankacılığı murâbaha caiz mi?",
+   "k": "Ticaret",
+   "c": "Murâbaha, bankanın malı alıp belirli kârla müşteriye satmasıdır; şartlarına uyulduğunda caizdir. Vade farkı faiz değil, ticaret kârıdır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Döviz alım-satımı (forex) caiz mi?",
+   "k": "Ticaret",
+   "c": "Dövizin peşin ve elde alım-satımı caizdir. Vadeli, kaldıraçlı ve spekülatif işlemler faiz/garar içerdiği için caiz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Vadeli işlem (forward/futures) caiz mi?",
+   "k": "Ticaret",
+   "c": "Vadeli ve türev piyasa işlemleri, faiz ve aşırı belirsizlik içerdiği için caiz görülmemiştir. Spot ve elde teslim işlemler tercih edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İnternetten satış yapmak caiz mi?",
+   "k": "Ticaret",
+   "c": "İnternetten helâl ürün satışı caizdir; ürünün kusuru ve şartları açıkça belirtilmelidir. Haram ürünlerin satışı caiz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Reklam geliri caiz mi?",
+   "k": "Ticaret",
+   "c": "Helâl içerikli site veya uygulamadan elde edilen reklam geliri caizdir. Haram yayın ve içeriğe aracılık eden reklam geliri caiz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Karaborsacılık ve stokçuluk caiz mi?",
+   "k": "Ticaret",
+   "c": "İhtiyaç maddelerini stoklayıp fiyatı yükseltmek (ihtikâr) haramdır. Piyasaya zarar veren yapay fiyat artışından kaçınılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ticarette belirsizlik (garar) ne demek?",
+   "k": "Ticaret",
+   "c": "Garar, satışta malın cins ve miktarının belirsiz olmasıdır; bu tür satış caiz görülmemiştir. Mal ve bedel açıkça belirlenmelidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Emekli ikramiyesi ve promosyon caiz mi?",
+   "k": "Ticaret",
+   "c": "Emekli maaşı ve hak edilen ikramiye helâldir. Ancak faiz içeren promosyon geliri caiz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Dropshipping (aracı satış) caiz mi?",
+   "k": "Ticaret",
+   "c": "Dropshipping, ürünün kusuru ve teslim şartları belirtildiği sürece caiz görülür. Malın elde olmadan satışındaki belirsizlikten kaçınılmalıdır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Sanal oyun içi para/eşya satışı caiz mi?",
+   "k": "Ticaret",
+   "c": "Kumar niteliği taşımayan, emek veya ödeme karşılığı oyun içi eşya satışı caiz görülebilir. Şans oyunu niteliğindeki işlemler caiz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hisse senedi kâr payı (temettü) caiz mi?",
+   "k": "Ticaret",
+   "c": "Şirketin helâl faaliyeti sonucu dağıtılan temettü caizdir. Faiz geliri ve haram faaliyetten gelen kâr payı caiz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Namazdan sonra zikir ve tesbih nasıl yapılır?",
+   "k": "Zikir ve Dua",
+   "c": "Namazdan sonra 33 Sübhanallah, 33 Elhamdülillah, 33 Allahu ekber ve ardından dua etmek sünnettir. Zikirde devamlılık önemlidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Salavat getirmenin fazileti nedir?",
+   "k": "Zikir ve Dua",
+   "c": "Peygamber'e salavat getirmek Kur'an'ın emridir ve büyük sevaptır. Salavat, kişinin duasının kabulüne vesile olur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Dua ederken Arapça okumak şart mı?",
+   "k": "Zikir ve Dua",
+   "c": "Dua, Arapça veya kendi dilinde yapılabilir; ancak me'sûr (hadislerde geçen) duaların Arapça okunması sünnettir. Anlamını bilerek dua etmek güzeldir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kabir ziyareti caiz mi?",
+   "k": "Zikir ve Dua",
+   "c": "Kabir ziyareti sünnettir ve ölümü hatırlamaya vesile olur. Kabirden yardım dilemek gibi yanlış inançlardan kaçınılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Yâsîn ve tövbe duası okumanın hükmü nedir?",
+   "k": "Zikir ve Dua",
+   "c": "Yâsîn sûresini okumak, ölüye ve diriye dua niyetiyle caizdir. Tövbe duası ve istiğfar her zaman yapılabilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Şifa duası nasıl yapılır?",
+   "k": "Zikir ve Dua",
+   "c": "Hasta için dua ederken Allah'tan şifa istenir; dua ve tedavi birlikte yürütülür. Tedaviyi ihmal etmeden dua etmek esastır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Dua ederken kıbleye yönelmek gerekli mi?",
+   "k": "Zikir ve Dua",
+   "c": "Dua için kıbleye yönelmek sünnettir, farz değildir. Dua her yerde ve her yönde yapılabilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kur'an okumanın fazileti nedir?",
+   "k": "Kur'an",
+   "c": "Kur'an okumak büyük ibadettir; her harfine sevap vardır. Okunan her âyetin ayrı bir fazileti olduğu bazı rivayetlerde bildirilmiştir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Abdestsiz Kur'an okunur mu?",
+   "k": "Kur'an",
+   "c": "Mushafı elle tutarak okumak için abdest gerekir. Ezberden okumak veya ezberden dua etmek abdestsiz caizdir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hatim nasıl yapılır?",
+   "k": "Kur'an",
+   "c": "Hatim, Kur'an'ın baştan sona okunmasıdır; cüzler paylaşılarak da yapılabilir. Hatim, dua ile tamamlanır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Meal okumak caiz mi?",
+   "k": "Kur'an",
+   "c": "Kur'an meali/tercümesi okumak caiz ve faydalıdır; ancak meal, Kur'an'ın aslının yerini tutmaz. İbadet için asıl okuyuş esas alınır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kur'an ezberlemenin hükmü nedir?",
+   "k": "Kur'an",
+   "c": "Kur'an'ı ezberlemek (hıfz) sünnet ve büyük sevaptır. Hafız olan kişi başkalarına da öğretmeye gayret etmelidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kur'an okumak veya öğretmek karşılığı ücret almak caiz mi?",
+   "k": "Kur'an",
+   "c": "Kur'an okumayı öğretmek karşılığı ücret almak caizdir. Ancak sûre okumak için ücret almak, ibadeti ücrete bağlamak olacağı için caiz görülmemiştir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kur'an'ı radyo, TV ve internetten dinlemek sevap mı?",
+   "k": "Kur'an",
+   "c": "Kur'an'ı dinlemek sevaptır; ancak dinlenen kayıt canlı okuma hükmünde değildir. Tilavet secdesi gibi hükümler için canlı okuyuş esas alınır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Mezhep ne demektir?",
+   "k": "Mezhep",
+   "c": "Mezhep, İslam âlimlerinin Kur'an ve sünnetten çıkardığı fıkhî hükümlerin sistemleşmiş toplamıdır. İtikat ve amel olarak ikiye ayrılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Mezhebe uymak gerekli mi?",
+   "k": "Mezhep",
+   "c": "Amelde mezhebe uymak, hükümleri tutarlı şekilde uygulamak için gereklidir. Günlük hayatta Hanefî, Şâfiî, Mâlikî ve Hanbelî mezhepleri takip edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Mezhep değiştirmek caiz mi?",
+   "k": "Mezhep",
+   "c": "Mezhep değiştirmek, zaruret veya ihtiyaç hâlinde ve keyfîlikten uzak olmak şartıyla caiz görülür. İbadette işine geldiği gibi seçme (telfik) doğru değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Dört mezhep hangileridir?",
+   "k": "Mezhep",
+   "c": "Dört büyük Sünnî mezhep; Hanefî, Şâfiî, Mâlikî ve Hanbelî'dir. Bunlar imamlarının isimleriyle anılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ehl-i sünnet nedir?",
+   "k": "Mezhep",
+   "c": "Ehl-i sünnet, Kur'an ve sünneti esas alarak itikatta Eş'arî-Mâtürîdî, amelde dört mezhep yolunu izleyen ana gövdedir. Farklı yorumlayan gruplardan ayrılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Tuvalet adabı nasıldır?",
+   "k": "Temizlik",
+   "c": "Tuvalete sol ayakla girilir, sağ ayakla çıkılır ve kıbleye yönelmemeye dikkat edilir. Temizlikten sonra dua edilir, su ile temizlenilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İstinca ve istibra nedir?",
+   "k": "Temizlik",
+   "c": "İstinca, tuvalet sonrası necasetten temizlenmektir; istibra ise idrarın tamamen kesilmesini beklemektir. Temizlik için su kullanmak esastır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Necaset (pislik) nasıl temizlenir?",
+   "k": "Temizlik",
+   "c": "Necaset; su ile yıkanarak temizlenir. Kıyafete veya bedene bulaşan az miktardaki kan vb. ihtiyaten temizlenir; affedilen mikyasta olan kısımlar bağışlanır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Köpek beslemek caiz mi?",
+   "k": "Temizlik",
+   "c": "Köpek, av ve bekçilik gibi meşru bir ihtiyaç için beslenebilir; aksi hâlde evde beslemek uygun görülmez. Köpeğin ağzı değdiği kabın yedi kez yıkanması sünnettir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Teyemmüm nedir, ne zaman yapılır?",
+   "k": "Temizlik",
+   "c": "Teyemmüm, su bulunmadığında veya su kullanmaya engel durumda toprak/taş ile alınan temizliktir. Ellerin yere vurulup yüze ve kollara mesh edilmesiyle yapılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Cünüp veya âdetli hâlde ne yapılmaz?",
+   "k": "Temizlik",
+   "c": "Cünüp ve âdetli kişi namaz kılamaz, oruç tutamaz, mushafı elle tutamaz. Cünüp ve âdetli kişinin gece uyuması, yiyip içmesi için abdest/gusül tavsiye edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Namaz kılınacak yerin temiz olması şart mı?",
+   "k": "Temizlik",
+   "c": "Namaz kılınacak yer, beden ve elbise necasetten temiz olmalıdır. Temiz olmayan yerde kılınan namaz sahih olmaz.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Cuma namazı farz mı, kimlere farzdır?",
+   "k": "Cuma ve Vakitler",
+   "c": "Cuma namazı; hür, akıllı, ergen, mukim ve sağlıklı Müslüman erkeklere farzdır. Kadınlar ve yolcular için farz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Cuma namazının şartları nelerdir?",
+   "k": "Cuma ve Vakitler",
+   "c": "Cuma namazı; cemaatle kılınır, iki hutbe ve iki rekât farzdan oluşur. Vaktinde kılınması ve şehirde/camide bulunması gibi şartları vardır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Cuma hutbesi dinlemek ve cemaate katılmak gerekli mi?",
+   "k": "Cuma ve Vakitler",
+   "c": "Cuma hutbesini dinlemek ve namazda cemaate katılmak gerekir. Hutbe sırasında konuşmak mekruhtur; sessizce dinlemek sünnettir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ezan ve kamet nasıl okunur?",
+   "k": "Cuma ve Vakitler",
+   "c": "Ezan, namaz vaktinin girdiğini bildirir; kamet ise namazın başlamak üzere olduğunu bildirir. Ezan okuyan müezzin, kameti de okur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İkindinin farzını akşama kadar kılmak caiz mi?",
+   "k": "Cuma ve Vakitler",
+   "c": "Her namaz kendi vaktinde kılınır; vakit çıkmadan önce kılınması farzdır. Vakit geçtikten sonra kılınan namaz kaza olur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Yolculuk hâlinde cuma namazı kılınır mı?",
+   "k": "Cuma ve Vakitler",
+   "c": "Yolcuya cuma namazı farz değildir; kılarsa caiz olur ve farz yerine geçer. Yolcu öğle namazını kılar.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kadınlar cemaatle namaza katılabilir mi?",
+   "k": "Cuma ve Vakitler",
+   "c": "Kadınlar, uygun ortam sağlandığında cemaatle namaza katılabilir. Camiye gitmelerinde bir engel yoktur; ancak farz değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  }
+ ]
 }
