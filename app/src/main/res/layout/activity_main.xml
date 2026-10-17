@@ -342,37 +342,57 @@
             </ScrollView>
 
             <!-- KURAN -->
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/pageQuran"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:orientation="vertical"
                 android:visibility="gone">
 
-                <ListView
-                    android:id="@+id/quranList"
+                <EditText
+                    android:id="@+id/etSurahSearch"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipToPadding="false"
-                    android:divider="@color/panel_stroke"
-                    android:dividerHeight="1dp"
-                    android:padding="6dp"
-                    android:scrollbars="vertical" />
-
-                <ProgressBar
-                    android:id="@+id/quranProgress"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center" />
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="12dp"
+                    android:hint="@string/quran_search_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true" />
 
-                <TextView
-                    android:id="@+id/quranEmpty"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/quran_loading"
-                    android:textColor="@color/text_dim"
-                    android:visibility="gone" />
-            </FrameLayout>
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
+
+                    <ListView
+                        android:id="@+id/quranList"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:divider="@color/panel_stroke"
+                        android:dividerHeight="1dp"
+                        android:padding="6dp"
+                        android:scrollbars="vertical" />
+
+                    <ProgressBar
+                        android:id="@+id/quranProgress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <TextView
+                        android:id="@+id/quranEmpty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/quran_loading"
+                        android:textColor="@color/text_dim"
+                        android:visibility="gone" />
+                </FrameLayout>
+            </LinearLayout>
 
             <!-- IBADET -->
             <LinearLayout
@@ -407,34 +427,6 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="4dp"
                         android:text="@string/ib_hadis_sub"
-                        android:textColor="@color/text_dim"
-                        android:textSize="12sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ibFetva"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:background="@drawable/panel_bg"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="vertical"
-                    android:padding="18dp">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="@string/tab_fetva"
-                        android:textColor="@color/text_primary"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="4dp"
-                        android:text="@string/ib_fetva_sub"
                         android:textColor="@color/text_dim"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -623,6 +615,34 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tab_ibadah"
+                    android:gravity="center"
+                    android:maxLines="2"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tabFetva"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/tabFetvaIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@string/tab_fetva"
+                    android:src="@drawable/ic_fetva" />
+
+                <TextView
+                    android:id="@+id/tabFetvaLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_fetva"
                     android:gravity="center"
                     android:maxLines="2"
                     android:textSize="10sp" />

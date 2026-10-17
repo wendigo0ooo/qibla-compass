@@ -75,9 +75,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private lateinit var quranList: ListView
     private lateinit var quranProgress: ProgressBar
     private lateinit var quranEmpty: TextView
+    private lateinit var surahSearch: EditText
     private val quranSurahs = ArrayList<QuranRepository.Surah>()
+    private val allSurahs = ArrayList<QuranRepository.Surah>()
     private lateinit var quranAdapter: QuranAdapter
     private var quranRequested = false
+    private var quranAllLoaded = false
     private val loadExecutor = Executors.newSingleThreadExecutor()
     private lateinit var vCity: TextView
     private lateinit var vCount: TextView
@@ -209,6 +212,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                     .putExtra(SurahActivity.EXTRA_SURAH, s.number - 1)
             )
         }
+        surahSearch = findViewById(R.id.etSurahSearch)
+        surahSearch.addTextChangedListener(object : android.text.TextWatcher {
+            override fun afterTextChanged(s: android.text.Editable?) = applySurahFilter()
+            override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+            override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+        })
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as? SensorManager
         rotationSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
@@ -433,11 +442,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<View>(R.id.tabPrayer).setOnClickListener { selectTab(1) }
         findViewById<View>(R.id.tabQuran).setOnClickListener { selectTab(2) }
         findViewById<View>(R.id.tabIbadah).setOnClickListener { selectTab(3) }
+        findViewById<View>(R.id.tabFetva).setOnClickListener {
+            startActivity(Intent(this, FetvaActivity::class.java))
+        }
         findViewById<View>(R.id.tabTools).setOnClickListener {
             startActivity(Intent(this, ToolsActivity::class.java))
         }
         findViewById<View>(R.id.tabSettings).setOnClickListener { selectTab(4) }
         val dim = getColor(R.color.text_dim)
+        findViewById<ImageView>(R.id.tabFetvaIcon).setColorFilter(dim)
+        findViewById<TextView>(R.id.tabFetvaLabel).setTextColor(dim)
         findViewById<ImageView>(R.id.tabToolsIcon).setColorFilter(dim)
         findViewById<TextView>(R.id.tabToolsLabel).setTextColor(dim)
         selectTab(0)
@@ -446,9 +460,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private fun setupIbadahPage() {
         findViewById<View>(R.id.ibHadis).setOnClickListener {
             startActivity(Intent(this, HadisActivity::class.java))
-        }
-        findViewById<View>(R.id.ibFetva).setOnClickListener {
-            startActivity(Intent(this, FetvaActivity::class.java))
         }
         findViewById<View>(R.id.ibDua).setOnClickListener {
             startActivity(Intent(this, DuaActivity::class.java))
@@ -502,12 +513,49 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             }
             runOnUiThread {
                 quranProgress.visibility = View.GONE
-                quranSurahs.clear()
-                quranSurahs.addAll(list)
-                quranAdapter.notifyDataSetChanged()
-                quranEmpty.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
+                allSurahs.clear()
+                allSurahs.addAll(list)
+                quranAllLoaded = true
+                applySurahFilter()
             }
         }
+    }
+
+    private fun applySurahFilter() {
+        val s = surahSearch.text.toString().trim()
+        val filtered = if (s.isBlank()) allSurahs else allSurahs.filter { surah ->
+            surah.number.toString() == s ||
+                surah.number.toString().startsWith(s) ||
+                norm(surah.name).contains(norm(s)) ||
+                surah.arName.contains(s) ||
+                norm(surah.place).contains(norm(s))
+        }
+        quranSurahs.clear()
+        quranSurahs.addAll(filtered)
+        quranAdapter.notifyDataSetChanged()
+        if (quranAllLoaded) {
+            quranEmpty.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
+            quranEmpty.text = if (filtered.isEmpty())
+                getString(R.string.quran_no_result) else getString(R.string.quran_loading)
+        }
+    }
+
+    private fun norm(s: String): String {
+        val lower = s.lowercase(Locale("tr", "TR"))
+        val sb = StringBuilder(lower.length)
+        for (ch in lower) when (ch) {
+            'ç' -> sb.append('c')
+            'ğ' -> sb.append('g')
+            'ı' -> sb.append('i')
+            'ö' -> sb.append('o')
+            'ş' -> sb.append('s')
+            'ü' -> sb.append('u')
+            'â' -> sb.append('a')
+            'î' -> sb.append('i')
+            'û' -> sb.append('u')
+            else -> sb.append(ch)
+        }
+        return sb.toString()
     }
 
     private inner class QuranAdapter : BaseAdapter() {

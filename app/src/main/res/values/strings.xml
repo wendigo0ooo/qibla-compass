@@ -79,6 +79,8 @@
     <string name="tb_free">Serbest (hedef yok)</string>
 
     <string name="quran_loading">Kur\'an yükleniyor…</string>
+    <string name="quran_search_hint">Sûre ara (isim veya numara)</string>
+    <string name="quran_no_result">Sûre bulunamadı. İsim veya numara ile deneyin.</string>
     <string name="surah_meta_fmt">%1$d âyet • %2$s</string>
     <string name="quran_play">Sûreyi dinle</string>
     <string name="quran_stop">Durdur</string>
@@ -97,7 +99,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru genel web araması, diyanet.gov.tr kaynakları veya YouTube üzerinden aranabilir.\n\nSürüm 4.9</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru genel web araması, diyanet.gov.tr kaynakları veya YouTube üzerinden aranabilir.\n\nSürüm 5.0</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>
