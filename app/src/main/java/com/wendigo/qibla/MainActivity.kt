@@ -239,6 +239,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         vHeroTime = findViewById(R.id.vHeroTime)
         vProgress = findViewById(R.id.vProgress)
         vList = findViewById(R.id.vList)
+        switchNotif = findViewById(R.id.switchNotif)
         buildVakitList()
         setupBottomBar()
         setupSettingsPage()
