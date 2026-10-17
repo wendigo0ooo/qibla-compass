@@ -44,6 +44,29 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".DuaActivity"
+            android:exported="false"
+            android:label="@string/tab_dua"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".DuaListActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".TesbihActivity"
+            android:exported="false"
+            android:label="@string/tab_tesbih"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".EsmaActivity"
+            android:exported="false"
+            android:label="@string/tab_esma"
+            android:screenOrientation="portrait" />
+
         <receiver
             android:name=".PrayerAlarmReceiver"
             android:exported="false" />

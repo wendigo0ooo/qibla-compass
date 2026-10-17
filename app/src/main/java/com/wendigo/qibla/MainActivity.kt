@@ -195,6 +195,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         buildVakitList()
         setupBottomBar()
         setupSettingsPage()
+        setupIbadahPage()
         setupNotifications()
 
         pageQuran = findViewById(R.id.pageQuran)
@@ -433,21 +434,37 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<View>(R.id.tabQibla).setOnClickListener { selectTab(0) }
         findViewById<View>(R.id.tabPrayer).setOnClickListener { selectTab(1) }
         findViewById<View>(R.id.tabQuran).setOnClickListener { selectTab(2) }
-        findViewById<View>(R.id.tabSettings).setOnClickListener { selectTab(3) }
+        findViewById<View>(R.id.tabIbadah).setOnClickListener { selectTab(3) }
+        findViewById<View>(R.id.tabSettings).setOnClickListener { selectTab(4) }
         selectTab(0)
+    }
+
+    private fun setupIbadahPage() {
+        findViewById<View>(R.id.ibDua).setOnClickListener {
+            startActivity(Intent(this, DuaActivity::class.java))
+        }
+        findViewById<View>(R.id.ibTesbih).setOnClickListener {
+            startActivity(Intent(this, TesbihActivity::class.java))
+        }
+        findViewById<View>(R.id.ibEsma).setOnClickListener {
+            startActivity(Intent(this, EsmaActivity::class.java))
+        }
     }
 
     private fun selectTab(index: Int) {
         val accent = getColor(R.color.accent)
         val dim = getColor(R.color.text_dim)
         val icons = intArrayOf(
-            R.id.tabQiblaIcon, R.id.tabPrayerIcon, R.id.tabQuranIcon, R.id.tabSettingsIcon
+            R.id.tabQiblaIcon, R.id.tabPrayerIcon, R.id.tabQuranIcon,
+            R.id.tabIbadahIcon, R.id.tabSettingsIcon
         )
         val labels = intArrayOf(
-            R.id.tabQiblaLabel, R.id.tabPrayerLabel, R.id.tabQuranLabel, R.id.tabSettingsLabel
+            R.id.tabQiblaLabel, R.id.tabPrayerLabel, R.id.tabQuranLabel,
+            R.id.tabIbadahLabel, R.id.tabSettingsLabel
         )
         val pages = intArrayOf(
-            R.id.pageQibla, R.id.pageVakit, R.id.pageQuran, R.id.pageAyarlar
+            R.id.pageQibla, R.id.pageVakit, R.id.pageQuran,
+            R.id.pageIbadat, R.id.pageAyarlar
         )
         for (i in icons.indices) {
             val on = i == index
@@ -459,6 +476,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             0 -> getString(R.string.app_name)
             1 -> getString(R.string.tab_prayer)
             2 -> getString(R.string.tab_quran)
+            3 -> getString(R.string.tab_ibadah)
             else -> getString(R.string.tab_settings)
         }
         if (index == 1) updateVakitPage()

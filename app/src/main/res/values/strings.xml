@@ -40,7 +40,23 @@
     <string name="tab_qibla">Kıble</string>
     <string name="tab_prayer">Vakitler</string>
     <string name="tab_quran">Kur\'an</string>
+    <string name="tab_ibadah">İbadet</string>
     <string name="tab_settings">Ayarlar</string>
+
+    <string name="tab_dua">Dualar</string>
+    <string name="tab_tesbih">Tesbih / Zikir</string>
+    <string name="tab_esma">Esmâ-ül Hüsnâ</string>
+    <string name="dua_credit">Dua duası verisi: masnun-dua (ücretsiz) • Esmâ: MIT</string>
+    <string name="ib_dua_sub">Günlük dua ve zikirler, Arapça + okunuş + meal</string>
+    <string name="ib_tesbih_sub">Dijital zikir sayacı (33, 99, 100…)</string>
+    <string name="ib_esma_sub">Allah\'ın 99 güzel ismi ve anlamları</string>
+    <string name="tb_change">Zikir değiştir</string>
+    <string name="tb_tap_hint">Çekmek için dokunun</string>
+    <string name="tb_reset">Sıfırla</string>
+    <string name="tb_target">Hedef</string>
+    <string name="tb_done">Hedefe ulaştınız, mâşâallah!</string>
+    <string name="tb_target_fmt">Hedef: %1$d</string>
+    <string name="tb_free">Serbest (hedef yok)</string>
 
     <string name="quran_loading">Kur\'an yükleniyor…</string>
     <string name="surah_meta_fmt">%1$d âyet • %2$s</string>
@@ -61,7 +77,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 2.2</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 3.0</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>
