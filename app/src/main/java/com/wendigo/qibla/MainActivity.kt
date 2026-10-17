@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import android.hardware.GeomagneticField
 import android.hardware.Sensor
@@ -31,6 +33,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -406,19 +409,59 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     }
 
     private fun showBackgroundDialog() {
-        val labels = BG_LABELS.map { getString(it) }.toTypedArray()
+        val reqPx = (76 * resources.displayMetrics.density).toInt()
         val current = getSharedPreferences(PREFS, Context.MODE_PRIVATE).getInt(KEY_BG, 0)
-        AlertDialog.Builder(this)
+
+        val column = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(8, 8, 8, 8)
+        }
+        val scroll = ScrollView(this).apply { addView(column) }
+
+        val dialog = AlertDialog.Builder(this)
             .setTitle(R.string.bg_title)
-            .setSingleChoiceItems(labels, current.coerceIn(0, labels.size - 1)) { dialog, which ->
+            .setView(scroll)
+            .setNegativeButton(android.R.string.cancel, null)
+            .create()
+
+        for (i in BG_LABELS.indices) {
+            val row = layoutInflater.inflate(R.layout.item_bg_option, column, false)
+            val thumb = row.findViewById<ImageView>(R.id.bgThumb)
+            val label = row.findViewById<TextView>(R.id.bgLabel)
+            val res = BG_DRAWABLES[i]
+            if (res != 0) {
+                thumb.setImageBitmap(decodeThumb(res, reqPx))
+            }
+            label.text = getString(BG_LABELS[i])
+            if (i == current.coerceIn(0, BG_DRAWABLES.size - 1)) {
+                label.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
+                label.setTextColor(getColor(R.color.accent))
+                row.setBackgroundColor(getColor(R.color.panel_stroke))
+            }
+            row.setOnClickListener {
                 getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-                    .putInt(KEY_BG, which).apply()
+                    .putInt(KEY_BG, i).apply()
                 applyBackground()
                 dialog.dismiss()
             }
-            .setNegativeButton(android.R.string.cancel, null)
-            .setMessage(R.string.bg_credit)
-            .show()
+            column.addView(row)
+        }
+        column.addView(TextView(this).apply {
+            text = getString(R.string.bg_credit)
+            textSize = 11f
+            setTextColor(getColor(R.color.text_dim))
+            setPadding(8, 14, 8, 4)
+        })
+        dialog.show()
+    }
+
+    private fun decodeThumb(resId: Int, reqPx: Int): Bitmap {
+        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        BitmapFactory.decodeResource(resources, resId, bounds)
+        var sample = 1
+        while (bounds.outWidth / sample > reqPx || bounds.outHeight / sample > reqPx) sample *= 2
+        val opts = BitmapFactory.Options().apply { inSampleSize = sample }
+        return BitmapFactory.decodeResource(resources, resId, opts)
     }
 
     private fun applyBackground() {

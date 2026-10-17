@@ -2,7 +2,7 @@
 <resources>
     <!-- Light theme (default) -->
     <color name="bg">#F5F6F8</color>
-    <color name="bg_scrim">#80FFFFFF</color>
+    <color name="bg_scrim">#66FFFFFF</color>
     <color name="accent">#00897B</color>
     <color name="text_dim">#455A64</color>
     <color name="text_primary">#1A1A1A</color>
