@@ -1,5 +1,11 @@
 package com.wendigo.qibla
 
+import android.content.ActivityNotFoundException
+import android.content.Context
+import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,15 +19,18 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import java.net.URLEncoder
 
 class FetvaActivity : AppCompatActivity() {
 
     private lateinit var queryField: EditText
     private lateinit var status: TextView
+    private lateinit var webButton: Button
     private val adapter = FetvaAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,12 +44,14 @@ class FetvaActivity : AppCompatActivity() {
 
         queryField = findViewById(R.id.etFetvaQuery)
         status = findViewById(R.id.fetvaStatus)
+        webButton = findViewById(R.id.btnFetvaWeb)
 
         val list = findViewById<RecyclerView>(R.id.fetvaList)
         list.layoutManager = LinearLayoutManager(this)
         list.adapter = adapter
 
         findViewById<Button>(R.id.btnFetvaSearch).setOnClickListener { performSearch() }
+        webButton.setOnClickListener { openWebSearch() }
 
         queryField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
@@ -72,6 +83,34 @@ class FetvaActivity : AppCompatActivity() {
             q.isBlank() -> getString(R.string.fetva_sub)
             res.isEmpty() -> getString(R.string.fetva_none)
             else -> getString(R.string.fetva_count, res.size)
+        }
+        webButton.visibility = if (q.isBlank()) View.GONE else View.VISIBLE
+    }
+
+    private fun isOnline(): Boolean {
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager ?: return false
+        val net = cm.activeNetwork ?: return false
+        val caps = cm.getNetworkCapabilities(net) ?: return false
+        return caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
+    /** Opens the device browser with a Diyanet-restricted web search for the current query. */
+    private fun openWebSearch() {
+        val q = queryField.text.toString().trim()
+        if (q.isBlank()) {
+            Toast.makeText(this, getString(R.string.fetva_web_query), Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (!isOnline()) {
+            Toast.makeText(this, getString(R.string.fetva_no_internet), Toast.LENGTH_LONG).show()
+            return
+        }
+        val full = "$q site:diyanet.gov.tr"
+        val url = "https://www.google.com/search?q=${URLEncoder.encode(full, "UTF-8")}"
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        } catch (_: ActivityNotFoundException) {
+            Toast.makeText(this, getString(R.string.fetva_no_browser), Toast.LENGTH_SHORT).show()
         }
     }
 

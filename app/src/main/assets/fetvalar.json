@@ -1616,6 +1616,279 @@
    "c": "Kadınlar, uygun ortam sağlandığında cemaatle namaza katılabilir. Camiye gitmelerinde bir engel yoktur; ancak farz değildir.",
    "m": "",
    "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Bozuk (yenmeyecek) yemeği dökmek günah mı?",
+   "k": "İsraf ve Günahlar",
+   "c": "Bozulup yenmez hâle gelen yiyeceği dökmek israf değildir; sağlığa zarar verdiği için dökülebilir. Ancak hâlâ yenebilir durumdayken çöpe atmak israf olup günahtır; böyle yiyecek ihtiyaç sahipleriyle paylaşılmalıdır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ekmek israfı günah mı?",
+   "k": "İsraf ve Günahlar",
+   "c": "Yenebilir ekmeği bayat diye çöpe atmak israftır ve günahtır. Bayat ekmeği değerlendirmek, kurutup yedirmek veya hayvanlara vermek gerekir; hadiste ekmek ve nimet israfı yasaklanmıştır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Su israfı günah mı?",
+   "k": "İsraf ve Günahlar",
+   "c": "Su, abdest alırken bile gereğinden fazla kullanılırsa israf olur ve günahtır. Suyu boşa akıtmak, temizlikte aşırıya kaçmak dînen uygun görülmemiştir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Yemek artıklarını çöpe atmak caiz mi?",
+   "k": "İsraf ve Günahlar",
+   "c": "Yenebilir durumdaki yemek artıklarını çöpe atmak israftır. Artıklar değerlendirilmeli, ihtiyaç sahibine verilmeli veya uygun şekilde hayvanlara verilmelidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "İsraf nedir, neler israf sayılır?",
+   "k": "İsraf ve Günahlar",
+   "c": "İsraf, ihtiyaçtan fazla harcama ve nimeti boşa harcamaktır. Kur'an'da israf yasaklanmış, müsrifler yerilmiştir; tasarruf ve itidal ise övülmüştür.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Aşırı ve lüks harcama caiz mi?",
+   "k": "İsraf ve Günahlar",
+   "c": "Yenilecek, giyilecek ve kullanılacak nimetler helâldir; ancak gösteriş ve ölçüsüz harcama (israf/tebzir) haramdır. Mümin, dengeli ve israfsız harcamaya özen gösterir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kul hakkı nedir ve nasıl ödenir?",
+   "k": "İsraf ve Günahlar",
+   "c": "Kul hakkı, kişinin başkasına ait mal, beden veya itibar hakkını gasp etmesidir. Ödenmesi için mal ise iade edilir, gıybet veya iftira ise helâllik istenir ve dua edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kul hakkı yemenin hükmü nedir?",
+   "k": "İsraf ve Günahlar",
+   "c": "Kul hakkı yemek büyük günahtır; Allah'ın affı için kul hakkının ödenmesi (iade/helâllik) şarttır. Namaz ve oruç gibi ibadetler kul hakkını kendiliğinden düşürmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Emanete hıyanet etmek günah mı?",
+   "k": "İsraf ve Günahlar",
+   "c": "Kendisine bırakılan emanete ihanet etmek haramdır. Emanet, korunması ve zamanında sahibine iade edilmesi gereken bir güvendir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Yalan yere yemin etmek caiz mi?",
+   "k": "İsraf ve Günahlar",
+   "c": "Yalan yere yemin etmek (kasem) büyük günahlardandır. Yemin bozulursa kefaret gerekir; bilerek yalan yemin ise ayrıca tevbe gerektirir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Sözünde durmamak günah mı?",
+   "k": "İsraf ve Günahlar",
+   "c": "Verilen sözü tutmak müminin özelliğidir; imkân varken tutmamak günahtır. Mazeretsiz sözden dönmek, münafıklık alâmeti sayılmıştır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Anne-babaya karşı gelmek günah mı?",
+   "k": "İsraf ve Günahlar",
+   "c": "Anne-babaya saygısızlık ve isyan büyük günahlardandır. Kur'an, onlara iyi davranmayı ve öf bile dememeyi emreder.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hakaret ve kötü söz söylemek caiz mi?",
+   "k": "İsraf ve Günahlar",
+   "c": "Hakaret, küfür ve kötü söz söylemek haramdır; mümin diliyle kimseyi incitmez. Kişi, öfkesine hâkim olmaya ve güzel söz söylemeye gayret etmelidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Hayvanlara eziyet etmek günah mı?",
+   "k": "İsraf ve Günahlar",
+   "c": "Hayvanlara eziyet etmek, aç-susuz bırakmak ve dövmek haramdır. Hadiste, bir hayvana iyilik yapanın bağışlandığı, ona eziyet edenin cezalandırıldığı bildirilmiştir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Sokak hayvanlarını beslemek sevap mı?",
+   "k": "İsraf ve Günahlar",
+   "c": "Sokak hayvanlarını beslemek ve su vermek sevaptır; canlılara merhamet İslam'ın emridir. İmkan ölçüsünde yardım edilmesi teşvik edilmiştir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Çevreyi korumak dini bir görev mi?",
+   "k": "İsraf ve Günahlar",
+   "c": "Yeryüzünü imar ve koruma insana verilen bir emanettir; çevreyi kirletmemek dini bir sorumluluktur. Doğaya zarar vermek israf ve fesat kapsamındadır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ağaç dikmenin sevabı var mı?",
+   "k": "İsraf ve Günahlar",
+   "c": "Ağaç dikmek ve yeşillendirmek sadaka-i câriye hükmünde sevaptır. Hadiste, dikilen ağacın meyvesinden yiyen her canlı için sevap yazılacağı bildirilmiştir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Bitki ve çiçek koparmak caiz mi?",
+   "k": "İsraf ve Günahlar",
+   "c": "Zaruret ve ihtiyaç dışında bitki ve çiçekleri koparıp ziyan etmek israf sayılır. Kendi bahçesinden veya uygun biçimde faydalanmakta sakınca yoktur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Geri dönüşüm ve çevre bilinci İslam'da nedir?",
+   "k": "İsraf ve Günahlar",
+   "c": "İslam tasarrufu ve israfsızlığı emreder; geri dönüşüm ve israfı azaltmak bu ilkenin gereğidir. Nimeti korumak ve çevreye zarar vermemek teşvik edilmiştir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Beddua etmek caiz mi?",
+   "k": "İsraf ve Günahlar",
+   "c": "Müslüman, zulme uğrasa bile beddua etmekten çok af ve ıslah için dua etmelidir. Kendine ve başkasına kötü dilekte bulunmak uygun görülmemiştir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Nazar boncuğu takmak caiz mi?",
+   "k": "İsraf ve Günahlar",
+   "c": "Nazar boncuğunun kendisinden bir fayda ve zarar beklemek batıl inançtır ve caiz değildir. Korunmak için dua ve âyet okumak, tevekkül esastır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Fal bakmak ve falcıya gitmek caiz mi?",
+   "k": "İsraf ve Günahlar",
+   "c": "Fal bakmak ve falcıya inanmak haramdır; gaybı yalnızca Allah bilir. Falcıya gidip söylediklerini tasdik etmek imanı zedeler.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Büyü (sihir) yaptırmak caiz mi?",
+   "k": "İsraf ve Günahlar",
+   "c": "Büyü yapmak, yaptırmak ve buna başvurmak haramdır; büyük günahlardandır. Korunmak için âyet, dua ve tevekküle yönelmek gerekir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Tövbe nasıl edilir, kabul olur mu?",
+   "k": "İsraf ve Günahlar",
+   "c": "Tövbe; günahtan pişman olmak, bir daha yapmamaya karar vermek ve helâl-haram hakkını iade etmektir. Samimi tövbe kabul edilir; günah tekrar edilse de tövbe kapısı açıktır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Şüpheli (helâl-haram belli olmayan) gıda yenir mi?",
+   "k": "İsraf ve Günahlar",
+   "c": "Helâl ve haramın karıştığı şüpheli gıdalarda ihtiyatlı davranmak gerekir. Kaynağı ve içeriği bilinmeyen ürünlerden mümkün olduğunca kaçınılır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Namaz kılmamanın günahı nedir?",
+   "k": "Namaz",
+   "c": "Beş vakit namaz farz olup mazeretsiz terk etmek büyük günahtır. Tembellikle kılmayanın hemen tevbe edip kazaya başlaması gerekir; namaz İslam'ın direğidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Mazeretsiz oruç tutmamanın günahı nedir?",
+   "k": "Oruç",
+   "c": "Mazeretsiz Ramazan orucunu tutmamak büyük günahtır. Tutulmayan günlerin kaza edilmesi farzdır; bilerek bozulanlarda kefaret de gerekebilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Zekât vermemenin günahı nedir?",
+   "k": "Zekât",
+   "c": "Nisap miktarı mala sahip olduğu hâlde zekât vermemek büyük günah ve kul borcudur. Zekât, malın bereketini ve toplumsal dengeyi korur.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Yemek duası ve sofra adabı nedir?",
+   "k": "Zikir ve Dua",
+   "c": "Yemeğe besmele ile başlanır, sağ elle yenir ve sonunda Allah'a hamd edilir. Sofrada israf etmemek, paylaşmak ve şükretmek sünnettir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Yolculuk (sefer) duası var mı?",
+   "k": "Zikir ve Dua",
+   "c": "Yola çıkarken Allah'a sığınmak, muhafaza ve hayır için dua etmek sünnettir. Yolculuk duası sabah-akşam dua ve zikirleriyle de eda edilir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Nazar ve hasetten korunma duası var mı?",
+   "k": "Zikir ve Dua",
+   "c": "Nazardan korunmak için Muavvizeteyn (Felak, Nâs) ve Âyetü'l-Kürsî okunması tavsiye edilmiştir. Koruma Allah'tandır; dua ve tevekkül esastır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Çocuk yetiştirmede dini ölçüler nelerdir?",
+   "k": "Aile",
+   "c": "Çocuğa sevgi, güzel örnek, helâl terbiye ve ibadet alışkanlığı kazandırmak ebeveynin görevidir. Sertlik değil şefkat ve kararlılık esas alınır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Evlat edinmek (evlatlık almak) caiz mi?",
+   "k": "Aile",
+   "c": "Evlat edinmek ve sevgiyle büyütmek caizdir, büyük sevaptır. Ancak evlatlığın nesep ve miras hükümleri öz çocuk gibi olmaz; soy bağı değişmez.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Aile içi geçimsizlik nasıl çözülür?",
+   "k": "Aile",
+   "c": "Geçimsizlikte sabır, karşılıklı saygı, iletişim ve hakem/arabulucu devreye alınması tavsiye edilir. Şiddet ve hakaret caiz değildir; boşanma son çaredir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Uyuşturucu kullanmak haram mı?",
+   "k": "Tıp ve Sağlık",
+   "c": "Uyuşturucu ve sarhoşluk veren maddeler haramdır; bedene zarar verir ve aklı giderir. Tedavi zorunlu olup kullanılması kesinlikle yasaktır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Ruhsal sıkıntılarda sabır ve tedavi nasıl olmalı?",
+   "k": "Tıp ve Sağlık",
+   "c": "Ruhsal sıkıntılarda dua, sabır ve tevekkül yanında uzmana başvurup tedavi olmak da gerekir. Tedaviyi ihmal etmek doğru değildir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kumar geliriyle geçinmek caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Kumar ve şans oyunlarından elde edilen gelir haramdır; bununla geçinmek caiz değildir. Kazanç, elde edilmesi helâl yollara yönlendirilmelidir.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Kahve falı ve astroloji caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Kahve falı, astroloji ve burç yorumlarına inanmak gaybı bilme iddiasıdır ve caiz değildir. Yalnızca eğlence amaçlı bile olsa inanç boyutuna taşınmamalıdır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
+  },
+  {
+   "s": "Yoga ve meditasyon yapmak caiz mi?",
+   "k": "Helal-Haram",
+   "c": "Zihni sakinleştirme ve esneklik amaçlı beden hareketleri caiz görülür. Ancak ibadet veya başka dinî inanç unsuru katıldığında yapılmamalıdır.",
+   "m": "",
+   "rf": "Diyanet İşleri Başkanlığı (özet)"
   }
  ]
 }
