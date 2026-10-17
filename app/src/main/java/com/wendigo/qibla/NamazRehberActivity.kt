@@ -54,7 +54,7 @@ class NamazRehberActivity : AppCompatActivity() {
         card.addView(SalahFigureView(this).apply {
             pose = step.pose
             layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(170)
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(200)
             )
         })
         card.addView(TextView(this).apply {

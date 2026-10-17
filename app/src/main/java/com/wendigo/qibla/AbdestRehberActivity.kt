@@ -56,7 +56,7 @@ class AbdestRehberActivity : AppCompatActivity() {
         card.addView(WuduFigureView(this).apply {
             part = step.part
             layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(170)
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(200)
             )
         })
         card.addView(TextView(this).apply {
