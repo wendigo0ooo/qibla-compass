@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Kıble Pusulası</string>
+
+    <string name="searching">Konum aranıyor…</string>
+    <string name="waiting_location">Konum bekleniyor…</string>
+    <string name="no_sensor">Cihazda manyetometre/ivmeölçer bulunamadı.</string>
+    <string name="location_disabled">Konum servisleri kapalı. Lütfen açın.</string>
+    <string name="permission_denied">Konum izni verilmedi.</string>
+    <string name="aligned">✓ Kıble yönündesiniz</string>
+    <string name="rotate_hint">Telefonu yatay tutup ok yönüne çevirin</string>
+    <string name="calibrate">Manyetometre kalibrasyonu: telefonu 8 çizerek hareket ettirin</string>
+
+    <string name="manual">Konum Gir</string>
+    <string name="refresh">Yenile</string>
+    <string name="manual_title">Enlem / Boylam girin</string>
+    <string name="hint_lat">Enlem (örn: 41.0082)</string>
+    <string name="hint_lon">Boylam (örn: 28.9784)</string>
+    <string name="invalid_coords">Geçersiz koordinat</string>
+
+    <string name="info_fmt">Yön: %1$s°  •  Kıble: %2$s°\nMesafe: %3$s km\nKonum: %4$s, %5$s</string>
+</resources>
