@@ -444,6 +444,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     }
 
     private fun setupIbadahPage() {
+        findViewById<View>(R.id.ibHadis).setOnClickListener {
+            startActivity(Intent(this, HadisActivity::class.java))
+        }
         findViewById<View>(R.id.ibDua).setOnClickListener {
             startActivity(Intent(this, DuaActivity::class.java))
         }

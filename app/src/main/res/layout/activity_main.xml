@@ -384,6 +384,34 @@
                 android:visibility="gone">
 
                 <LinearLayout
+                    android:id="@+id/ibHadis"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/panel_bg"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tab_hadis"
+                        android:textColor="@color/text_primary"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="4dp"
+                        android:text="@string/ib_hadis_sub"
+                        android:textColor="@color/text_dim"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/ibDua"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -456,7 +484,7 @@
         <LinearLayout
             android:id="@+id/bottomBar"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="62dp"
             android:background="@color/panel"
             android:orientation="horizontal">
 
@@ -483,6 +511,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tab_qibla"
+                    android:gravity="center"
+                    android:maxLines="2"
                     android:textSize="10sp" />
             </LinearLayout>
 
@@ -509,6 +539,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tab_prayer"
+                    android:gravity="center"
+                    android:maxLines="2"
                     android:textSize="10sp" />
             </LinearLayout>
 
@@ -535,6 +567,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tab_quran"
+                    android:gravity="center"
+                    android:maxLines="2"
                     android:textSize="10sp" />
             </LinearLayout>
 
@@ -561,6 +595,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tab_ibadah"
+                    android:gravity="center"
+                    android:maxLines="2"
                     android:textSize="10sp" />
             </LinearLayout>
 
@@ -587,6 +623,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tab_tools"
+                    android:gravity="center"
+                    android:maxLines="2"
                     android:textSize="10sp" />
             </LinearLayout>
 
@@ -613,6 +651,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tab_settings"
+                    android:gravity="center"
+                    android:maxLines="2"
                     android:textSize="10sp" />
             </LinearLayout>
         </LinearLayout>

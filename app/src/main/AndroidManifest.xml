@@ -45,6 +45,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".HadisActivity"
+            android:exported="false"
+            android:label="@string/tab_hadis"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".DuaActivity"
             android:exported="false"
             android:label="@string/tab_dua"

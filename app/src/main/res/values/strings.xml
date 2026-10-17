@@ -40,14 +40,16 @@
     <string name="tab_qibla">Kıble</string>
     <string name="tab_prayer">Vakitler</string>
     <string name="tab_quran">Kur\'an</string>
-    <string name="tab_ibadah">İbadet</string>
+    <string name="tab_ibadah">Hadis ve İbadet</string>
+    <string name="tab_hadis">Hadis</string>
     <string name="tab_tools">Araçlar</string>
     <string name="tab_settings">Ayarlar</string>
 
     <string name="tab_dua">Dualar</string>
     <string name="tab_tesbih">Tesbih / Zikir</string>
     <string name="tab_esma">Esmâ-ül Hüsnâ</string>
-    <string name="dua_credit">Dua duası verisi: masnun-dua (ücretsiz) • Esmâ: MIT</string>
+    <string name="dua_credit">Dua verisi: masnun-dua (ücretsiz) • Esmâ: MIT • Hadis: derleme</string>
+    <string name="ib_hadis_sub">Seçme hadisler: Arapça metin, Türkçe meal ve kaynak</string>
     <string name="ib_dua_sub">Günlük dua ve zikirler, Arapça + okunuş + meal</string>
     <string name="ib_tesbih_sub">Dijital zikir sayacı (33, 99, 100…)</string>
     <string name="ib_esma_sub">Allah\'ın 99 güzel ismi ve anlamları</string>
@@ -78,7 +80,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 4.4</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 4.5</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>
