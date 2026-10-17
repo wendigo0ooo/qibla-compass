@@ -31,6 +31,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.EditorInfo
 import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -76,6 +77,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private lateinit var quranProgress: ProgressBar
     private lateinit var quranEmpty: TextView
     private lateinit var surahSearch: EditText
+    private lateinit var recentRow: View
+    private lateinit var recentChips: LinearLayout
+    private val favSurahs = HashSet<Int>()
     private val quranSurahs = ArrayList<QuranRepository.Surah>()
     private val allSurahs = ArrayList<QuranRepository.Surah>()
     private lateinit var quranAdapter: QuranAdapter
@@ -145,6 +149,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         private const val REQ_NOTIF = 1002
         private const val ALIGN_TOLERANCE = 5f
         private const val PREFS = "qibla_prefs"
+        private const val KEY_RECENT_SURAHS = "recent_surahs"
+        private const val KEY_FAV_SURAHS = "fav_surahs"
+        private const val MAX_RECENT_SURAHS = 6
+        private const val RECENT_SEP = "\u0001"
         private const val KEY_DEVICE_LAT = "device_lat"
         private const val KEY_DEVICE_LON = "device_lon"
         private const val KEY_THEME = "theme_mode"
@@ -207,17 +215,30 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         quranList.adapter = quranAdapter
         quranList.setOnItemClickListener { _, _, position, _ ->
             val s = quranSurahs.getOrNull(position) ?: return@setOnItemClickListener
+            val query = surahSearch.text.toString().trim()
+            if (query.isNotEmpty()) recordRecent(query)
             startActivity(
                 Intent(this, SurahActivity::class.java)
                     .putExtra(SurahActivity.EXTRA_SURAH, s.number - 1)
             )
         }
         surahSearch = findViewById(R.id.etSurahSearch)
+        recentRow = findViewById(R.id.recentRow)
+        recentChips = findViewById(R.id.recentChips)
+        loadFavs()
+        refreshRecentChips()
         surahSearch.addTextChangedListener(object : android.text.TextWatcher {
             override fun afterTextChanged(s: android.text.Editable?) = applySurahFilter()
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
             override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
         })
+        surahSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                recordRecent(surahSearch.text.toString())
+                true
+            } else false
+        }
+        surahSearch.setOnFocusChangeListener { _, _ -> updateRecentVisibility() }
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as? SensorManager
         rotationSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
@@ -522,17 +543,24 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     }
 
     private fun applySurahFilter() {
-        val s = surahSearch.text.toString().trim()
-        val filtered = if (s.isBlank()) allSurahs else allSurahs.filter { surah ->
-            surah.number.toString() == s ||
-                surah.number.toString().startsWith(s) ||
-                norm(surah.name).contains(norm(s)) ||
-                surah.arName.contains(s) ||
-                norm(surah.place).contains(norm(s))
+        val q = surahSearch.text.toString().trim()
+        val filtered = if (q.isBlank()) {
+            val favs = allSurahs.filter { favSurahs.contains(it.number) }
+            val rest = allSurahs.filterNot { favSurahs.contains(it.number) }
+            favs + rest
+        } else {
+            allSurahs.filter { surah ->
+                surah.number.toString() == q ||
+                    surah.number.toString().startsWith(q) ||
+                    norm(surah.name).contains(norm(q)) ||
+                    surah.arName.contains(q) ||
+                    norm(surah.place).contains(norm(q))
+            }
         }
         quranSurahs.clear()
         quranSurahs.addAll(filtered)
         quranAdapter.notifyDataSetChanged()
+        updateRecentVisibility()
         if (quranAllLoaded) {
             quranEmpty.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
             quranEmpty.text = if (filtered.isEmpty())
@@ -558,6 +586,117 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         return sb.toString()
     }
 
+    // ---- recent searches ----
+
+    private fun loadRecent(): List<String> {
+        val s = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString(KEY_RECENT_SURAHS, "") ?: ""
+        return if (s.isEmpty()) emptyList() else s.split(RECENT_SEP).filter { it.isNotBlank() }
+    }
+
+    private fun saveRecent(list: List<String>) {
+        getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit {
+            putString(KEY_RECENT_SURAHS, list.joinToString(RECENT_SEP))
+        }
+    }
+
+    private fun recordRecent(raw: String) {
+        val q = raw.trim()
+        if (q.isEmpty()) return
+        val list = loadRecent().toMutableList()
+        list.removeAll { it.equals(q, ignoreCase = true) }
+        list.add(0, q)
+        while (list.size > MAX_RECENT_SURAHS) list.removeAt(list.size - 1)
+        saveRecent(list)
+        refreshRecentChips()
+    }
+
+    private fun refreshRecentChips() {
+        recentChips.removeAllViews()
+        val items = loadRecent()
+        for (q in items) {
+            val chip = TextView(this).apply {
+                text = q
+                setTextColor(getColor(R.color.text_primary))
+                textSize = 13f
+                isSingleLine = true
+                ellipsize = android.text.TextUtils.TruncateAt.END
+                maxWidth = dp(160)
+                setBackgroundResource(R.drawable.chip_bg)
+                setPadding(dp(12), dp(6), dp(12), dp(6))
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply { marginEnd = dp(6) }
+                setOnClickListener {
+                    surahSearch.setText(q)
+                    surahSearch.setSelection(q.length)
+                    recordRecent(q)
+                }
+                setOnLongClickListener {
+                    val list = loadRecent().toMutableList()
+                    list.remove(q)
+                    saveRecent(list)
+                    refreshRecentChips()
+                    true
+                }
+            }
+            recentChips.addView(chip)
+        }
+        if (items.isNotEmpty()) {
+            val clear = TextView(this).apply {
+                text = getString(R.string.quran_recent_clear)
+                setTextColor(getColor(R.color.accent))
+                textSize = 13f
+                setPadding(dp(12), dp(6), dp(4), dp(6))
+                setOnClickListener {
+                    saveRecent(emptyList())
+                    refreshRecentChips()
+                }
+            }
+            recentChips.addView(clear)
+        }
+        updateRecentVisibility()
+    }
+
+    private fun updateRecentVisibility() {
+        val show = surahSearch.text.isNullOrBlank() && recentChips.childCount > 0
+        recentRow.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    // ---- favourites ----
+
+    private fun loadFavs() {
+        favSurahs.clear()
+        getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString(KEY_FAV_SURAHS, "")?.split(',')?.forEach { part ->
+                part.trim().toIntOrNull()?.let { favSurahs.add(it) }
+            }
+    }
+
+    private fun saveFavs() {
+        getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit {
+            putString(KEY_FAV_SURAHS, favSurahs.sorted().joinToString(","))
+        }
+    }
+
+    private fun toggleFav(number: Int) {
+        val added = if (favSurahs.contains(number)) {
+            favSurahs.remove(number)
+            false
+        } else {
+            favSurahs.add(number)
+            true
+        }
+        saveFavs()
+        applySurahFilter()
+        Toast.makeText(
+            this,
+            if (added) R.string.quran_fav_added else R.string.quran_fav_removed,
+            Toast.LENGTH_SHORT
+        ).show()
+    }
+
     private inner class QuranAdapter : BaseAdapter() {
         override fun getCount(): Int = quranSurahs.size
         override fun getItem(position: Int): Any = quranSurahs[position]
@@ -571,6 +710,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             v.findViewById<TextView>(R.id.surahMeta).text =
                 getString(R.string.surah_meta_fmt, s.ayahs.size, s.place)
             v.findViewById<TextView>(R.id.surahAr).text = s.arName
+            val star = v.findViewById<TextView>(R.id.surahStar)
+            val fav = favSurahs.contains(s.number)
+            star.text = if (fav) "★" else "☆"
+            star.setTextColor(getColor(if (fav) R.color.accent else R.color.text_dim))
+            star.setOnClickListener { toggleFav(s.number) }
             return v
         }
     }

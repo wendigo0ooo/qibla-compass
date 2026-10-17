@@ -87,6 +87,11 @@
     <string name="quran_buffering">Yükleniyor…</string>
     <string name="quran_audio_error">Ses yüklenemedi (internet gerekli)</string>
     <string name="quran_meat_credit">Meal: Elmalılı Hamdi Yazır (kamu malı) • Ses: Mishary Alafasy • Dinlemek için âyete dokunun</string>
+    <string name="quran_recent">Son aramalar</string>
+    <string name="quran_recent_clear">Temizle</string>
+    <string name="quran_fav">Yıldızlılar</string>
+    <string name="quran_fav_added">Yıldızlara eklendi</string>
+    <string name="quran_fav_removed">Yıldızlardan çıkarıldı</string>
 
     <string name="notif_enable">Vakit bildirimleri</string>
     <string name="notif_hint">Vakit girdiğinde bildirim alırsınız. Bildirimin zamanında gelmesi için uygulamanın pil tasarrufundan muaf olması önerilir.</string>
