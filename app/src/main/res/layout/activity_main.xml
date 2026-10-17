@@ -338,13 +338,6 @@
                         android:text="@string/about_text"
                         android:textColor="@color/text_dim"
                         android:textSize="13sp" />
-
-                    <Button
-                        android:id="@+id/btnToolsAyar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        android:text="@string/menu_tools" />
                 </LinearLayout>
             </ScrollView>
 
@@ -596,6 +589,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/tab_ibadah"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tabTools"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/tabToolsIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@string/tab_tools"
+                    android:src="@drawable/ic_tools" />
+
+                <TextView
+                    android:id="@+id/tabToolsLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tab_tools"
                     android:textSize="10sp" />
             </LinearLayout>
 

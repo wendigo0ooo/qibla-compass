@@ -41,6 +41,7 @@
     <string name="tab_prayer">Vakitler</string>
     <string name="tab_quran">Kur\'an</string>
     <string name="tab_ibadah">İbadet</string>
+    <string name="tab_tools">Araçlar</string>
     <string name="tab_settings">Ayarlar</string>
 
     <string name="tab_dua">Dualar</string>
@@ -77,7 +78,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 4.2</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nSürüm 4.3</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>

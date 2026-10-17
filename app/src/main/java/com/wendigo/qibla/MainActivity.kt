@@ -433,7 +433,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<View>(R.id.tabPrayer).setOnClickListener { selectTab(1) }
         findViewById<View>(R.id.tabQuran).setOnClickListener { selectTab(2) }
         findViewById<View>(R.id.tabIbadah).setOnClickListener { selectTab(3) }
+        findViewById<View>(R.id.tabTools).setOnClickListener {
+            startActivity(Intent(this, ToolsActivity::class.java))
+        }
         findViewById<View>(R.id.tabSettings).setOnClickListener { selectTab(4) }
+        val dim = getColor(R.color.text_dim)
+        findViewById<ImageView>(R.id.tabToolsIcon).setColorFilter(dim)
+        findViewById<TextView>(R.id.tabToolsLabel).setTextColor(dim)
         selectTab(0)
     }
 
@@ -522,9 +528,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<Button>(R.id.btnThemeAyar).setOnClickListener { toggleTheme() }
         findViewById<Button>(R.id.btnBgAyar).setOnClickListener { showBackgroundDialog() }
         findViewById<Button>(R.id.btnMapAyar).setOnClickListener { openMap() }
-        findViewById<Button>(R.id.btnToolsAyar).setOnClickListener {
-            startActivity(Intent(this, ToolsActivity::class.java))
-        }
     }
 
     // ---- prayer notifications ----
