@@ -12,15 +12,32 @@ import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.math.tan
 
+/**
+ * Diyanet'in uyguladığı "temkin" (ihtiyat) payı, dakika cinsinden.
+ * Diyanet resmî takvimlerde güneş -7, öğle +5, ikindi +4, akşam +7 dk
+ * kaydırma uygular; imsak ve yatsıda temkin yoktur.
+ */
+data class Temkin(
+    val imsak: Double,
+    val gunes: Double,
+    val ogle: Double,
+    val ikindi: Double,
+    val aksam: Double,
+    val yatsi: Double
+) {
+    companion object { val NONE = Temkin(0.0, 0.0, 0.0, 0.0, 0.0, 0.0) }
+}
+
 /** Calculation conventions for prayer times. */
 enum class PrayerMethod(
     val fajrAngle: Double,
     val ishaAngle: Double,
     val ishaMinutes: Double?,
     val asrShadow: Double,
-    val label: String
+    val label: String,
+    val temkin: Temkin = Temkin.NONE
 ) {
-    DIYANET(18.0, 17.0, null, 1.0, "Diyanet (Türkiye)"),
+    DIYANET(18.0, 17.0, null, 1.0, "Diyanet (Türkiye)", Temkin(0.0, -7.0, 5.0, 4.0, 7.0, 0.0)),
     MWL(18.0, 17.0, null, 1.0, "Müslüman Dünya Birliği"),
     ISNA(15.0, 15.0, null, 1.0, "ISNA (K. Amerika)"),
     EGYPT(19.5, 17.5, null, 1.0, "Mısır"),
@@ -69,7 +86,15 @@ object PrayerTimes {
         val isha = method.ishaMinutes?.let { sunset + it / 60.0 }
             ?: dhuhr + hourAngle(-method.ishaAngle)
 
-        return Times(fajr, sunrise, dhuhr, asr, sunset, isha)
+        val t = method.temkin
+        return Times(
+            fajr + t.imsak / 60.0,
+            sunrise + t.gunes / 60.0,
+            dhuhr + t.ogle / 60.0,
+            asr + t.ikindi / 60.0,
+            sunset + t.aksam / 60.0,
+            isha + t.yatsi / 60.0
+        )
     }
 
     /**
