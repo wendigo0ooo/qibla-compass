@@ -11,8 +11,13 @@ import android.hardware.SensorManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.text.InputType
+import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
@@ -46,6 +51,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private var azimuth = 0f
     private var declination = 0f
     private var sensorAccuracy = SensorManager.SENSOR_STATUS_ACCURACY_HIGH
+    private var wasAligned = false
+    private var noSensor = false
+    private var manualOverride = false
 
     private var lat: Double? = null
     private var lon: Double? = null
@@ -54,15 +62,22 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
 
     private var locationManager: LocationManager? = null
 
+    private var lastInfo = ""
+    private var lastStatus = ""
+
     companion object {
         private const val REQ_LOCATION = 1001
         private const val SMOOTH = 0.15f
         private const val ALIGN_TOLERANCE = 5f
+        private const val PREFS = "qibla_prefs"
+        private const val KEY_LAT = "last_lat"
+        private const val KEY_LON = "last_lon"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         compass = findViewById(R.id.compass)
         tvInfo = findViewById(R.id.tvInfo)
@@ -75,15 +90,20 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         useRotationVector = rotationSensor != null
 
         if (rotationSensor == null && (accelSensor == null || magSensor == null)) {
-            tvStatus.text = getString(R.string.no_sensor)
+            noSensor = true
+            setStatus(getString(R.string.no_sensor))
         }
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as? LocationManager
 
+        findViewById<Button>(R.id.btnCity).setOnClickListener { showCityDialog() }
         findViewById<Button>(R.id.btnManual).setOnClickListener { showManualDialog() }
         findViewById<Button>(R.id.btnRefresh).setOnClickListener {
+            manualOverride = false
             ensurePermissionAndLocate()
         }
+
+        loadSavedLocation()?.let { applyLocation(it.first, it.second, 0.0) }
 
         ensurePermissionAndLocate()
         updateUi()
@@ -120,7 +140,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             val gpsOn = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
             val netOn = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
             if (!gpsOn && !netOn) {
-                tvStatus.text = getString(R.string.location_disabled)
+                setStatus(getString(R.string.location_disabled))
                 return
             }
             bestLastKnown(lm)?.let { updateLocation(it) }
@@ -130,9 +150,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             if (netOn) {
                 lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000L, 5f, this)
             }
-            if (lat == null) tvStatus.text = getString(R.string.searching)
+            if (lat == null && !noSensor) setStatus(getString(R.string.searching))
         } catch (e: SecurityException) {
-            tvStatus.text = getString(R.string.permission_denied)
+            setStatus(getString(R.string.permission_denied))
         }
     }
 
@@ -164,10 +184,23 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             if (grantResults.isNotEmpty() && grantResults.any { it == PackageManager.PERMISSION_GRANTED }) {
                 startLocationUpdates()
             } else {
-                tvStatus.text = getString(R.string.permission_denied)
+                setStatus(getString(R.string.permission_denied))
                 Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun showCityDialog() {
+        val names = Cities.all.map { it.name }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle(R.string.pick_city)
+            .setItems(names) { _, which ->
+                val city = Cities.all[which]
+                manualOverride = true
+                stopGps()
+                applyLocation(city.lat, city.lon, 0.0)
+            }
+            .show()
     }
 
     private fun showManualDialog() {
@@ -199,12 +232,17 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                 if (la == null || lo == null || la !in -90.0..90.0 || lo !in -180.0..180.0) {
                     Toast.makeText(this, R.string.invalid_coords, Toast.LENGTH_SHORT).show()
                 } else {
-                    locationManager?.let { lm -> runCatching { lm.removeUpdates(this@MainActivity) } }
+                    manualOverride = true
+                    stopGps()
                     applyLocation(la, lo, 0.0)
                 }
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
+    }
+
+    private fun stopGps() {
+        runCatching { locationManager?.removeUpdates(this) }
     }
 
     private fun updateLocation(location: Location) {
@@ -223,6 +261,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         } catch (_: Exception) {
             0f
         }
+        saveLocation(la, lo)
         compass.setQibla(qiblaBearing.toFloat())
         compass.setHasLocation(true)
         updateUi()
@@ -235,13 +274,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     override fun onResume() {
         super.onResume()
         registerSensors()
-        if (hasLocationPermission()) startLocationUpdates()
+        if (!manualOverride && hasLocationPermission()) startLocationUpdates()
     }
 
     override fun onPause() {
         super.onPause()
         sensorManager?.unregisterListener(this)
-        runCatching { locationManager?.removeUpdates(this) }
+        stopGps()
     }
 
     private fun registerSensors() {
@@ -312,32 +351,91 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
 
     private fun normalize(deg: Float): Float = ((deg % 360f) + 360f) % 360f
 
+    private fun accuracyLabel(accuracy: Int): String = when (accuracy) {
+        SensorManager.SENSOR_STATUS_ACCURACY_HIGH -> getString(R.string.acc_high)
+        SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM -> getString(R.string.acc_medium)
+        SensorManager.SENSOR_STATUS_ACCURACY_LOW -> getString(R.string.acc_low)
+        else -> getString(R.string.acc_unreliable)
+    }
+
     private fun updateUi() {
         val la = lat
         val lo = lon
         if (la == null || lo == null) {
-            tvInfo.text = getString(R.string.waiting_location)
+            if (tvInfo.text != getString(R.string.waiting_location)) {
+                tvInfo.text = getString(R.string.waiting_location)
+            }
             return
         }
 
         compass.setHasLocation(true)
 
-        tvInfo.text = getString(
+        val aligned = abs(Qibla.angleDifference(qiblaBearing.toFloat(), azimuth)) < ALIGN_TOLERANCE
+        compass.setAligned(aligned)
+        if (aligned && !wasAligned) vibrateAligned()
+        wasAligned = aligned
+
+        val info = getString(
             R.string.info_fmt,
             azimuth.roundToInt().toString(),
             qiblaBearing.roundToInt().toString(),
             distanceKm.roundToInt().toString(),
             String.format(Locale.US, "%.4f", la),
-            String.format(Locale.US, "%.4f", lo)
+            String.format(Locale.US, "%.4f", lo),
+            String.format(Locale.US, "%.1f", declination),
+            accuracyLabel(sensorAccuracy)
         )
+        if (info != lastInfo) {
+            tvInfo.text = info
+            lastInfo = info
+        }
 
         val calibrated = sensorAccuracy >= SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM
-        val aligned = abs(Qibla.angleDifference(qiblaBearing.toFloat(), azimuth)) < ALIGN_TOLERANCE
+        setStatus(
+            when {
+                noSensor -> getString(R.string.no_sensor)
+                !calibrated -> getString(R.string.calibrate)
+                aligned -> getString(R.string.aligned)
+                else -> getString(R.string.rotate_hint)
+            }
+        )
+    }
 
-        tvStatus.text = when {
-            !calibrated -> getString(R.string.calibrate)
-            aligned -> getString(R.string.aligned)
-            else -> getString(R.string.rotate_hint)
+    private fun setStatus(text: String) {
+        if (text != lastStatus) {
+            tvStatus.text = text
+            lastStatus = text
         }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun vibrateAligned() {
+        try {
+            val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                (getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
+            } else {
+                getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(120, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                vibrator.vibrate(120)
+            }
+        } catch (_: Exception) {
+        }
+    }
+
+    private fun saveLocation(la: Double, lo: Double) {
+        getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+            .putString(KEY_LAT, la.toString())
+            .putString(KEY_LON, lo.toString())
+            .apply()
+    }
+
+    private fun loadSavedLocation(): Pair<Double, Double>? {
+        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val la = p.getString(KEY_LAT, null)?.toDoubleOrNull() ?: return null
+        val lo = p.getString(KEY_LON, null)?.toDoubleOrNull() ?: return null
+        return la to lo
     }
 }

@@ -25,6 +25,7 @@ class CompassView @JvmOverloads constructor(
     private var heading = 0f          // device heading, degrees from true north
     private var qibla = 0f            // qibla bearing, degrees from true north
     private var hasLocation = false
+    private var aligned = false
 
     private var cx = 0f
     private var cy = 0f
@@ -77,6 +78,11 @@ class CompassView @JvmOverloads constructor(
 
     fun setHasLocation(value: Boolean) {
         hasLocation = value
+        invalidate()
+    }
+
+    fun setAligned(value: Boolean) {
+        aligned = value
         invalidate()
     }
 
@@ -168,6 +174,10 @@ class CompassView @JvmOverloads constructor(
 
     private fun drawQibla(canvas: Canvas) {
         if (!hasLocation) return
+
+        qiblaPaint.color = Color.parseColor(if (aligned) "#FFD600" else "#00E676")
+        qiblaLinePaint.color = Color.parseColor(if (aligned) "#66FFD600" else "#6600E676")
+
         canvas.save()
         canvas.rotate(qibla - heading, cx, cy)
 
