@@ -49,6 +49,7 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.Executors
