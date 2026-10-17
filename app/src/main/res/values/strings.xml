@@ -99,7 +99,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru genel web araması, diyanet.gov.tr kaynakları veya YouTube üzerinden aranabilir.\n\nSürüm 5.0</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru genel web araması, diyanet.gov.tr kaynakları veya YouTube üzerinden aranabilir.\n\nSürüm 5.1</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>
@@ -125,6 +125,45 @@
     <string name="tool_zakat_sub">Nakit, altın, gümüş ve diğer mallar üzerinden zekât</string>
     <string name="tool_mescit_title">Mescit Bulucu</string>
     <string name="tool_mescit_sub">Yakınındaki cami ve mescitleri listeler</string>
+
+    <string name="tool_namaz_title">Namaz Rehberi</string>
+    <string name="tool_namaz_sub">Görselli, adım adım namaz kılınışı</string>
+    <string name="tool_abdest_title">Abdest Rehberi</string>
+    <string name="tool_abdest_sub">Görselli, adım adım abdest alınışı</string>
+
+    <string name="namaz_rehber_intro">Namaz kılmadan önce abdest alınır, kıbleye dönülür ve niyet edilir. Aşağıda bir rekâtın kılınışı görsel olarak adım adım gösterilmiştir. Erkek ve kadında duruş ayrıntıları küçük farklar gösterir.</string>
+    <string name="namaz_step1_title">1. Niyet ve Tekbir</string>
+    <string name="namaz_step1_body">Ayakta kıbleye dönülür, niyet edilir ve elleri kulak hizasına kaldırıp “Allahu ekber” denilerek namaza başlanır. Eller göbek altında (erkek) veya göğüs üzerinde (kadın) bağlanır.</string>
+    <string name="namaz_step2_title">2. Kıyam — Ayakta okuma</string>
+    <string name="namaz_step2_body">Ayakta iken önce Fâtiha, ardından bir sûre veya en az üç âyet okunur. Bu kısım birinci ve ikinci rekâtlarda yapılır.</string>
+    <string name="namaz_step3_title">3. Rükû</string>
+    <string name="namaz_step3_body">“Allahu ekber” ile eğilip elleri dizlere koyarak “Sübhâne rabbiye\'l-azîm” üç kez söylenir. Doğrulurken “Semiallahu limen hamideh” denir.</string>
+    <string name="namaz_step4_title">4. Secde</string>
+    <string name="namaz_step4_body">“Allahu ekber” ile secdeye varılır; alın ve burun yere değer, “Sübhâne rabbiye\'l-a\'lâ” üç kez söylenir. Oturulup tekrar secde yapılır.</string>
+    <string name="namaz_step5_title">5. Oturuş ve Tahiyyât</string>
+    <string name="namaz_step5_body">İkinci rekâtın sonunda ve son oturuşta “Ettehiyyâtü” okunur. Ardından “Allahümme salli”, “Allahümme bârik” ve dualar okunur.</string>
+    <string name="namaz_step6_title">6. Selam</string>
+    <string name="namaz_step6_body">Önce sağa, sonra sola baş çevrilerek “Esselâmü aleyküm ve rahmetullah” denir ve namaz tamamlanır.</string>
+    <string name="namaz_rehber_note">Her rekât; kıyam, rükû ve iki secdeden oluşur. Sabah 2, öğle 4, ikindi 4, akşam 3, yatsı 4 rekât farzdır.</string>
+
+    <string name="abdest_rehber_intro">Abdest, niyet ve besmele ile başlar. Su bulunamazsa teyemmüm yapılır. Adımlar sırayla şöyledir:</string>
+    <string name="abdest_step1_title">1. Elleri yıkamak</string>
+    <string name="abdest_step1_body">Bileklere kadar üç kez yıkanır. Parmak araları ve tırnak dipleri ıslatılır.</string>
+    <string name="abdest_step2_title">2. Ağza su vermek</string>
+    <string name="abdest_step2_body">Ağıza üç kez su alınıp gargara yapılır, ağız iyice çalkalanır.</string>
+    <string name="abdest_step3_title">3. Burna su vermek</string>
+    <string name="abdest_step3_body">Buruna üç kez su çekilip sümkürülür; burnun içi temizlenir.</string>
+    <string name="abdest_step4_title">4. Yüzü yıkamak</string>
+    <string name="abdest_step4_body">Alın saç çizgisinden çene altına, iki kulak arası ıslak kalıncaya kadar üç kez yıkanır.</string>
+    <string name="abdest_step5_title">5. Kolları yıkamak</string>
+    <string name="abdest_step5_body">Sağ kol dirsek dâhil bilekten dirseğe kadar üç kez, sonra sol kol aynı şekilde yıkanır.</string>
+    <string name="abdest_step6_title">6. Başı meshetmek</string>
+    <string name="abdest_step6_body">Islak elle başın dörtte biri, tercihen tamamı bir kez meshedilir.</string>
+    <string name="abdest_step7_title">7. Kulakları meshetmek</string>
+    <string name="abdest_step7_body">Aynı ıslak elle kulakların içi ve arkası meshedilir.</string>
+    <string name="abdest_step8_title">8. Ayakları yıkamak</string>
+    <string name="abdest_step8_body">Sağ ayak topuk ve parmak araları dâhil olmak üzere üç kez, sonra sol ayak aynı şekilde yıkanır.</string>
+    <string name="abdest_rehber_farz">Abdestin farzları: yüzü yıkamak, dirseklerle birlikte kolları yıkamak, başın dörtte birini meshetmek, topuklarla birlikte ayakları yıkamaktır. Sıraya uymak ve ara vermemek ise sünnettir.</string>
     <string name="hijri_today">Bugünün hicrî tarihi</string>
     <string name="hijri_convert">Tarih dönüştür</string>
     <string name="hijri_convert_hint">Bir milâdî tarih seçin; hicrî karşılığı burada görünür.</string>

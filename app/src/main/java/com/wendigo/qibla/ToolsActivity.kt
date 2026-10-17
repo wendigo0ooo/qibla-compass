@@ -15,6 +15,8 @@ class ToolsActivity : AppCompatActivity() {
     private data class Tool(val titleRes: Int, val subRes: Int, val target: Class<*>)
 
     private val tools = listOf(
+        Tool(R.string.tool_namaz_title, R.string.tool_namaz_sub, NamazRehberActivity::class.java),
+        Tool(R.string.tool_abdest_title, R.string.tool_abdest_sub, AbdestRehberActivity::class.java),
         Tool(R.string.tool_hijri_title, R.string.tool_hijri_sub, HijriActivity::class.java),
         Tool(R.string.tool_zakat_title, R.string.tool_zakat_sub, ZakatActivity::class.java),
         Tool(R.string.tool_mescit_title, R.string.tool_mescit_sub, MescitActivity::class.java),

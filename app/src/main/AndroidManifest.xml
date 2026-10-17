@@ -101,6 +101,18 @@
             android:exported="false"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".NamazRehberActivity"
+            android:exported="false"
+            android:label="@string/tool_namaz_title"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".AbdestRehberActivity"
+            android:exported="false"
+            android:label="@string/tool_abdest_title"
+            android:screenOrientation="portrait" />
+
         <receiver
             android:name=".PrayerAlarmReceiver"
             android:exported="false" />
