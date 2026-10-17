@@ -24,8 +24,17 @@
 
     <string name="menu_map">Haritada Göster</string>
     <string name="menu_theme">Tema (Açık / Koyu)</string>
+    <string name="menu_bg">Arka Plan</string>
+    <string name="bg_title">Arka plan seç</string>
+    <string name="bg_plain">Düz (tema rengi)</string>
+    <string name="bg_day">Mescid-i Haram (gündüz)</string>
+    <string name="bg_crowd">Tavaf (kuş bakışı)</string>
+    <string name="bg_kiswah">Kisve (yakın çekim)</string>
+    <string name="bg_door">Altın Kapı</string>
+    <string name="bg_night">Kâbe (gece)</string>
+    <string name="bg_old">Tarihî görünüm (1900)</string>
+    <string name="bg_credit">Görseller Wikimedia Commons (CC0 / kamu malı).</string>
     <string name="prayer_times">Namaz Vakitleri</string>
-    <string name="prayer_method">Hesaplama Yöntemi</string>
     <string name="qibla_sun">Güneş kıble hizasında</string>
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>

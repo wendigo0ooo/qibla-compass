@@ -24,10 +24,12 @@ import android.text.InputType
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -48,6 +50,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private enum class LocationSource { DEVICE, MANUAL }
 
     private lateinit var compass: CompassView
+    private lateinit var bgImage: ImageView
+    private lateinit var bgScrim: View
     private lateinit var tvInfo: TextView
     private lateinit var tvStatus: TextView
     private lateinit var tvCity: TextView
@@ -78,6 +82,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private var hasMag = false
 
     private var azimuth = 0f
+    private var firstSample = true
     private var declination = 0f
     private var sensorAccuracy = SensorManager.SENSOR_STATUS_ACCURACY_HIGH
     private var wasAligned = false
@@ -92,7 +97,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private var prayerToday: PrayerTimes.Times? = null
     private var prayerTomorrow: PrayerTimes.Times? = null
     private var qiblaSun: Double? = null
-    private var method = PrayerMethod.DIYANET
+    private val method = PrayerMethod.DIYANET
 
     private var currentCityName: String? = null
     private var geocodedKey: String? = null
@@ -105,17 +110,25 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
 
     companion object {
         private const val REQ_LOCATION = 1001
-        private const val SMOOTH = 0.15f
         private const val ALIGN_TOLERANCE = 5f
         private const val PREFS = "qibla_prefs"
         private const val KEY_DEVICE_LAT = "device_lat"
         private const val KEY_DEVICE_LON = "device_lon"
         private const val KEY_THEME = "theme_mode"
-        private const val KEY_METHOD = "prayer_method"
+        private const val KEY_BG = "bg_style"
         private const val STATE_LAT = "state_lat"
         private const val STATE_LON = "state_lon"
         private const val STATE_MANUAL = "state_manual"
         private const val STATE_CITY = "state_city"
+
+        private val BG_LABELS = intArrayOf(
+            R.string.bg_plain, R.string.bg_day, R.string.bg_crowd, R.string.bg_kiswah,
+            R.string.bg_door, R.string.bg_night, R.string.bg_old
+        )
+        private val BG_DRAWABLES = intArrayOf(
+            0, R.drawable.kaaba_day, R.drawable.kaaba_crowd, R.drawable.kaaba_kiswah,
+            R.drawable.kaaba_door, R.drawable.kaaba_night, R.drawable.kaaba_old
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -126,6 +139,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
 
         setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
 
+        bgImage = findViewById(R.id.bgImage)
+        bgScrim = findViewById(R.id.bgScrim)
+        applyBackground()
+
         compass = findViewById(R.id.compass)
         tvInfo = findViewById(R.id.tvInfo)
         tvStatus = findViewById(R.id.tvStatus)
@@ -134,8 +151,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         tvNextLine = findViewById(R.id.tvNextLine)
         prayerRow = findViewById(R.id.prayerRow)
         buildPrayerRow()
-
-        method = savedMethod()
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as? SensorManager
         rotationSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
@@ -335,8 +350,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                 showPrayerDialog()
                 true
             }
-            R.id.action_method -> {
-                showMethodDialog()
+            R.id.action_bg -> {
+                showBackgroundDialog()
                 true
             }
             R.id.action_theme -> {
@@ -384,31 +399,40 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                 .append(PrayerTimes.format(it))
         }
         AlertDialog.Builder(this)
-            .setTitle(getString(R.string.prayer_times) + " — " + method.label)
+            .setTitle(R.string.prayer_times)
             .setMessage(sb.toString().trim())
             .setPositiveButton(android.R.string.ok, null)
             .show()
     }
 
-    private fun showMethodDialog() {
-        val methods = PrayerMethod.values()
-        val labels = methods.map { it.label }.toTypedArray()
+    private fun showBackgroundDialog() {
+        val labels = BG_LABELS.map { getString(it) }.toTypedArray()
+        val current = getSharedPreferences(PREFS, Context.MODE_PRIVATE).getInt(KEY_BG, 0)
         AlertDialog.Builder(this)
-            .setTitle(R.string.prayer_method)
-            .setSingleChoiceItems(labels, method.ordinal) { dialog, which ->
-                method = methods[which]
+            .setTitle(R.string.bg_title)
+            .setSingleChoiceItems(labels, current.coerceIn(0, labels.size - 1)) { dialog, which ->
                 getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-                    .putInt(KEY_METHOD, method.ordinal).apply()
-                recomputePrayers()
-                updateUi()
+                    .putInt(KEY_BG, which).apply()
+                applyBackground()
                 dialog.dismiss()
             }
+            .setNegativeButton(android.R.string.cancel, null)
+            .setMessage(R.string.bg_credit)
             .show()
     }
 
-    private fun savedMethod(): PrayerMethod {
-        val idx = getSharedPreferences(PREFS, Context.MODE_PRIVATE).getInt(KEY_METHOD, 0)
-        return PrayerMethod.values().getOrElse(idx) { PrayerMethod.DIYANET }
+    private fun applyBackground() {
+        val idx = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getInt(KEY_BG, 0).coerceIn(0, BG_DRAWABLES.size - 1)
+        val res = BG_DRAWABLES[idx]
+        if (res == 0) {
+            bgImage.visibility = View.GONE
+            bgScrim.visibility = View.GONE
+        } else {
+            bgImage.setImageResource(res)
+            bgImage.visibility = View.VISIBLE
+            bgScrim.visibility = View.VISIBLE
+        }
     }
 
     // ---- location ----
@@ -653,6 +677,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
 
     override fun onResume() {
         super.onResume()
+        firstSample = true
+        hasGravity = false
+        hasMag = false
+        java.util.Arrays.fill(gravity, 0f)
+        java.util.Arrays.fill(geomagnetic, 0f)
         registerSensors()
         if (!manualOverride && hasLocationPermission()) startLocationUpdates()
     }
@@ -712,7 +741,19 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         SensorManager.getOrientation(rotationMatrix, orientation)
         var az = Math.toDegrees(orientation[0].toDouble()).toFloat()
         az = normalize(az + declination)
-        azimuth = smoothAngle(azimuth, az, SMOOTH)
+
+        if (firstSample) {
+            azimuth = az
+            firstSample = false
+        } else {
+            val diff = abs(Qibla.angleDifference(az, azimuth))
+            val alpha = when {
+                diff > 25f -> 0.6f
+                diff > 5f -> 0.32f
+                else -> 0.12f
+            }
+            azimuth = smoothAngle(azimuth, az, alpha)
+        }
 
         compass.setHeading(azimuth)
         updateUi()

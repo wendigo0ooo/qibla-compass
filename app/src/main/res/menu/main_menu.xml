@@ -13,8 +13,8 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/action_method"
-        android:title="@string/prayer_method"
+        android:id="@+id/action_bg"
+        android:title="@string/menu_bg"
         app:showAsAction="never" />
 
     <item

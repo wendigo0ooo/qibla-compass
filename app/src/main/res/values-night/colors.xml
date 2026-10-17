@@ -2,6 +2,7 @@
 <resources>
     <!-- Dark theme -->
     <color name="bg">#0B1220</color>
+    <color name="bg_scrim">#80000000</color>
     <color name="accent">#00E676</color>
     <color name="text_dim">#B0BEC5</color>
     <color name="text_primary">#FFFFFF</color>
