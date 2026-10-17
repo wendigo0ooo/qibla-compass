@@ -15,6 +15,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.icu.util.IslamicCalendar
 import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
@@ -22,6 +23,8 @@ import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
@@ -50,7 +53,9 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
 import kotlin.math.abs
@@ -89,11 +94,31 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private val loadExecutor = Executors.newSingleThreadExecutor()
     private lateinit var vCity: TextView
     private lateinit var vCount: TextView
-    private lateinit var vNext: TextView
+    private lateinit var vGregDate: TextView
+    private lateinit var vHijriDate: TextView
+    private lateinit var vHeroName: TextView
+    private lateinit var vHeroTime: TextView
+    private lateinit var vProgress: ProgressBar
     private lateinit var vList: LinearLayout
     private lateinit var switchNotif: SwitchCompat
     private val vNameViews = ArrayList<TextView>(6)
     private val vTimeViews = ArrayList<TextView>(6)
+    private val vIconViews = ArrayList<ImageView>(6)
+    private val vRowViews = ArrayList<LinearLayout>(6)
+    private var currentTab = 0
+    private val tickHandler = Handler(Looper.getMainLooper())
+    private val vakitTicker = object : Runnable {
+        override fun run() {
+            if (currentTab == 1) {
+                updateVakitPage()
+                tickHandler.postDelayed(this, 1000L)
+            }
+        }
+    }
+    private val vakitIcons = intArrayOf(
+        R.drawable.namaz_imsak, R.drawable.namaz_gunes, R.drawable.namaz_ogle,
+        R.drawable.namaz_ikindi, R.drawable.namaz_aksam, R.drawable.namaz_yatsi
+    )
     private var suppressNotifListener = false
 
     private val prayerNameViews = ArrayList<TextView>(6)
@@ -162,6 +187,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         private const val STATE_LON = "state_lon"
         private const val STATE_MANUAL = "state_manual"
         private const val STATE_CITY = "state_city"
+        private const val VAKIT_FUTURE = 0
+        private const val VAKIT_PAST = 1
+        private const val VAKIT_ACTIVE = 2
+        private const val VAKIT_SUN = 3
+        private val HIJRI_MONTHS = arrayOf(
+            "Muharrem", "Safer", "Rebîulevvel", "Rebîulâhir",
+            "Cemâziyelevvel", "Cemâziyelâhir", "Recep", "Şaban",
+            "Ramazan", "Şevval", "Zilkade", "Zilhicce"
+        )
 
         private val BG_LABELS = intArrayOf(
             R.string.bg_plain, R.string.bg_day, R.string.bg_crowd, R.string.bg_kiswah,
@@ -199,9 +233,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         pageAyarlar = findViewById(R.id.pageAyarlar)
         vCity = findViewById(R.id.vCity)
         vCount = findViewById(R.id.vCount)
-        vNext = findViewById(R.id.vNext)
+        vGregDate = findViewById(R.id.vGregDate)
+        vHijriDate = findViewById(R.id.vHijriDate)
+        vHeroName = findViewById(R.id.vHeroName)
+        vHeroTime = findViewById(R.id.vHeroTime)
+        vProgress = findViewById(R.id.vProgress)
         vList = findViewById(R.id.vList)
-        switchNotif = findViewById(R.id.switchNotif)
         buildVakitList()
         setupBottomBar()
         setupSettingsPage()
@@ -301,6 +338,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
 
     override fun onDestroy() {
         super.onDestroy()
+        tickHandler.removeCallbacks(vakitTicker)
         geocoderExecutor.shutdownNow()
         loadExecutor.shutdownNow()
     }
@@ -387,32 +425,80 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     // ---- vakitler page ----
 
     private fun buildVakitList() {
-        val dim = getColor(R.color.text_dim)
-        val primary = getColor(R.color.text_primary)
-        for (labelRes in prayerLabelRes) {
+        for ((i, labelRes) in prayerLabelRes.withIndex()) {
             val row = LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL
-                setPadding(0, dp(7), 0, dp(7))
+                gravity = Gravity.CENTER_VERTICAL
+                setPadding(dp(12), dp(10), dp(12), dp(10))
+                layoutParams = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                ).apply { bottomMargin = dp(8) }
+            }
+            val icon = ImageView(this).apply {
+                layoutParams = LinearLayout.LayoutParams(dp(24), dp(24))
+                setImageResource(vakitIcons[i])
+                scaleType = ImageView.ScaleType.FIT_CENTER
             }
             val name = TextView(this).apply {
                 text = getString(labelRes)
-                textSize = 15f
-                setTextColor(dim)
+                textSize = 16f
+                setTextColor(getColor(R.color.text_dim))
                 layoutParams = LinearLayout.LayoutParams(
                     0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
-                )
+                ).apply { marginStart = dp(14) }
             }
             val time = TextView(this).apply {
                 text = "--:--"
-                textSize = 16f
-                setTextColor(primary)
+                textSize = 18f
+                setTextColor(getColor(R.color.text_primary))
                 typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
             }
+            row.addView(icon)
             row.addView(name)
             row.addView(time)
             vList.addView(row)
+            vIconViews.add(icon)
             vNameViews.add(name)
             vTimeViews.add(time)
+            vRowViews.add(row)
+        }
+    }
+
+    private fun styleVakitRow(i: Int, state: Int, accent: Int, dim: Int, primary: Int) {
+        val row = vRowViews[i]
+        val name = vNameViews[i]
+        val time = vTimeViews[i]
+        val icon = vIconViews[i]
+        when (state) {
+            VAKIT_ACTIVE -> {
+                row.setBackgroundResource(R.drawable.vakit_active_bg)
+                name.setTextColor(accent)
+                name.setTypeface(null, Typeface.BOLD)
+                time.setTextColor(accent)
+                icon.setColorFilter(accent)
+            }
+            VAKIT_PAST -> {
+                row.background = null
+                name.setTextColor(dim)
+                name.setTypeface(null, Typeface.NORMAL)
+                time.setTextColor(dim)
+                icon.setColorFilter(dim)
+            }
+            VAKIT_SUN -> {
+                row.background = null
+                name.setTextColor(dim)
+                name.setTypeface(null, Typeface.ITALIC)
+                time.setTextColor(dim)
+                icon.setColorFilter(dim)
+            }
+            else -> {
+                row.background = null
+                name.setTextColor(primary)
+                name.setTypeface(null, Typeface.NORMAL)
+                time.setTextColor(primary)
+                icon.setColorFilter(dim)
+            }
         }
     }
 
@@ -422,11 +508,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         vCity.text = currentCityName
             ?: if (la != null && lo != null) String.format(Locale.US, "%.3f, %.3f", la, lo)
             else getString(R.string.loc_unknown)
+        vGregDate.text = gregTodayText()
+        vHijriDate.text = hijriTodayText()
 
         val t = prayerToday
         if (t == null) {
-            vNext.text = ""
+            vHeroName.text = ""
+            vHeroTime.text = ""
             vCount.text = ""
+            vProgress.progress = 0
             return
         }
         val values = doubleArrayOf(t.fajr, t.sunrise, t.dhuhr, t.asr, t.maghrib, t.isha)
@@ -437,24 +527,67 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
 
         val next = nextPrayerResAndTime()
         if (next == null) {
-            vNext.text = ""
+            vHeroName.text = ""
+            vHeroTime.text = ""
             vCount.text = ""
-            for (i in values.indices) {
-                vTimeViews[i].setTextColor(primary)
-                vNameViews[i].setTextColor(dim)
-            }
+            vProgress.progress = 0
+            for (i in values.indices) styleVakitRow(i, VAKIT_PAST, accent, dim, primary)
             return
         }
+        val now = nowDecimalHour()
+        vHeroName.text = getString(next.first)
+        vHeroTime.text = PrayerTimes.format(next.second)
+        vCount.text = countdownHms(next.second - now)
+        vProgress.progress = (prayerProgress(now) * 1000).roundToInt().coerceIn(0, 1000)
+
         val highlight = prayerRowIndex[next.first] ?: -1
         for (i in values.indices) {
-            val on = i == highlight
-            vTimeViews[i].setTextColor(if (on) accent else primary)
-            vNameViews[i].setTextColor(if (on) accent else dim)
+            val state = when {
+                i == 1 -> VAKIT_SUN
+                i == highlight -> VAKIT_ACTIVE
+                values[i] < now -> VAKIT_PAST
+                else -> VAKIT_FUTURE
+            }
+            styleVakitRow(i, state, accent, dim, primary)
         }
-        vNext.text = getString(
-            R.string.next_only, getString(next.first), PrayerTimes.format(next.second)
-        )
-        vCount.text = countdownText(next.second - nowDecimalHour())
+    }
+
+    private fun prayerProgress(now: Double): Double {
+        val t = prayerToday ?: return 0.0
+        val times = doubleArrayOf(t.fajr, t.dhuhr, t.asr, t.maghrib, t.isha)
+        var nextIdx = -1
+        for (i in times.indices) if (times[i] > now) { nextIdx = i; break }
+        val start: Double
+        val end: Double
+        if (nextIdx == -1) {
+            start = times.last()
+            end = times[0] + 24.0
+        } else {
+            start = if (nextIdx == 0) times.last() - 24.0 else times[nextIdx - 1]
+            end = times[nextIdx]
+        }
+        if (end <= start) return 0.0
+        return ((now - start) / (end - start)).coerceIn(0.0, 1.0)
+    }
+
+    private fun countdownHms(hours: Double): String {
+        val total = (hours * 3600).roundToInt().coerceAtLeast(0)
+        val h = total / 3600
+        val m = (total % 3600) / 60
+        val s = total % 60
+        return String.format(Locale.US, "%02d:%02d:%02d", h, m, s)
+    }
+
+    private fun gregTodayText(): String =
+        SimpleDateFormat("d MMMM yyyy, EEEE", Locale("tr", "TR")).format(Date())
+
+    private fun hijriTodayText(): String {
+        val ic = IslamicCalendar()
+        ic.time = Date()
+        val y = ic.get(IslamicCalendar.YEAR)
+        val m = ic.get(IslamicCalendar.MONTH)
+        val d = ic.get(IslamicCalendar.DAY_OF_MONTH)
+        return "$d ${HIJRI_MONTHS.getOrElse(m) { "" }} $y"
     }
 
     // ---- bottom navigation ----
@@ -519,8 +652,23 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             3 -> getString(R.string.tab_ibadah)
             else -> getString(R.string.tab_settings)
         }
-        if (index == 1) updateVakitPage()
+        currentTab = index
+        if (index == 1) {
+            updateVakitPage()
+            startVakitTicker()
+        } else {
+            stopVakitTicker()
+        }
         if (index == 2) ensureQuranLoaded()
+    }
+
+    private fun startVakitTicker() {
+        tickHandler.removeCallbacks(vakitTicker)
+        tickHandler.postDelayed(vakitTicker, 1000L)
+    }
+
+    private fun stopVakitTicker() {
+        tickHandler.removeCallbacks(vakitTicker)
     }
 
     private fun ensureQuranLoaded() {
@@ -1218,10 +1366,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         registerSensors()
         if (!manualOverride && hasLocationPermission()) startLocationUpdates()
         PrayerScheduler.rescheduleFromPrefs(this)
+        if (currentTab == 1) startVakitTicker()
     }
 
     override fun onPause() {
         super.onPause()
+        stopVakitTicker()
         sensorManager?.unregisterListener(this)
         stopGps()
     }
@@ -1328,7 +1478,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                 tvInfo.text = getString(R.string.waiting_location)
             }
             updatePrayerPanel()
-            updateVakitPage()
+            if (currentTab == 1) updateVakitPage()
             return
         }
 
@@ -1355,7 +1505,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         }
 
         updatePrayerPanel()
-        updateVakitPage()
+        if (currentTab == 1) updateVakitPage()
 
         val calibrated = sensorAccuracy >= SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM
         setStatus(

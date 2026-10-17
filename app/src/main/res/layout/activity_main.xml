@@ -187,10 +187,18 @@
                             android:gravity="center_vertical"
                             android:orientation="horizontal">
 
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:contentDescription="@null"
+                                android:src="@drawable/ic_place"
+                                app:tint="@color/accent" />
+
                             <TextView
                                 android:id="@+id/vCity"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
                                 android:layout_weight="1"
                                 android:ellipsize="end"
                                 android:maxLines="1"
@@ -198,32 +206,110 @@
                                 android:textColor="@color/text_primary"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/vGregDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="4dp"
+                            android:textColor="@color/text_dim"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/vHijriDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="1dp"
+                            android:textColor="@color/accent"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/panel_bg"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:letterSpacing="0.08"
+                            android:text="@string/vakit_next_label"
+                            android:textColor="@color/accent"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingTop="2dp">
+
+                            <TextView
+                                android:id="@+id/vHeroName"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textColor="@color/text_primary"
+                                android:textSize="28sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/vHeroTime"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/accent"
+                                android:textSize="28sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingTop="6dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/vakit_remaining"
+                                android:textColor="@color/text_dim"
+                                android:textSize="14sp" />
 
                             <TextView
                                 android:id="@+id/vCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingStart="8dp"
+                                android:layout_marginStart="8dp"
                                 android:textColor="@color/accent"
-                                android:textSize="26sp"
+                                android:textSize="22sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/vNext"
+                        <ProgressBar
+                            android:id="@+id/vProgress"
+                            style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:paddingTop="2dp"
-                            android:textColor="@color/text_dim"
-                            android:textSize="14sp" />
-
-                        <LinearLayout
-                            android:id="@+id/vList"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:paddingTop="10dp" />
+                            android:layout_height="6dp"
+                            android:layout_marginTop="12dp"
+                            android:max="1000"
+                            android:progress="0"
+                            android:progressBackgroundTint="@color/accent_soft"
+                            android:progressTint="@color/accent" />
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/vList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:orientation="vertical" />
 
                     <LinearLayout
                         android:layout_width="match_parent"

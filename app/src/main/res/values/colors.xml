@@ -10,6 +10,8 @@
     <color name="panel">#FFFFFF</color>
     <color name="panel_stroke">#E2E6EA</color>
     <color name="ayah_playing">#1F00897B</color>
+    <color name="accent_tint">#1A00897B</color>
+    <color name="accent_soft">#3300897B</color>
 
     <color name="compass_dial">#33000000</color>
     <color name="compass_tick">#66000000</color>
