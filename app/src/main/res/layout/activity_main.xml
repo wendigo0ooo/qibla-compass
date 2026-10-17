@@ -325,6 +325,43 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingTop="24dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/menu_tools"
+                        android:textColor="@color/accent"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnToolsAyar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/tool_hijri_title" />
+
+                    <Button
+                        android:id="@+id/btnZakatAyar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/tool_zakat_title" />
+
+                    <Button
+                        android:id="@+id/btnMescitAyar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/tool_mescit_title" />
+
+                    <Button
+                        android:id="@+id/btnCameraAyar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/tool_camera_title" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="24dp"
                         android:paddingBottom="6dp"
                         android:text="@string/about_title"
                         android:textColor="@color/accent"

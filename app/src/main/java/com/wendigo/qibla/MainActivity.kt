@@ -524,6 +524,18 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<Button>(R.id.btnThemeAyar).setOnClickListener { toggleTheme() }
         findViewById<Button>(R.id.btnBgAyar).setOnClickListener { showBackgroundDialog() }
         findViewById<Button>(R.id.btnMapAyar).setOnClickListener { openMap() }
+        findViewById<Button>(R.id.btnToolsAyar).setOnClickListener {
+            startActivity(Intent(this, HijriActivity::class.java))
+        }
+        findViewById<Button>(R.id.btnZakatAyar).setOnClickListener {
+            startActivity(Intent(this, ZakatActivity::class.java))
+        }
+        findViewById<Button>(R.id.btnMescitAyar).setOnClickListener {
+            startActivity(Intent(this, MescitActivity::class.java))
+        }
+        findViewById<Button>(R.id.btnCameraAyar).setOnClickListener {
+            startActivity(Intent(this, QiblaCameraActivity::class.java))
+        }
     }
 
     // ---- prayer notifications ----
