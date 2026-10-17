@@ -3,6 +3,7 @@ package com.wendigo.qibla
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -12,20 +13,20 @@ import androidx.appcompat.widget.Toolbar
 class AbdestRehberActivity : AppCompatActivity() {
 
     private data class Step(
-        val part: WuduFigureView.Part,
+        val imageRes: Int,
         val titleRes: Int,
         val bodyRes: Int
     )
 
     private val steps = listOf(
-        Step(WuduFigureView.Part.HANDS, R.string.abdest_step1_title, R.string.abdest_step1_body),
-        Step(WuduFigureView.Part.MOUTH, R.string.abdest_step2_title, R.string.abdest_step2_body),
-        Step(WuduFigureView.Part.NOSE, R.string.abdest_step3_title, R.string.abdest_step3_body),
-        Step(WuduFigureView.Part.FACE, R.string.abdest_step4_title, R.string.abdest_step4_body),
-        Step(WuduFigureView.Part.ARMS, R.string.abdest_step5_title, R.string.abdest_step5_body),
-        Step(WuduFigureView.Part.HEAD, R.string.abdest_step6_title, R.string.abdest_step6_body),
-        Step(WuduFigureView.Part.EARS, R.string.abdest_step7_title, R.string.abdest_step7_body),
-        Step(WuduFigureView.Part.FEET, R.string.abdest_step8_title, R.string.abdest_step8_body)
+        Step(R.drawable.abdest_hands, R.string.abdest_step1_title, R.string.abdest_step1_body),
+        Step(R.drawable.abdest_mouth, R.string.abdest_step2_title, R.string.abdest_step2_body),
+        Step(R.drawable.abdest_nose, R.string.abdest_step3_title, R.string.abdest_step3_body),
+        Step(R.drawable.abdest_face, R.string.abdest_step4_title, R.string.abdest_step4_body),
+        Step(R.drawable.abdest_arms, R.string.abdest_step5_title, R.string.abdest_step5_body),
+        Step(R.drawable.abdest_head, R.string.abdest_step6_title, R.string.abdest_step6_body),
+        Step(R.drawable.abdest_ears, R.string.abdest_step7_title, R.string.abdest_step7_body),
+        Step(R.drawable.abdest_feet, R.string.abdest_step8_title, R.string.abdest_step8_body)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,10 +54,11 @@ class AbdestRehberActivity : AppCompatActivity() {
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ).apply { topMargin = dp(10) }
         }
-        card.addView(WuduFigureView(this).apply {
-            part = step.part
+        card.addView(ImageView(this).apply {
+            setImageResource(step.imageRes)
+            scaleType = ImageView.ScaleType.FIT_CENTER
             layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(200)
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(220)
             )
         })
         card.addView(TextView(this).apply {

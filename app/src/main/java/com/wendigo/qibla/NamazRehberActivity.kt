@@ -3,6 +3,7 @@ package com.wendigo.qibla
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -12,18 +13,18 @@ import androidx.appcompat.widget.Toolbar
 class NamazRehberActivity : AppCompatActivity() {
 
     private data class Step(
-        val pose: SalahFigureView.Pose,
+        val imageRes: Int,
         val titleRes: Int,
         val bodyRes: Int
     )
 
     private val steps = listOf(
-        Step(SalahFigureView.Pose.TEKBIR, R.string.namaz_step1_title, R.string.namaz_step1_body),
-        Step(SalahFigureView.Pose.KIYAM, R.string.namaz_step2_title, R.string.namaz_step2_body),
-        Step(SalahFigureView.Pose.RUKU, R.string.namaz_step3_title, R.string.namaz_step3_body),
-        Step(SalahFigureView.Pose.SECDE, R.string.namaz_step4_title, R.string.namaz_step4_body),
-        Step(SalahFigureView.Pose.OTURUS, R.string.namaz_step5_title, R.string.namaz_step5_body),
-        Step(SalahFigureView.Pose.SELAM, R.string.namaz_step6_title, R.string.namaz_step6_body)
+        Step(R.drawable.namaz_tekbir, R.string.namaz_step1_title, R.string.namaz_step1_body),
+        Step(R.drawable.namaz_kiyam, R.string.namaz_step2_title, R.string.namaz_step2_body),
+        Step(R.drawable.namaz_ruku, R.string.namaz_step3_title, R.string.namaz_step3_body),
+        Step(R.drawable.namaz_secde, R.string.namaz_step4_title, R.string.namaz_step4_body),
+        Step(R.drawable.namaz_oturus, R.string.namaz_step5_title, R.string.namaz_step5_body),
+        Step(R.drawable.namaz_selam, R.string.namaz_step6_title, R.string.namaz_step6_body)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,10 +52,11 @@ class NamazRehberActivity : AppCompatActivity() {
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ).apply { topMargin = dp(10) }
         }
-        card.addView(SalahFigureView(this).apply {
-            pose = step.pose
+        card.addView(ImageView(this).apply {
+            setImageResource(step.imageRes)
+            scaleType = ImageView.ScaleType.FIT_CENTER
             layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(200)
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(220)
             )
         })
         card.addView(TextView(this).apply {
