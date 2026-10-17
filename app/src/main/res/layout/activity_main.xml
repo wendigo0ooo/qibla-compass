@@ -39,7 +39,7 @@
             android:layout_height="0dp"
             android:layout_weight="1">
 
-            <!-- =================----- KIBLE -----================= -->
+            <!-- KIBLE -->
             <LinearLayout
                 android:id="@+id/pageQibla"
                 android:layout_width="match_parent"
@@ -161,7 +161,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- =================----- VAKITLER -----================= -->
+            <!-- VAKITLER -->
             <ScrollView
                 android:id="@+id/pageVakit"
                 android:layout_width="match_parent"
@@ -279,7 +279,7 @@
                 </LinearLayout>
             </ScrollView>
 
-            <!-- =================----- AYARLAR -----================= -->
+            <!-- AYARLAR -->
             <ScrollView
                 android:id="@+id/pageAyarlar"
                 android:layout_width="match_parent"
