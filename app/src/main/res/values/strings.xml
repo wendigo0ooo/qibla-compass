@@ -139,6 +139,9 @@
     <string name="quran_resume_title">Kaldığın yerden devam et</string>
     <string name="quran_resume_fmt">%1$s — %2$d. âyet</string>
     <string name="quran_resume_hint">Dinlemeye devam etmek için dokun</string>
+    <string name="quran_restart">Baştan dinle</string>
+    <string name="quran_notif_ayah">%1$d. âyet</string>
+    <string name="quran_reciter">Mişari el-Afasi</string>
 
     <string name="notif_enable">Vakit bildirimleri</string>
     <string name="notif_hint">Vakit girdiğinde bildirim alırsınız. Bildirimin zamanında gelmesi için uygulamanın pil tasarrufundan muaf olması önerilir.</string>

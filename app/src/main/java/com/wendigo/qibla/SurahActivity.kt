@@ -1,6 +1,8 @@
 package com.wendigo.qibla
 
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,14 +14,15 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
-import androidx.media3.common.AudioAttributes
-import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.PlaybackException
 import androidx.media3.common.Player
-import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.session.MediaController
+import androidx.media3.session.SessionToken
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.common.util.concurrent.ListenableFuture
 
 class SurahActivity : AppCompatActivity() {
 
@@ -33,14 +36,18 @@ class SurahActivity : AppCompatActivity() {
         private const val KEY_LAST_AYAH = "last_ayah"
     }
 
-    private var player: ExoPlayer? = null
+    private var controller: MediaController? = null
+    private var controllerFuture: ListenableFuture<MediaController>? = null
     private var surah: QuranRepository.Surah? = null
     private var ayahOffset = 0
     private var currentPlaying = -1
     private var autoplayAyah = -1
+    private var pendingStart: Int? = null
+    private var currentHost = 0
     private lateinit var list: RecyclerView
     private lateinit var adapter: AyahAdapter
     private lateinit var btnPlay: Button
+    private lateinit var btnRestart: Button
     private var playColor = Color.TRANSPARENT
     private var accentColor = Color.BLACK
 
@@ -52,6 +59,7 @@ class SurahActivity : AppCompatActivity() {
         autoplayAyah = intent.getIntExtra(EXTRA_AUTOPLAY, -1)
         list = findViewById(R.id.ayahList)
         btnPlay = findViewById(R.id.btnPlaySurah)
+        btnRestart = findViewById(R.id.btnRestartSurah)
 
         playColor = ContextCompat.getColor(this, R.color.ayah_playing)
         accentColor = ContextCompat.getColor(this, R.color.accent)
@@ -84,12 +92,85 @@ class SurahActivity : AppCompatActivity() {
                         .scrollToPositionWithOffset(lastAyah, 0)
                 }
                 if (autoplayAyah in s.ayahs.indices) {
-                    playFrom(autoplayAyah)
+                    pendingStart = autoplayAyah
+                }
+                maybePlayPending()
+                updatePlayButton()
+                if (pendingStart == null && isThisSurah()) {
+                    setPlaying(controller?.currentMediaItemIndex ?: -1)
                 }
             }
         }.start()
 
-        btnPlay.setOnClickListener { toggleAudio() }
+        btnPlay.setOnClickListener { onPlayClicked() }
+        btnRestart.setOnClickListener { onRestartClicked() }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val token = SessionToken(this, ComponentName(this, QuranPlaybackService::class.java))
+        val future = MediaController.Builder(this, token).buildAsync()
+        controllerFuture = future
+        future.addListener({
+            val c = try {
+                future.get()
+            } catch (_: Exception) {
+                null
+            }
+            if (c != null && controllerFuture === future) {
+                controller = c
+                c.addListener(playerListener)
+                onControllerConnected()
+            }
+        }, ContextCompat.getMainExecutor(this))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        controller?.removeListener(playerListener)
+        controller = null
+        controllerFuture?.let { MediaController.releaseFuture(it) }
+        controllerFuture = null
+    }
+
+    private fun onControllerConnected() {
+        updatePlayButton()
+        if (pendingStart != null) {
+            maybePlayPending()
+        } else if (isThisSurah()) {
+            setPlaying(controller?.currentMediaItemIndex ?: -1)
+        }
+    }
+
+    private val playerListener = object : Player.Listener {
+        override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+            if (!isThisSurah()) return
+            val idx = controller?.currentMediaItemIndex ?: return
+            if (idx >= 0) {
+                setPlaying(idx)
+                saveAudioPos(idx)
+            }
+        }
+
+        override fun onIsPlayingChanged(isPlaying: Boolean) {
+            updatePlayButton()
+        }
+
+        override fun onPlaybackStateChanged(state: Int) {
+            if (state == Player.STATE_ENDED) {
+                val old = currentPlaying
+                currentPlaying = -1
+                if (old in 0 until adapter.itemCount) {
+                    adapter.playing = -1
+                    adapter.notifyItemChanged(old)
+                }
+            }
+            updatePlayButton()
+        }
+
+        override fun onPlayerError(error: PlaybackException) {
+            handlePlaybackError()
+        }
     }
 
     private fun bind(s: QuranRepository.Surah) {
@@ -102,35 +183,81 @@ class SurahActivity : AppCompatActivity() {
         list.adapter = adapter
     }
 
-    private fun toggleAudio() {
-        if (player != null) {
-            stopAudio()
-            return
-        }
+    private fun onPlayClicked() {
         val s = surah
         if (s == null) {
             Toast.makeText(this, R.string.quran_loading, Toast.LENGTH_SHORT).show()
             return
         }
-        val prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        val savedSurah = prefs.getInt(KEY_AUDIO_SURAH, -1)
-        val savedAyah = prefs.getInt(KEY_AUDIO_AYAH, 0)
-        val start = if (savedSurah == s.number - 1) savedAyah.coerceIn(0, s.ayahs.size - 1) else 0
-        buildAndPlay(0, start)
-    }
-
-    private fun saveAudioPos(position: Int) {
-        val s = surah ?: return
-        if (position < 0) return
-        getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit {
-            putInt(KEY_AUDIO_SURAH, s.number - 1)
-            putInt(KEY_AUDIO_AYAH, position)
+        val c = controller
+        if (c == null) {
+            pendingStart = savedStartIndex()
+            btnPlay.text = getString(R.string.quran_buffering)
+            return
+        }
+        if (isThisSurah() && c.mediaItemCount > 0 && c.playbackState != Player.STATE_ENDED) {
+            if (c.isPlaying) c.pause() else c.play()
+            updatePlayButton()
+        } else {
+            startList(c, s, savedStartIndex())
         }
     }
 
+    private fun onRestartClicked() {
+        val s = surah
+        if (s == null) {
+            Toast.makeText(this, R.string.quran_loading, Toast.LENGTH_SHORT).show()
+            return
+        }
+        val c = controller
+        if (c == null) {
+            pendingStart = 0
+            btnPlay.text = getString(R.string.quran_buffering)
+            return
+        }
+        startList(c, s, 0)
+    }
+
+    private fun maybePlayPending() {
+        val s = surah ?: return
+        val c = controller ?: return
+        val start = pendingStart ?: return
+        pendingStart = null
+        startList(c, s, start)
+    }
+
+    private fun startList(c: MediaController, s: QuranRepository.Surah, index: Int) {
+        currentHost = 0
+        val items = buildItems(s, 0)
+        c.setMediaItems(items, index.coerceIn(0, items.size - 1), 0L)
+        c.prepare()
+        c.play()
+        saveAudioPos(index.coerceIn(0, s.ayahs.size - 1))
+        setPlaying(index)
+        updatePlayButton()
+    }
+
     private fun playFrom(position: Int) {
-        stopAudio()
-        buildAndPlay(0, position)
+        val s = surah
+        val c = controller
+        if (s == null || c == null) {
+            pendingStart = position
+            return
+        }
+        startList(c, s, position)
+    }
+
+    private fun savedStartIndex(): Int {
+        val s = surah ?: return 0
+        val prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val savedSurah = prefs.getInt(KEY_AUDIO_SURAH, -1)
+        val savedAyah = prefs.getInt(KEY_AUDIO_AYAH, 0)
+        return if (savedSurah == s.number - 1) savedAyah.coerceIn(0, s.ayahs.size - 1) else 0
+    }
+
+    private fun isThisSurah(): Boolean {
+        val s = surah ?: return false
+        return controller?.currentMediaItem?.mediaId == (s.number - 1).toString()
     }
 
     private fun perAyahUrl(host: Int, position: Int): String {
@@ -143,55 +270,56 @@ class SurahActivity : AppCompatActivity() {
         }
     }
 
-    private fun buildAndPlay(host: Int, startPosition: Int) {
+    private fun buildItems(s: QuranRepository.Surah, host: Int): List<MediaItem> {
+        val reciter = getString(R.string.quran_reciter)
+        return s.ayahs.indices.map { i ->
+            val meta = MediaMetadata.Builder()
+                .setTitle("${s.number}. ${s.name}")
+                .setArtist(getString(R.string.quran_notif_ayah, i + 1) + " · " + reciter)
+                .build()
+            MediaItem.Builder()
+                .setUri(perAyahUrl(host, i))
+                .setMediaId((s.number - 1).toString())
+                .setMediaMetadata(meta)
+                .build()
+        }
+    }
+
+    private fun handlePlaybackError() {
+        val c = controller ?: return
+        val s = surah
+        if (currentHost == 0 && s != null) {
+            currentHost = 1
+            val resume = c.currentMediaItemIndex.coerceAtLeast(0)
+            val items = buildItems(s, 1)
+            c.setMediaItems(items, resume.coerceIn(0, items.size - 1), 0L)
+            c.prepare()
+            c.play()
+            setPlaying(resume)
+            return
+        }
+        Toast.makeText(this, R.string.quran_audio_error, Toast.LENGTH_LONG).show()
+        c.stop()
+        updatePlayButton()
+    }
+
+    private fun updatePlayButton() {
+        if (!::btnPlay.isInitialized) return
+        val c = controller
+        btnPlay.text = if (c != null && isThisSurah() && c.isPlaying) {
+            getString(R.string.quran_stop)
+        } else {
+            getString(R.string.quran_play)
+        }
+    }
+
+    private fun saveAudioPos(position: Int) {
         val s = surah ?: return
-        val exo = ExoPlayer.Builder(this)
-            .setAudioAttributes(
-                AudioAttributes.Builder()
-                    .setUsage(C.USAGE_MEDIA)
-                    .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
-                    .build(),
-                true
-            )
-            .build()
-        player = exo
-        btnPlay.text = getString(R.string.quran_buffering)
-
-        val items = (s.ayahs.indices).map { MediaItem.fromUri(perAyahUrl(host, it)) }
-        exo.addListener(object : Player.Listener {
-            override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                setPlaying(exo.currentMediaItemIndex)
-                saveAudioPos(exo.currentMediaItemIndex)
-            }
-
-            override fun onPlaybackStateChanged(state: Int) {
-                when (state) {
-                    Player.STATE_READY -> {
-                        if (player === exo) btnPlay.text = getString(R.string.quran_stop)
-                    }
-                    Player.STATE_ENDED -> stopAudio()
-                }
-            }
-
-            override fun onPlayerError(error: PlaybackException) {
-                val resume = exo.currentMediaItemIndex.coerceAtLeast(0)
-                runCatching { exo.release() }
-                if (player === exo) player = null
-                if (host == 0) {
-                    buildAndPlay(1, resume)
-                } else {
-                    Toast.makeText(
-                        this@SurahActivity, R.string.quran_audio_error, Toast.LENGTH_LONG
-                    ).show()
-                    stopAudio()
-                }
-            }
-        })
-        exo.setMediaItems(items, startPosition.coerceIn(0, items.size - 1), 0L)
-        exo.prepare()
-        exo.playWhenReady = true
-        setPlaying(startPosition)
-        saveAudioPos(startPosition)
+        if (position < 0) return
+        getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit {
+            putInt(KEY_AUDIO_SURAH, s.number - 1)
+            putInt(KEY_AUDIO_AYAH, position)
+        }
     }
 
     private fun setPlaying(position: Int) {
@@ -203,19 +331,6 @@ class SurahActivity : AppCompatActivity() {
         if (position in 0 until adapter.itemCount) {
             adapter.notifyItemChanged(position)
             list.smoothScrollToPosition(position)
-        }
-    }
-
-    private fun stopAudio() {
-        val exo = player
-        player = null
-        runCatching { exo?.release() }
-        btnPlay.text = getString(R.string.quran_play)
-        val old = currentPlaying
-        currentPlaying = -1
-        if (old in 0 until adapter.itemCount) {
-            adapter.playing = -1
-            adapter.notifyItemChanged(old)
         }
     }
 
@@ -231,11 +346,6 @@ class SurahActivity : AppCompatActivity() {
                 putInt(KEY_LAST_AYAH, pos.coerceAtLeast(0))
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        stopAudio()
     }
 
     private inner class AyahAdapter(
