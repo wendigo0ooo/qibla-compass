@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 object NotificationHelper {
 
     const val CHANNEL_VAKIT = "prayer_times"
+    const val CHANNEL_COUNTDOWN = "prayer_countdown"
 
     fun channelFor(minutes: Int): String = "prayer_reminder_$minutes"
 
@@ -44,6 +45,22 @@ object NotificationHelper {
         }
 
         for (m in PrayerScheduler.REMIND_MINUTES) ensureReminderChannel(nm, context, m)
+        ensureCountdownChannel(nm, context)
+    }
+
+    private fun ensureCountdownChannel(nm: NotificationManager, context: Context) {
+        if (nm.getNotificationChannel(CHANNEL_COUNTDOWN) != null) return
+        val channel = NotificationChannel(
+            CHANNEL_COUNTDOWN,
+            context.getString(R.string.notif_countdown_channel_name),
+            NotificationManager.IMPORTANCE_LOW
+        ).apply {
+            description = context.getString(R.string.notif_countdown_channel_desc)
+            setShowBadge(false)
+            enableVibration(false)
+            setSound(null, null)
+        }
+        nm.createNotificationChannel(channel)
     }
 
     private fun ensureReminderChannel(nm: NotificationManager, context: Context, minutes: Int) {

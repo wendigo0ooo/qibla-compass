@@ -81,11 +81,13 @@ object PrayerScheduler {
         val p = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
         if (!p.getBoolean(KEY_ENABLED, false)) {
             cancel(context)
+            PrayerCountdownService.stop(context)
             return
         }
-        val la = p.getString(KEY_LAT, null)?.toDoubleOrNull() ?: return
-        val lo = p.getString(KEY_LON, null)?.toDoubleOrNull() ?: return
-        schedule(context, la, lo, p.getString(KEY_CITY, null))
+        val la = p.getString(KEY_LAT, null)?.toDoubleOrNull()
+        val lo = p.getString(KEY_LON, null)?.toDoubleOrNull()
+        if (la != null && lo != null) schedule(context, la, lo, p.getString(KEY_CITY, null))
+        PrayerCountdownService.start(context)
     }
 
     private fun code(dayIndex: Int, prayerIndex: Int, kind: Int): Int =

@@ -925,6 +925,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         if (!enabled) {
             p.edit().putBoolean(PrayerScheduler.KEY_ENABLED, false).apply()
             PrayerScheduler.cancel(this)
+            PrayerCountdownService.stop(this)
             return
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
@@ -948,6 +949,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             p.edit().putString(PrayerScheduler.KEY_CITY, currentCityName).apply()
             PrayerScheduler.schedule(this, la, lo, currentCityName)
         }
+        PrayerCountdownService.start(this)
         maybePromptExactAlarm()
         Toast.makeText(this, R.string.notif_opened, Toast.LENGTH_SHORT).show()
     }
@@ -974,6 +976,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         if (p.getBoolean(PrayerScheduler.KEY_ENABLED, false)) {
             p.edit().putString(PrayerScheduler.KEY_CITY, currentCityName).apply()
             PrayerScheduler.schedule(this, la, lo, currentCityName)
+            PrayerCountdownService.start(this)
         }
     }
 

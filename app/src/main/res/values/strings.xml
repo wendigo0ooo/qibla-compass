@@ -141,6 +141,12 @@
     <string name="notif_channel_r30">Hatırlatıcı · 30 dakika</string>
     <string name="notif_channel_r15">Hatırlatıcı · 15 dakika</string>
     <string name="notif_channel_r5">Hatırlatıcı · 5 dakika</string>
+    <string name="notif_countdown_channel_name">Vakit geri sayımı (kalıcı)</string>
+    <string name="notif_countdown_channel_desc">Sıradaki namaz vaktine canlı geri sayım gösteren kalıcı bildirim</string>
+    <string name="notif_countdown_next">Sıradaki: %1$s · %2$s</string>
+    <string name="notif_countdown_hint">Canlı geri sayım</string>
+    <string name="notif_countdown_waiting">Vakitler için konumu açın</string>
+    <string name="notif_countdown_action">Yenile</string>
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
