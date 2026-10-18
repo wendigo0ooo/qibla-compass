@@ -114,6 +114,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".PrayerTrackerActivity"
+            android:exported="false"
+            android:label="@string/pt_title"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".AbdestRehberActivity"
             android:exported="false"
             android:label="@string/tool_abdest_title"

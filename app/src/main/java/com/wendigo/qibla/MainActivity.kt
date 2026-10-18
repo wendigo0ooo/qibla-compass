@@ -625,6 +625,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<View>(R.id.ibAbdest).setOnClickListener {
             startActivity(Intent(this, AbdestRehberActivity::class.java))
         }
+        findViewById<View>(R.id.ibTakip).setOnClickListener {
+            startActivity(Intent(this, PrayerTrackerActivity::class.java))
+        }
     }
 
     private fun selectTab(index: Int) {

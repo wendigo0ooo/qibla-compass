@@ -263,4 +263,40 @@
 
     <string name="dur_hm">%1$d sa %2$d dk</string>
     <string name="dur_m">%1$d dk</string>
+
+    <string name="ib_takip_sub">Günlük 5 vakti işaretle, kaza borcunu takip et</string>
+    <string name="pt_title">Namaz Takibi</string>
+    <string name="pt_sabah">Sabah</string>
+    <string name="pt_ogle">Öğle</string>
+    <string name="pt_ikindi">İkindi</string>
+    <string name="pt_aksam">Akşam</string>
+    <string name="pt_yatsi">Yatsı</string>
+    <string name="pt_today">Bugün</string>
+    <string name="pt_today_hint">Kıldığın vakti işaretlemek için dokun.</string>
+    <string name="pt_streak">Seri: %1$d gün</string>
+    <string name="pt_streak_none">Seri yok</string>
+    <string name="pt_progress">%1$d/%2$d tamam</string>
+    <string name="pt_no_location">Vakit saatleri için konum alınamadı. Ana ekranda konumunuzun belirlenmesini bekleyin.</string>
+    <string name="pt_kaza">Kaza Defteri</string>
+    <string name="pt_kaza_sub">Kılamadığın vakitleri biriktir; kıldıkça borcunu azalt.</string>
+    <string name="pt_kaza_count">%1$d</string>
+    <string name="pt_add_missed">Kılmadıklarımı kazaya ekle</string>
+    <string name="pt_reset_today">Bugünü sıfırla</string>
+    <string name="pt_added">Bugünün kılınmamış vakitleri kazaya eklendi.</string>
+    <string name="pt_nothing_missed">Ekleyecek kılınmamış vakit yok.</string>
+    <string name="pt_kaza_done">Kaza borcun yok. Elhamdülillah.</string>
+    <string name="pt_kaza_reset">Kaza defterini sıfırla</string>
+    <string name="pt_kaza_reset_msg">Emin misiniz? Kaza sayıları sıfırlanacak.</string>
+    <string name="pt_month">Aylık Takvim</string>
+    <string name="pt_month_prayers">%1$d/%2$d namaz kılındı</string>
+    <string name="pt_month_days">Tamamlanan gün: %1$d</string>
+    <string name="pt_no_data">Bu ay için kayıt yok.</string>
+    <string name="pt_prev">Önceki ay</string>
+    <string name="pt_next">Sonraki ay</string>
+    <string name="pt_day_edit_title">Günü düzenle</string>
+    <string name="pt_close">Kapat</string>
+    <string name="pt_clear_day">Bu günün işaretlerini sil</string>
+    <string name="pt_clear_msg">Bu günün namaz işaretleri silinsin mi?</string>
+    <string name="pt_yes">Evet</string>
+    <string name="pt_cancel">Vazgeç</string>
 </resources>
