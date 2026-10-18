@@ -102,6 +102,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private lateinit var vProgress: ProgressBar
     private lateinit var vList: LinearLayout
     private lateinit var switchNotif: SwitchCompat
+    private lateinit var switchCountdown: SwitchCompat
     private val vNameViews = ArrayList<TextView>(6)
     private val vTimeViews = ArrayList<TextView>(6)
     private val vIconViews = ArrayList<ImageView>(6)
@@ -174,6 +175,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     companion object {
         private const val REQ_LOCATION = 1001
         private const val REQ_NOTIF = 1002
+        private const val REQ_NOTIF_COUNTDOWN = 1003
         private const val ALIGN_TOLERANCE = 5f
         private const val PREFS = "qibla_prefs"
         private const val KEY_RECENT_SURAHS = "recent_surahs"
@@ -889,6 +891,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         switchNotif.isChecked = p.getBoolean(PrayerScheduler.KEY_ENABLED, false)
         suppressNotifListener = false
         switchNotif.setOnCheckedChangeListener { _, checked -> onNotifToggled(checked) }
+        switchCountdown = findViewById(R.id.switchCountdown)
+        suppressNotifListener = true
+        switchCountdown.isChecked = p.getBoolean(PrayerScheduler.KEY_COUNTDOWN, true)
+        suppressNotifListener = false
+        switchCountdown.setOnCheckedChangeListener { _, checked -> onCountdownToggled(checked) }
         findViewById<Button>(R.id.btnNotifTest).setOnClickListener {
             NotificationHelper.show(
                 this,
@@ -926,7 +933,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         if (!enabled) {
             p.edit().putBoolean(PrayerScheduler.KEY_ENABLED, false).apply()
             PrayerScheduler.cancel(this)
-            PrayerCountdownService.stop(this)
             return
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
@@ -941,6 +947,28 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         enableNotifications(p)
     }
 
+    private fun onCountdownToggled(enabled: Boolean) {
+        if (suppressNotifListener) return
+        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        if (!enabled) {
+            p.edit().putBoolean(PrayerScheduler.KEY_COUNTDOWN, false).apply()
+            PrayerCountdownService.stop(this)
+            return
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
+            PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), REQ_NOTIF_COUNTDOWN
+            )
+            return
+        }
+        p.edit().putBoolean(PrayerScheduler.KEY_COUNTDOWN, true).apply()
+        PrayerCountdownService.start(this)
+        Toast.makeText(this, R.string.notif_countdown_on, Toast.LENGTH_SHORT).show()
+    }
+
     private fun enableNotifications(p: SharedPreferences) {
         p.edit().putBoolean(PrayerScheduler.KEY_ENABLED, true).apply()
         NotificationHelper.ensureChannel(this)
@@ -950,9 +978,18 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             p.edit().putString(PrayerScheduler.KEY_CITY, currentCityName).apply()
             PrayerScheduler.schedule(this, la, lo, currentCityName)
         }
-        PrayerCountdownService.start(this)
+        syncCountdown()
         maybePromptExactAlarm()
         Toast.makeText(this, R.string.notif_opened, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun syncCountdown() {
+        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        if (p.getBoolean(PrayerScheduler.KEY_COUNTDOWN, true)) {
+            PrayerCountdownService.start(this)
+        } else {
+            PrayerCountdownService.stop(this)
+        }
     }
 
     private fun maybePromptExactAlarm() {
@@ -977,8 +1014,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         if (p.getBoolean(PrayerScheduler.KEY_ENABLED, false)) {
             p.edit().putString(PrayerScheduler.KEY_CITY, currentCityName).apply()
             PrayerScheduler.schedule(this, la, lo, currentCityName)
-            PrayerCountdownService.start(this)
         }
+        syncCountdown()
     }
 
     private fun dp(value: Int): Int = (value * resources.displayMetrics.density).toInt()
@@ -1213,6 +1250,20 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             } else {
                 suppressNotifListener = true
                 switchNotif.isChecked = false
+                suppressNotifListener = false
+                Toast.makeText(this, R.string.notif_denied, Toast.LENGTH_LONG).show()
+            }
+        } else if (requestCode == REQ_NOTIF_COUNTDOWN) {
+            val granted = grantResults.isNotEmpty() &&
+                    grantResults.all { it == PackageManager.PERMISSION_GRANTED }
+            if (granted) {
+                getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                    .edit().putBoolean(PrayerScheduler.KEY_COUNTDOWN, true).apply()
+                PrayerCountdownService.start(this)
+                Toast.makeText(this, R.string.notif_countdown_on, Toast.LENGTH_SHORT).show()
+            } else {
+                suppressNotifListener = true
+                switchCountdown.isChecked = false
                 suppressNotifListener = false
                 Toast.makeText(this, R.string.notif_denied, Toast.LENGTH_LONG).show()
             }

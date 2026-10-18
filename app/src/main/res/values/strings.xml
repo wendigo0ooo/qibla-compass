@@ -130,6 +130,7 @@
     <string name="notif_channel_desc">Vakit girdiğinde bildirim gösterilir</string>
     <string name="notif_title_fmt">%1$s vakti</string>
     <string name="notif_opened">Bildirimler açıldı</string>
+    <string name="notif_countdown_on">Kalıcı vakit geri sayımı açıldı</string>
     <string name="notif_denied">Bildirim izni verilmedi</string>
     <string name="notif_reminders_title">Vakit öncesi hatırlatıcı</string>
     <string name="notif_remind_30">30 dakika önce</string>
@@ -147,6 +148,8 @@
     <string name="notif_countdown_hint">Canlı geri sayım</string>
     <string name="notif_countdown_waiting">Vakitler için konumu açın</string>
     <string name="notif_countdown_action">Yenile</string>
+    <string name="notif_countdown_enable">Kalıcı vakit geri sayımı</string>
+    <string name="notif_countdown_hint2">Bildirim panelinde sıradaki namaz vaktine canlı geri sayım gösterir. İstemezseniz kapatabilirsiniz.</string>
     <string name="nc_next_label">Sıradaki · %1$s</string>
     <string name="nc_next_small">SIRADAKİ VAKİT</string>
     <string name="nc_left">kaldı</string>

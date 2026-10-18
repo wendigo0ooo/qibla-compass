@@ -21,6 +21,7 @@ object PrayerScheduler {
 
     const val PREFS = "qibla_prefs"
     const val KEY_ENABLED = "notif_enabled"
+    const val KEY_COUNTDOWN = "notif_countdown"
     const val KEY_LAT = "device_lat"
     const val KEY_LON = "device_lon"
     const val KEY_CITY = "notif_city"
@@ -79,15 +80,18 @@ object PrayerScheduler {
 
     fun rescheduleFromPrefs(context: Context) {
         val p = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        if (p.getBoolean(KEY_COUNTDOWN, true)) {
+            PrayerCountdownService.start(context)
+        } else {
+            PrayerCountdownService.stop(context)
+        }
         if (!p.getBoolean(KEY_ENABLED, false)) {
             cancel(context)
-            PrayerCountdownService.stop(context)
             return
         }
         val la = p.getString(KEY_LAT, null)?.toDoubleOrNull()
         val lo = p.getString(KEY_LON, null)?.toDoubleOrNull()
         if (la != null && lo != null) schedule(context, la, lo, p.getString(KEY_CITY, null))
-        PrayerCountdownService.start(context)
     }
 
     private fun code(dayIndex: Int, prayerIndex: Int, kind: Int): Int =
