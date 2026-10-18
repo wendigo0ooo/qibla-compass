@@ -101,6 +101,9 @@
     <string name="tb_done">Hedefe ulaştınız, mâşâallah!</string>
     <string name="tb_target_fmt">Hedef: %1$d</string>
     <string name="tb_free">Serbest (hedef yok)</string>
+    <string name="tb_masallah">Mâşâallah!</string>
+    <string name="tb_target_reached">%1$s · %2$d tamamlandı</string>
+    <string name="tb_continue">Devam et</string>
 
     <string name="quran_loading">Kur\'an yükleniyor…</string>
     <string name="quran_search_hint">Sûre ara (isim veya numara)</string>

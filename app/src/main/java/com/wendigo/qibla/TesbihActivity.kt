@@ -3,16 +3,17 @@ package com.wendigo.qibla
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.text.InputType
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -42,7 +43,9 @@ class TesbihActivity : AppCompatActivity() {
     private lateinit var tvCount: TextView
     private lateinit var tvTarget: TextView
     private lateinit var tvPreset: TextView
+    private lateinit var dial: TesbihDialView
 
+    private val celebrateHandler = Handler(Looper.getMainLooper())
     private val prefs by lazy { getSharedPreferences(PREFS, Context.MODE_PRIVATE) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +60,7 @@ class TesbihActivity : AppCompatActivity() {
         tvCount = findViewById(R.id.tbCount)
         tvTarget = findViewById(R.id.tbTarget)
         tvPreset = findViewById(R.id.tbPreset)
+        dial = findViewById(R.id.tbDial)
 
         count = prefs.getInt(KEY_COUNT, 0)
         target = prefs.getInt(KEY_TARGET, 33)
@@ -67,18 +71,34 @@ class TesbihActivity : AppCompatActivity() {
         findViewById<Button>(R.id.tbChange).setOnClickListener { choosePreset() }
         findViewById<Button>(R.id.tbTargetBtn).setOnClickListener { chooseTarget() }
 
+        findViewById<View>(R.id.tbCelebrate).setOnClickListener { hideCelebration() }
+        findViewById<Button>(R.id.tbCelebrateContinue).setOnClickListener { hideCelebration() }
+        findViewById<Button>(R.id.tbCelebrateReset).setOnClickListener {
+            reset()
+            hideCelebration()
+        }
+
         render()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        celebrateHandler.removeCallbacksAndMessages(null)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        celebrateHandler.removeCallbacksAndMessages(null)
     }
 
     private fun increment() {
         count++
         vibrate(15)
-        if (target > 0 && count == target) {
-            vibrate(250)
-            Toast.makeText(this, getString(R.string.tb_done), Toast.LENGTH_SHORT).show()
-        }
+        animateCount()
+        val reached = target > 0 && count == target
         prefs.edit { putInt(KEY_COUNT, count) }
         render()
+        if (reached) celebrate()
     }
 
     private fun reset() {
@@ -100,6 +120,7 @@ class TesbihActivity : AppCompatActivity() {
                     putInt(KEY_TARGET, target)
                     putInt(KEY_COUNT, count)
                 }
+                hideCelebration()
                 render()
             }
             .show()
@@ -141,27 +162,70 @@ class TesbihActivity : AppCompatActivity() {
     private fun setTarget(value: Int) {
         target = value.coerceAtLeast(0)
         prefs.edit { putInt(KEY_TARGET, target) }
+        hideCelebration()
         render()
     }
 
     private fun render() {
         tvCount.text = count.toString()
-        tvPreset.text = PRESETS[preset.coerceIn(0, PRESETS.size - 1)].first
+        val name = PRESETS[preset.coerceIn(0, PRESETS.size - 1)].first
+        tvPreset.text = name
         tvTarget.text = if (target > 0) {
             getString(R.string.tb_target_fmt, target)
         } else {
             getString(R.string.tb_free)
         }
+        dial.setValues(count, target)
+    }
+
+    private fun animateCount() {
+        tvCount.animate().cancel()
+        tvCount.scaleX = 1.12f
+        tvCount.scaleY = 1.12f
+        tvCount.animate().scaleX(1f).scaleY(1f).setDuration(140).start()
+    }
+
+    private fun celebrate() {
+        vibratePattern(longArrayOf(0, 60, 80, 140))
+        val name = PRESETS[preset.coerceIn(0, PRESETS.size - 1)].first
+        findViewById<TextView>(R.id.tbCelebrateText).text =
+            getString(R.string.tb_target_reached, name, target)
+
+        val overlay = findViewById<View>(R.id.tbCelebrate)
+        val card = findViewById<View>(R.id.tbCelebrateCard)
+        val icon = findViewById<View>(R.id.tbCelebrateIcon)
+        overlay.animate().cancel()
+        card.animate().cancel()
+        icon.animate().cancel()
+
+        overlay.alpha = 0f
+        card.scaleX = 0.85f
+        card.scaleY = 0.85f
+        icon.scaleX = 0.5f
+        icon.scaleY = 0.5f
+        icon.rotation = -30f
+        overlay.visibility = View.VISIBLE
+
+        overlay.animate().alpha(1f).setDuration(180).start()
+        card.animate().scaleX(1f).scaleY(1f).setDuration(240).start()
+        icon.animate().scaleX(1f).scaleY(1f).rotation(0f).setDuration(340).start()
+
+        celebrateHandler.removeCallbacksAndMessages(null)
+        celebrateHandler.postDelayed({ hideCelebration() }, 4500L)
+    }
+
+    private fun hideCelebration() {
+        val overlay = findViewById<View>(R.id.tbCelebrate)
+        if (overlay.visibility != View.VISIBLE) return
+        celebrateHandler.removeCallbacksAndMessages(null)
+        overlay.animate().alpha(0f).setDuration(160)
+            .withEndAction { overlay.visibility = View.GONE }.start()
     }
 
     @Suppress("DEPRECATION")
     private fun vibrate(ms: Long) {
         try {
-            val v = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                (getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager).defaultVibrator
-            } else {
-                getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-            }
+            val v = vibrator() ?: return
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 v.vibrate(VibrationEffect.createOneShot(ms, VibrationEffect.DEFAULT_AMPLITUDE))
             } else {
@@ -170,4 +234,25 @@ class TesbihActivity : AppCompatActivity() {
         } catch (_: Exception) {
         }
     }
+
+    @Suppress("DEPRECATION")
+    private fun vibratePattern(pattern: LongArray) {
+        try {
+            val v = vibrator() ?: return
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createWaveform(pattern, -1))
+            } else {
+                v.vibrate(pattern, -1)
+            }
+        } catch (_: Exception) {
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    private fun vibrator(): Vibrator? =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            (getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as? VibratorManager)?.defaultVibrator
+        } else {
+            getSystemService(Context.VIBRATOR_SERVICE) as? Vibrator
+        }
 }
