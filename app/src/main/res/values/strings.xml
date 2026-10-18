@@ -147,6 +147,9 @@
     <string name="notif_countdown_hint">Canlı geri sayım</string>
     <string name="notif_countdown_waiting">Vakitler için konumu açın</string>
     <string name="notif_countdown_action">Yenile</string>
+    <string name="nc_next_label">Sıradaki · %1$s</string>
+    <string name="nc_next_small">SIRADAKİ VAKİT</string>
+    <string name="nc_left">kaldı</string>
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>

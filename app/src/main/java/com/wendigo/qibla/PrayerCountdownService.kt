@@ -4,20 +4,30 @@ import android.app.AlarmManager
 import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.graphics.Typeface
 import android.os.Build
 import android.os.IBinder
+import android.os.SystemClock
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import java.util.Calendar
 
 /**
- * Foreground service that keeps a non-dismissable notification showing the next
- * prayer time with a live (countdown) chronometer and all six times of the day.
+ * Foreground service that keeps an ongoing notification with a live countdown to the
+ * next prayer time plus a row of all six times of the day.
  *
- * The countdown is rendered by the system via a chronometer, so the service only
- * refreshes at prayer boundaries (scheduled with [AlarmManager]).
+ * The layout is a custom (decorated) RemoteViews; the countdown uses a [Chronometer]
+ * inside the RemoteViews so the system animates it without extra wake-ups. The service
+ * only refreshes at prayer boundaries.
+ *
+ * Android 13+ lets users dismiss foreground-service notifications even with
+ * `setOngoing(true)`; a delete intent re-posts the notification so it stays visible.
  */
 class PrayerCountdownService : Service() {
 
@@ -26,6 +36,10 @@ class PrayerCountdownService : Service() {
     override fun onCreate() {
         super.onCreate()
         NotificationHelper.ensureChannel(this)
+        ContextCompat.registerReceiver(
+            this, dismissReceiver, IntentFilter(ACTION_DISMISSED),
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -41,12 +55,29 @@ class PrayerCountdownService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         cancelBoundary()
+        try {
+            unregisterReceiver(dismissReceiver)
+        } catch (_: Exception) {
+        }
+    }
+
+    private val dismissReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val n = currentNotification ?: return
+            try {
+                NotificationManagerCompat.from(this@PrayerCountdownService)
+                    .notify(NOTIF_ID, n)
+            } catch (_: Exception) {
+            }
+        }
     }
 
     private fun refresh() {
         val vals = todayValues()
         val next = if (vals != null) nextFrom(vals) else null
-        startFg(NOTIF_ID, buildNotification(vals, next))
+        val notif = buildNotification(vals, next)
+        currentNotification = notif
+        startFg(NOTIF_ID, notif)
         if (next != null) scheduleBoundary(next.millis) else scheduleRetry()
     }
 
@@ -108,17 +139,22 @@ class PrayerCountdownService : Service() {
 
     // ---- notification ----
 
+    private var currentNotification: Notification? = null
+
     private fun buildNotification(vals: DoubleArray?, next: Next?): Notification {
         val builder = NotificationCompat.Builder(this, NotificationHelper.CHANNEL_COUNTDOWN)
             .setSmallIcon(R.drawable.ic_notif)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setSilent(true)
+            .setShowWhen(false)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
             .setContentIntent(openAppIntent())
-            .addAction(0, getString(R.string.notif_countdown_action), refreshIntent())
+            .setDeleteIntent(dismissIntent())
+            .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
             .setColor(getColor(R.color.accent))
+            .addAction(0, getString(R.string.notif_countdown_action), refreshIntent())
 
         if (vals == null || next == null) {
             return builder
@@ -128,29 +164,50 @@ class PrayerCountdownService : Service() {
         }
 
         val name = getString(NAME_RES[next.idx])
-        val timeStr = PrayerTimes.format(next.hour)
-        val title = getString(R.string.notif_countdown_next, name, timeStr)
+        val title = getString(R.string.notif_countdown_next, name, PrayerTimes.format(next.hour))
 
-        val style = NotificationCompat.InboxStyle()
-            .setBigContentTitle(title)
-        for (idx in NAME_RES.indices) {
-            val mark = if (idx == next.idx) "▸" else "  "
-            style.addLine("$mark ${getString(NAME_RES[idx])}   ${PrayerTimes.format(vals[idx])}")
-        }
+        val small = RemoteViews(packageName, R.layout.notification_countdown)
+        val big = RemoteViews(packageName, R.layout.notification_countdown_big)
+        fillViews(small, vals, next)
+        fillViews(big, vals, next)
 
         builder
             .setContentTitle(title)
             .setContentText(getString(R.string.notif_countdown_hint))
-            .setWhen(next.millis)
-            .setUsesChronometer(true)
-            .setStyle(style)
+            .setStyle(NotificationCompat.DecoratedCustomViewStyle())
+            .setCustomContentView(small)
+            .setCustomBigContentView(big)
+        return builder.build()
+    }
 
-        prefs().getString(PrayerScheduler.KEY_CITY, null)?.takeIf { it.isNotBlank() }
-            ?.let { builder.setSubText(it) }
+    private fun fillViews(rv: RemoteViews, vals: DoubleArray, next: Next) {
+        val accent = getColor(R.color.notif_accent)
 
-        val n = builder.build()
-        n.extras?.putBoolean(Notification.EXTRA_CHRONOMETER_COUNT_DOWN, true)
-        return n
+        rv.setTextViewText(R.id.ncLabelNext, getString(R.string.nc_next_label, getString(NAME_RES[next.idx])))
+        rv.setTextViewText(R.id.ncNextSmall, getString(R.string.nc_next_small))
+        rv.setTextViewText(R.id.ncNextBig, getString(NAME_RES[next.idx]))
+        rv.setTextViewText(R.id.ncLeft, getString(R.string.nc_left))
+
+        val base = SystemClock.elapsedRealtime() + (next.millis - System.currentTimeMillis())
+        for (id in intArrayOf(R.id.ncChrono, R.id.ncChronoBig)) {
+            rv.setChronometerCountDown(id, true)
+            rv.setChronometer(id, base, null, true)
+            rv.setTextColor(id, accent)
+        }
+
+        for (i in NAME_RES.indices) {
+            rv.setTextViewText(NAME_IDS[i], getString(NAME_RES[i]))
+            rv.setTextViewText(TIME_IDS[i], PrayerTimes.format(vals[i]))
+            val active = i == next.idx
+            rv.setInt(
+                COL_IDS[i], "setBackgroundResource",
+                if (active) R.drawable.notif_active_bg else R.drawable.notif_col_bg
+            )
+            rv.setInt(TIME_IDS[i], "setTypeface", if (active) Typeface.BOLD else Typeface.NORMAL)
+        }
+
+        val city = prefs().getString(PrayerScheduler.KEY_CITY, null)
+        rv.setTextViewText(R.id.ncCity, city?.takeIf { it.isNotBlank() } ?: "")
     }
 
     private fun openAppIntent(): PendingIntent {
@@ -168,6 +225,14 @@ class PrayerCountdownService : Service() {
             this, 1, serviceIntent(ACTION_REFRESH),
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
+
+    private fun dismissIntent(): PendingIntent {
+        val intent = Intent(ACTION_DISMISSED).setPackage(packageName)
+        return PendingIntent.getBroadcast(
+            this, 3, intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+    }
 
     private fun serviceIntent(action: String): Intent =
         Intent(this, PrayerCountdownService::class.java).setAction(action)
@@ -231,6 +296,7 @@ class PrayerCountdownService : Service() {
         const val ACTION_START = "com.wendigo.qibla.COUNTDOWN_START"
         const val ACTION_REFRESH = "com.wendigo.qibla.COUNTDOWN_REFRESH"
         const val ACTION_STOP = "com.wendigo.qibla.COUNTDOWN_STOP"
+        const val ACTION_DISMISSED = "com.wendigo.qibla.COUNTDOWN_DISMISSED"
 
         private const val NOTIF_ID = 500
         private const val ALARM_CODE = 9901
@@ -242,6 +308,21 @@ class PrayerCountdownService : Service() {
         private val NAME_RES = intArrayOf(
             R.string.p_fajr, R.string.p_sunrise, R.string.p_dhuhr,
             R.string.p_asr, R.string.p_maghrib, R.string.p_isha
+        )
+
+        private val NAME_IDS = intArrayOf(
+            R.id.ncName0, R.id.ncName1, R.id.ncName2,
+            R.id.ncName3, R.id.ncName4, R.id.ncName5
+        )
+
+        private val TIME_IDS = intArrayOf(
+            R.id.ncTime0, R.id.ncTime1, R.id.ncTime2,
+            R.id.ncTime3, R.id.ncTime4, R.id.ncTime5
+        )
+
+        private val COL_IDS = intArrayOf(
+            R.id.ncCol0, R.id.ncCol1, R.id.ncCol2,
+            R.id.ncCol3, R.id.ncCol4, R.id.ncCol5
         )
 
         /** Indices used for "next prayer" (sunrise is not a prayer). */
