@@ -199,6 +199,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         private const val REQ_NOTIF = 1002
         private const val REQ_NOTIF_COUNTDOWN = 1003
         private const val REQ_PICK_SOUND = 1004
+        private const val KEY_TEST_MINUTES = "remind_test_minutes"
         private const val ALIGN_TOLERANCE = 5f
         private const val PREFS = "qibla_prefs"
         private const val KEY_RECENT_SURAHS = "recent_surahs"
@@ -1236,13 +1237,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             .map { it.trim() }.filter { it.isNotEmpty() }
             .joinToString(" · ").ifBlank { getString(R.string.app_name) }
         if (reminder) {
+            val minutes = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+                .getInt(KEY_TEST_MINUTES, 15)
             NotificationHelper.show(
                 this,
-                getString(R.string.notif_reminder_title, getString(R.string.p_dhuhr), 15),
+                getString(R.string.notif_reminder_title, getString(R.string.p_dhuhr), minutes),
                 line,
-                215,
-                NotificationHelper.channelFor(15),
-                15,
+                200 + minutes,
+                NotificationHelper.channelFor(this, minutes),
+                minutes,
                 line = line,
                 sub = getString(R.string.notif_reminder_sub),
                 iconRes = NotificationHelper.prayerIcon(1)
@@ -1265,6 +1268,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             getString(R.string.sound_default),
             getString(R.string.sound_silent),
             getString(R.string.sound_ezan),
+            getString(R.string.sound_bell),
+            getString(R.string.sound_ney),
+            getString(R.string.sound_marimba),
+            getString(R.string.sound_crystal),
             getString(R.string.sound_phone)
         )
         AlertDialog.Builder(this)
@@ -1274,7 +1281,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                     0 -> applyReminderSound(minutes, null)
                     1 -> applyReminderSound(minutes, NotificationHelper.SOUND_NONE)
                     2 -> applyReminderSound(minutes, "raw:ezan")
-                    3 -> openRingtonePicker(minutes)
+                    3 -> applyReminderSound(minutes, "raw:bell")
+                    4 -> applyReminderSound(minutes, "raw:ney")
+                    5 -> applyReminderSound(minutes, "raw:marimba")
+                    6 -> applyReminderSound(minutes, "raw:crystal")
+                    7 -> openRingtonePicker(minutes)
                 }
             }
             .show()
@@ -1285,11 +1296,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         p.edit().apply {
             val key = NotificationHelper.soundKey(minutes)
             if (value == null) remove(key) else putString(key, value)
+            putInt(KEY_TEST_MINUTES, minutes)
         }.apply()
-        NotificationHelper.updateReminderChannel(this, minutes)
+        NotificationHelper.refreshReminderChannel(this, minutes)
         when (value) {
             null, NotificationHelper.SOUND_NONE -> {}
             "raw:ezan" -> previewRes(R.raw.snd_ezan)
+            "raw:bell" -> previewRes(R.raw.snd_bell)
+            "raw:ney" -> previewRes(R.raw.snd_ney)
+            "raw:marimba" -> previewRes(R.raw.snd_marimba)
+            "raw:crystal" -> previewRes(R.raw.snd_crystal)
             else -> previewSound(Uri.parse(value))
         }
         Toast.makeText(this, R.string.sound_saved, Toast.LENGTH_SHORT).show()

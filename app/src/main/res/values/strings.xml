@@ -158,7 +158,7 @@
     <string name="notif_remind_30">30 dakika önce</string>
     <string name="notif_remind_15">15 dakika önce</string>
     <string name="notif_remind_5">5 dakika önce</string>
-    <string name="notif_reminders_hint">Sağdaki ayar simgesinden her süre için ayrı bildirim sesi seçebilirsiniz: kısa ezan, telefon sesleri veya sessiz. Bildirim; şehir, vakit ve vakit saatini gösterir.</string>
+    <string name="notif_reminders_hint">Sağdaki ayar simgesinden her süre için ayrı bildirim sesi seçebilirsiniz (kısa ezan, çan, ney, marimba, kristal, telefon sesleri veya sessiz). Bildirim; şehir, vakit ve vakit saatini gösterir.</string>
     <string name="notif_reminder_title">%1$s namazına %2$d dakika kaldı</string>
     <string name="notif_reminder_sub">Vakit yaklaşıyor</string>
     <string name="notif_vakit_entered">%1$s vakti girdi</string>
@@ -186,9 +186,13 @@
 
     <string name="sound_settings">Bildirim sesi ayarı</string>
     <string name="sound_title">Hatırlatıcı sesi · %1$d dk</string>
-    <string name="sound_default">Varsayılan (önerilen)</string>
+    <string name="sound_default">Varsayılan (sistem)</string>
     <string name="sound_silent">Sessiz</string>
     <string name="sound_ezan">Ezan (kısa)</string>
+    <string name="sound_bell">Çan (yumuşak)</string>
+    <string name="sound_ney">Ney</string>
+    <string name="sound_marimba">Marimba</string>
+    <string name="sound_crystal">Kristal</string>
     <string name="sound_phone">Telefon sesleri…</string>
     <string name="sound_saved">Hatırlatıcı sesi güncellendi</string>
 

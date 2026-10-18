@@ -30,7 +30,7 @@ class PrayerAlarmReceiver : BroadcastReceiver() {
                 context.getString(R.string.notif_reminder_title, name, minutes),
                 line,
                 id = 200 + minutes,
-                channel = NotificationHelper.channelFor(minutes),
+                channel = NotificationHelper.channelFor(context, minutes),
                 minutes = minutes,
                 line = line,
                 sub = context.getString(R.string.notif_reminder_sub),

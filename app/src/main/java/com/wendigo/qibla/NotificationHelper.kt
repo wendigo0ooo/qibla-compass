@@ -37,15 +37,30 @@ object NotificationHelper {
 
     private const val PREFS = "qibla_prefs"
 
-    /** Bumped whenever channel sound config changes, so existing channels are rebuilt. */
+    /** Bumped whenever the base channel layout changes. */
     private const val CHANNEL_VERSION = 2
 
-    fun channelFor(minutes: Int): String = "prayer_reminder_${CHANNEL_VERSION}_$minutes"
+    private fun versionKey(minutes: Int) = "channel_ver_$minutes"
+
+    /**
+     * Per-interval channel id. The version part changes every time the user picks a new
+     * sound, because Android keeps a channel's stored settings when it is recreated with
+     * the same id (so a plain delete+recreate would ignore the new sound).
+     */
+    fun channelFor(context: Context, minutes: Int): String {
+        val v = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getInt(versionKey(minutes), 0)
+        return "prayer_reminder_${CHANNEL_VERSION}_${v}_$minutes"
+    }
 
     fun soundKey(minutes: Int): String = "remind_sound_$minutes"
 
     private fun rawId(name: String): Int = when (name) {
         "ezan" -> R.raw.snd_ezan
+        "bell" -> R.raw.snd_bell
+        "ney" -> R.raw.snd_ney
+        "marimba" -> R.raw.snd_marimba
+        "crystal" -> R.raw.snd_crystal
         else -> 0
     }
 
@@ -71,11 +86,13 @@ object NotificationHelper {
         }
     }
 
-    /** Recreates the reminder channel so a newly chosen sound takes effect. */
-    fun updateReminderChannel(context: Context, minutes: Int) {
+    /** Recreates the reminder channel (new id) so a newly chosen sound takes effect. */
+    fun refreshReminderChannel(context: Context, minutes: Int) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val nm = context.getSystemService(NotificationManager::class.java) ?: return
-        nm.deleteNotificationChannel(channelFor(minutes))
+        nm.deleteNotificationChannel(channelFor(context, minutes))
+        val p = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        p.edit().putInt(versionKey(minutes), p.getInt(versionKey(minutes), 0) + 1).apply()
         ensureReminderChannel(nm, context, minutes)
     }
 
@@ -83,6 +100,7 @@ object NotificationHelper {
     private fun deleteLegacyChannels(nm: NotificationManager) {
         for (m in PrayerScheduler.REMIND_MINUTES) {
             nm.deleteNotificationChannel("prayer_reminder_$m")
+            nm.deleteNotificationChannel("prayer_reminder_2_$m")
         }
     }
 
@@ -140,7 +158,7 @@ object NotificationHelper {
     }
 
     private fun ensureReminderChannel(nm: NotificationManager, context: Context, minutes: Int) {
-        val id = channelFor(minutes)
+        val id = channelFor(context, minutes)
         if (nm.getNotificationChannel(id) != null) return
         val channel = NotificationChannel(
             id,
