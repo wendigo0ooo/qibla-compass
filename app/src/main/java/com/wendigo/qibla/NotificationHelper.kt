@@ -11,6 +11,7 @@ import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
@@ -29,17 +30,15 @@ object NotificationHelper {
 
     private const val PREFS = "qibla_prefs"
 
-    fun channelFor(minutes: Int): String = "prayer_reminder_$minutes"
+    /** Bumped whenever channel sound config changes, so existing channels are rebuilt. */
+    private const val CHANNEL_VERSION = 2
+
+    fun channelFor(minutes: Int): String = "prayer_reminder_${CHANNEL_VERSION}_$minutes"
 
     fun soundKey(minutes: Int): String = "remind_sound_$minutes"
 
     private fun rawId(name: String): Int = when (name) {
         "ezan" -> R.raw.snd_ezan
-        "salat" -> R.raw.snd_salat
-        "tekbir" -> R.raw.snd_tekbir
-        "ney" -> R.raw.snd_ney
-        "chime" -> R.raw.snd_chime
-        "saz" -> R.raw.snd_saz
         else -> 0
     }
 
@@ -58,7 +57,8 @@ object NotificationHelper {
             v == SOUND_NONE -> null
             v.startsWith("raw:") -> {
                 val id = rawId(v.substring(4))
-                if (id == 0) null else Uri.parse("android.resource://${context.packageName}/$id")
+                if (id == 0) RingtoneManager.getDefaultUri(reminderRingtoneType(minutes))
+                else Uri.parse("android.resource://${context.packageName}/$id")
             }
             else -> Uri.parse(v)
         }
@@ -70,6 +70,13 @@ object NotificationHelper {
         val nm = context.getSystemService(NotificationManager::class.java) ?: return
         nm.deleteNotificationChannel(channelFor(minutes))
         ensureReminderChannel(nm, context, minutes)
+    }
+
+    /** Removes channels left behind by older app versions. */
+    private fun deleteLegacyChannels(nm: NotificationManager) {
+        for (m in PrayerScheduler.REMIND_MINUTES) {
+            nm.deleteNotificationChannel("prayer_reminder_$m")
+        }
     }
 
     fun ensureChannel(context: Context) {
@@ -89,6 +96,7 @@ object NotificationHelper {
             )
         }
 
+        deleteLegacyChannels(nm)
         for (m in PrayerScheduler.REMIND_MINUTES) ensureReminderChannel(nm, context, m)
         ensureCountdownChannel(nm, context)
     }
@@ -140,12 +148,7 @@ object NotificationHelper {
         else -> R.string.notif_channel_name
     }
 
-    private fun reminderRingtoneType(minutes: Int): Int = when (minutes) {
-        30 -> RingtoneManager.TYPE_NOTIFICATION
-        15 -> RingtoneManager.TYPE_RINGTONE
-        5 -> RingtoneManager.TYPE_ALARM
-        else -> RingtoneManager.TYPE_NOTIFICATION
-    }
+    private fun reminderRingtoneType(minutes: Int): Int = RingtoneManager.TYPE_NOTIFICATION
 
     fun canPost(context: Context): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -162,18 +165,31 @@ object NotificationHelper {
         text: String,
         id: Int = 100,
         channel: String = CHANNEL_VAKIT,
-        minutes: Int = 0
+        minutes: Int = 0,
+        line: String? = null
     ) {
         ensureChannel(context)
         if (!canPost(context)) return
         val builder = NotificationCompat.Builder(context, channel)
             .setSmallIcon(R.drawable.ic_notif)
+            .setColor(ContextCompat.getColor(context, R.color.accent))
             .setContentTitle(title)
-            .setContentText(text)
+            .setContentText(line ?: text)
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_REMINDER)
             .setContentIntent(openAppIntent(context))
+        if (line != null) {
+            try {
+                val cv = RemoteViews(context.packageName, R.layout.notification_prayer)
+                cv.setTextViewText(R.id.notifTitle, title)
+                cv.setTextViewText(R.id.notifLine, line)
+                builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
+                    .setCustomContentView(cv)
+                    .setCustomBigContentView(cv)
+            } catch (_: Exception) {
+            }
+        }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             if (minutes > 0) {
                 val uri = reminderSoundUri(context, minutes)

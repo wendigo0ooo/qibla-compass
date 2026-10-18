@@ -1210,11 +1210,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         suppressNotifListener = false
         switchCountdown.setOnCheckedChangeListener { _, checked -> onCountdownToggled(checked) }
         findViewById<Button>(R.id.btnNotifTest).setOnClickListener {
+            val now = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
+            val line = listOfNotNull(currentCityName, now)
+                .map { it.trim() }.filter { it.isNotEmpty() }
+                .joinToString(" · ").ifBlank { getString(R.string.app_name) }
             NotificationHelper.show(
                 this,
-                getString(R.string.notif_title_fmt, getString(R.string.p_dhuhr)),
-                currentCityName ?: getString(R.string.app_name),
-                101
+                getString(R.string.notif_vakit_entered, getString(R.string.p_dhuhr)),
+                line,
+                101,
+                line = line
             )
         }
         bindReminderCheck(R.id.checkRemind30, 30)
@@ -1230,11 +1235,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             getString(R.string.sound_default),
             getString(R.string.sound_silent),
             getString(R.string.sound_ezan),
-            getString(R.string.sound_salat),
-            getString(R.string.sound_tekbir),
-            getString(R.string.sound_ney),
-            getString(R.string.sound_chime),
-            getString(R.string.sound_saz),
             getString(R.string.sound_phone)
         )
         AlertDialog.Builder(this)
@@ -1244,12 +1244,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                     0 -> applyReminderSound(minutes, null)
                     1 -> applyReminderSound(minutes, NotificationHelper.SOUND_NONE)
                     2 -> applyReminderSound(minutes, "raw:ezan")
-                    3 -> applyReminderSound(minutes, "raw:salat")
-                    4 -> applyReminderSound(minutes, "raw:tekbir")
-                    5 -> applyReminderSound(minutes, "raw:ney")
-                    6 -> applyReminderSound(minutes, "raw:chime")
-                    7 -> applyReminderSound(minutes, "raw:saz")
-                    8 -> openRingtonePicker(minutes)
+                    3 -> openRingtonePicker(minutes)
                 }
             }
             .show()
@@ -1265,11 +1260,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         when (value) {
             null, NotificationHelper.SOUND_NONE -> {}
             "raw:ezan" -> previewRes(R.raw.snd_ezan)
-            "raw:salat" -> previewRes(R.raw.snd_salat)
-            "raw:tekbir" -> previewRes(R.raw.snd_tekbir)
-            "raw:ney" -> previewRes(R.raw.snd_ney)
-            "raw:chime" -> previewRes(R.raw.snd_chime)
-            "raw:saz" -> previewRes(R.raw.snd_saz)
             else -> previewSound(Uri.parse(value))
         }
         Toast.makeText(this, R.string.sound_saved, Toast.LENGTH_SHORT).show()
