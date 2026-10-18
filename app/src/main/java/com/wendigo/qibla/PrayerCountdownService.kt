@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Typeface
 import android.os.Build
 import android.os.IBinder
 import android.os.SystemClock
@@ -75,7 +74,11 @@ class PrayerCountdownService : Service() {
     private fun refresh() {
         val vals = todayValues()
         val next = if (vals != null) nextFrom(vals) else null
-        val notif = buildNotification(vals, next)
+        val notif = try {
+            buildNotification(vals, next)
+        } catch (_: Throwable) {
+            simpleNotification()
+        }
         currentNotification = notif
         startFg(NOTIF_ID, notif)
         if (next != null) scheduleBoundary(next.millis) else scheduleRetry()
@@ -200,15 +203,31 @@ class PrayerCountdownService : Service() {
             rv.setTextViewText(TIME_IDS[i], PrayerTimes.format(vals[i]))
             val active = i == next.idx
             rv.setInt(
-                COL_IDS[i], "setBackgroundResource",
-                if (active) R.drawable.notif_active_bg else R.drawable.notif_col_bg
+                COL_IDS[i], "setBackgroundColor",
+                if (active) 0x4026A69A.toInt() else 0x1426A69A.toInt()
             )
-            rv.setInt(TIME_IDS[i], "setTypeface", if (active) Typeface.BOLD else Typeface.NORMAL)
         }
 
         val city = prefs().getString(PrayerScheduler.KEY_CITY, null)
         rv.setTextViewText(R.id.ncCity, city?.takeIf { it.isNotBlank() } ?: "")
     }
+
+    private fun simpleNotification(): Notification =
+        NotificationCompat.Builder(this, NotificationHelper.CHANNEL_COUNTDOWN)
+            .setSmallIcon(R.drawable.ic_notif)
+            .setOngoing(true)
+            .setOnlyAlertOnce(true)
+            .setSilent(true)
+            .setShowWhen(false)
+            .setCategory(NotificationCompat.CATEGORY_SERVICE)
+            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+            .setContentIntent(openAppIntent())
+            .setDeleteIntent(dismissIntent())
+            .setForegroundServiceBehavior(NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE)
+            .setColor(getColor(R.color.accent))
+            .setContentTitle(getString(R.string.app_name))
+            .setContentText(getString(R.string.notif_countdown_waiting))
+            .build()
 
     private fun openAppIntent(): PendingIntent {
         val intent = Intent(this, MainActivity::class.java).apply {
