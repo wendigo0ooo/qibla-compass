@@ -19,6 +19,7 @@ object PrayerScheduler {
     const val EXTRA_CITY = "prayer_city"
     const val EXTRA_MINUTES = "reminder_minutes"
     const val EXTRA_TIME = "prayer_time"
+    const val EXTRA_INDEX = "prayer_index"
 
     const val PREFS = "qibla_prefs"
     const val KEY_ENABLED = "notif_enabled"
@@ -59,11 +60,11 @@ object PrayerScheduler {
             for (i in NAME_RES.indices) {
                 val name = context.getString(NAME_RES[i])
                 val prayerMillis = millisAt(day, values[i])
-                scheduleAt(context, am, code(di, i, 0), prayerMillis, name, city, 0, prayerMillis)
+                scheduleAt(context, am, code(di, i, 0), prayerMillis, name, city, 0, prayerMillis, i)
                 for ((ri, m) in remind.withIndex()) {
                     scheduleAt(
                         context, am, code(di, i, ri + 1),
-                        millisAt(day, values[i] - m / 60.0), name, city, m, prayerMillis
+                        millisAt(day, values[i] - m / 60.0), name, city, m, prayerMillis, i
                     )
                 }
             }
@@ -101,10 +102,10 @@ object PrayerScheduler {
 
     private fun scheduleAt(
         context: Context, am: AlarmManager, code: Int, millis: Long,
-        name: String, city: String?, minutes: Int, prayerMillis: Long
+        name: String, city: String?, minutes: Int, prayerMillis: Long, index: Int
     ) {
         if (millis <= System.currentTimeMillis()) return
-        setAlarm(context, am, millis, pending(context, code, name, city, minutes, prayerMillis))
+        setAlarm(context, am, millis, pending(context, code, name, city, minutes, prayerMillis, index))
     }
 
     private fun setAlarm(context: Context, am: AlarmManager, millis: Long, pi: PendingIntent) {
@@ -135,7 +136,7 @@ object PrayerScheduler {
 
     private fun pending(
         context: Context, code: Int, name: String?, city: String?, minutes: Int,
-        prayerMillis: Long = 0L
+        prayerMillis: Long = 0L, index: Int = 0
     ): PendingIntent {
         val intent = Intent(context, PrayerAlarmReceiver::class.java).apply {
             action = ACTION
@@ -143,6 +144,7 @@ object PrayerScheduler {
             putExtra(EXTRA_CITY, city)
             putExtra(EXTRA_MINUTES, minutes)
             putExtra(EXTRA_TIME, prayerMillis)
+            putExtra(EXTRA_INDEX, index)
         }
         val flags = PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         return PendingIntent.getBroadcast(context, code, intent, flags)

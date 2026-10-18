@@ -160,7 +160,14 @@
     <string name="notif_remind_5">5 dakika önce</string>
     <string name="notif_reminders_hint">Sağdaki ayar simgesinden her süre için ayrı bildirim sesi seçebilirsiniz: kısa ezan, telefon sesleri veya sessiz. Bildirim; şehir, vakit ve vakit saatini gösterir.</string>
     <string name="notif_reminder_title">%1$s namazına %2$d dakika kaldı</string>
+    <string name="notif_reminder_sub">Vakit yaklaşıyor</string>
     <string name="notif_vakit_entered">%1$s vakti girdi</string>
+    <string name="notif_vakit_sub">Vakit girdi</string>
+    <string name="notif_remind_test">Hatırlatıcı bildirimini test et</string>
+    <string name="notif_adhan_channel_name">Ezan (vakit girdiğinde)</string>
+    <string name="notif_adhan_channel_desc">Vakit girdiğinde kısa ezan çalar; Durdur ile susar</string>
+    <string name="notif_adhan_playing">Ezan okunuyor · Durdur ile susar</string>
+    <string name="notif_adhan_stop">Durdur</string>
     <string name="notif_channel_reminder_desc">Vakitten önce yapılan hatırlatmalar</string>
     <string name="notif_channel_r30">Hatırlatıcı · 30 dakika</string>
     <string name="notif_channel_r15">Hatırlatıcı · 15 dakika</string>

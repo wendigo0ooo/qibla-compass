@@ -11,6 +11,7 @@ import android.media.AudioAttributes
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
+import android.view.View
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -26,7 +27,13 @@ object NotificationHelper {
 
     const val CHANNEL_VAKIT = "prayer_times"
     const val CHANNEL_COUNTDOWN = "prayer_countdown"
+    const val CHANNEL_ADHAN = "prayer_adhan"
     const val SOUND_NONE = "none"
+
+    private val PRAYER_ICONS = intArrayOf(
+        R.drawable.namaz_imsak, R.drawable.namaz_ogle, R.drawable.namaz_ikindi,
+        R.drawable.namaz_aksam, R.drawable.namaz_yatsi
+    )
 
     private const val PREFS = "qibla_prefs"
 
@@ -99,6 +106,22 @@ object NotificationHelper {
         deleteLegacyChannels(nm)
         for (m in PrayerScheduler.REMIND_MINUTES) ensureReminderChannel(nm, context, m)
         ensureCountdownChannel(nm, context)
+        ensureAdhanChannel(nm, context)
+    }
+
+    private fun ensureAdhanChannel(nm: NotificationManager, context: Context) {
+        if (nm.getNotificationChannel(CHANNEL_ADHAN) != null) return
+        val channel = NotificationChannel(
+            CHANNEL_ADHAN,
+            context.getString(R.string.notif_adhan_channel_name),
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = context.getString(R.string.notif_adhan_channel_desc)
+            setShowBadge(false)
+            enableVibration(true)
+            setSound(null, null)
+        }
+        nm.createNotificationChannel(channel)
     }
 
     private fun ensureCountdownChannel(nm: NotificationManager, context: Context) {
@@ -159,6 +182,35 @@ object NotificationHelper {
         return NotificationManagerCompat.from(context).areNotificationsEnabled()
     }
 
+    fun prayerIcon(prayerIndex: Int): Int =
+        PRAYER_ICONS.getOrElse(prayerIndex) { 0 }
+
+    /** Builds the shared prayer notification layout, hiding the icon when none is given. */
+    fun prayerRemoteViews(
+        context: Context,
+        title: String,
+        line: String,
+        sub: String?,
+        iconRes: Int
+    ): RemoteViews {
+        val cv = RemoteViews(context.packageName, R.layout.notification_prayer)
+        cv.setTextViewText(R.id.notifTitle, title)
+        cv.setTextViewText(R.id.notifLine, line)
+        if (sub.isNullOrBlank()) {
+            cv.setViewVisibility(R.id.notifSub, View.GONE)
+        } else {
+            cv.setViewVisibility(R.id.notifSub, View.VISIBLE)
+            cv.setTextViewText(R.id.notifSub, sub)
+        }
+        if (iconRes != 0) {
+            cv.setViewVisibility(R.id.notifIcon, View.VISIBLE)
+            cv.setImageViewResource(R.id.notifIcon, iconRes)
+        } else {
+            cv.setViewVisibility(R.id.notifIcon, View.GONE)
+        }
+        return cv
+    }
+
     fun show(
         context: Context,
         title: String,
@@ -166,7 +218,9 @@ object NotificationHelper {
         id: Int = 100,
         channel: String = CHANNEL_VAKIT,
         minutes: Int = 0,
-        line: String? = null
+        line: String? = null,
+        sub: String? = null,
+        iconRes: Int = 0
     ) {
         ensureChannel(context)
         if (!canPost(context)) return
@@ -181,9 +235,7 @@ object NotificationHelper {
             .setContentIntent(openAppIntent(context))
         if (line != null) {
             try {
-                val cv = RemoteViews(context.packageName, R.layout.notification_prayer)
-                cv.setTextViewText(R.id.notifTitle, title)
-                cv.setTextViewText(R.id.notifLine, line)
+                val cv = prayerRemoteViews(context, title, line, sub, iconRes)
                 builder.setStyle(NotificationCompat.DecoratedCustomViewStyle())
                     .setCustomContentView(cv)
                     .setCustomBigContentView(cv)

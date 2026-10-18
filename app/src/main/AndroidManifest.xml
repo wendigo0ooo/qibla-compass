@@ -144,6 +144,11 @@
                 android:value="Keeps a persistent notification with a live countdown to the next prayer time." />
         </service>
 
+        <service
+            android:name=".PrayerAdhanService"
+            android:exported="false"
+            android:foregroundServiceType="mediaPlayback" />
+
         <receiver
             android:name=".BootReceiver"
             android:exported="true">

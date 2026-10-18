@@ -530,6 +530,13 @@
                             android:text="@string/notif_reminders_hint"
                             android:textColor="@color/text_dim"
                             android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btnRemindTest"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/notif_remind_test" />
                     </LinearLayout>
 
                     <TextView

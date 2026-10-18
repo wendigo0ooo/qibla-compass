@@ -1210,17 +1210,17 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         suppressNotifListener = false
         switchCountdown.setOnCheckedChangeListener { _, checked -> onCountdownToggled(checked) }
         findViewById<Button>(R.id.btnNotifTest).setOnClickListener {
-            val now = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
-            val line = listOfNotNull(currentCityName, now)
-                .map { it.trim() }.filter { it.isNotEmpty() }
-                .joinToString(" · ").ifBlank { getString(R.string.app_name) }
-            NotificationHelper.show(
-                this,
-                getString(R.string.notif_vakit_entered, getString(R.string.p_dhuhr)),
-                line,
-                101,
-                line = line
-            )
+            try {
+                PrayerAdhanService.start(
+                    this, getString(R.string.p_dhuhr), currentCityName,
+                    System.currentTimeMillis(), 1
+                )
+            } catch (_: Exception) {
+                showTestNotification(reminder = false)
+            }
+        }
+        findViewById<Button>(R.id.btnRemindTest).setOnClickListener {
+            showTestNotification(reminder = true)
         }
         bindReminderCheck(R.id.checkRemind30, 30)
         bindReminderCheck(R.id.checkRemind15, 15)
@@ -1228,6 +1228,36 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<View>(R.id.remindSet30).setOnClickListener { showSoundPicker(30) }
         findViewById<View>(R.id.remindSet15).setOnClickListener { showSoundPicker(15) }
         findViewById<View>(R.id.remindSet5).setOnClickListener { showSoundPicker(5) }
+    }
+
+    private fun showTestNotification(reminder: Boolean) {
+        val now = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date())
+        val line = listOfNotNull(currentCityName, now)
+            .map { it.trim() }.filter { it.isNotEmpty() }
+            .joinToString(" · ").ifBlank { getString(R.string.app_name) }
+        if (reminder) {
+            NotificationHelper.show(
+                this,
+                getString(R.string.notif_reminder_title, getString(R.string.p_dhuhr), 15),
+                line,
+                215,
+                NotificationHelper.channelFor(15),
+                15,
+                line = line,
+                sub = getString(R.string.notif_reminder_sub),
+                iconRes = NotificationHelper.prayerIcon(1)
+            )
+        } else {
+            NotificationHelper.show(
+                this,
+                getString(R.string.notif_vakit_entered, getString(R.string.p_dhuhr)),
+                line,
+                101,
+                line = line,
+                sub = getString(R.string.notif_vakit_sub),
+                iconRes = NotificationHelper.prayerIcon(1)
+            )
+        }
     }
 
     private fun showSoundPicker(minutes: Int) {

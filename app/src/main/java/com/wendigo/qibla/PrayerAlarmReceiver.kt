@@ -13,13 +13,15 @@ class PrayerAlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action != PrayerScheduler.ACTION) return
         val name = intent.getStringExtra(PrayerScheduler.EXTRA_NAME) ?: return
-        val city = intent.getStringExtra(PrayerScheduler.EXTRA_CITY)?.takeIf { it.isNotBlank() }
+        val city = intent.getStringExtra(PrayerScheduler.EXTRA_CITY)
         val minutes = intent.getIntExtra(PrayerScheduler.EXTRA_MINUTES, 0)
-        val time = intent.getLongExtra(PrayerScheduler.EXTRA_TIME, 0L)
-            .takeIf { it > 0L }
+        val index = intent.getIntExtra(PrayerScheduler.EXTRA_INDEX, 0)
+        val prayerMillis = intent.getLongExtra(PrayerScheduler.EXTRA_TIME, 0L)
+        val time = prayerMillis.takeIf { it > 0L }
             ?.let { SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(it)) }
 
-        val line = listOfNotNull(city, time).joinToString(" · ")
+        val line = listOfNotNull(city?.takeIf { it.isNotBlank() }, time)
+            .joinToString(" · ")
             .ifBlank { context.getString(R.string.app_name) }
 
         if (minutes > 0) {
@@ -30,16 +32,24 @@ class PrayerAlarmReceiver : BroadcastReceiver() {
                 id = 200 + minutes,
                 channel = NotificationHelper.channelFor(minutes),
                 minutes = minutes,
-                line = line
+                line = line,
+                sub = context.getString(R.string.notif_reminder_sub),
+                iconRes = NotificationHelper.prayerIcon(index)
             )
         } else {
-            NotificationHelper.show(
-                context,
-                context.getString(R.string.notif_vakit_entered, name),
-                line,
-                id = 100,
-                line = line
-            )
+            try {
+                PrayerAdhanService.start(context, name, city, prayerMillis, index)
+            } catch (_: Exception) {
+                NotificationHelper.show(
+                    context,
+                    context.getString(R.string.notif_vakit_entered, name),
+                    line,
+                    id = 100,
+                    line = line,
+                    sub = context.getString(R.string.notif_vakit_sub),
+                    iconRes = NotificationHelper.prayerIcon(index)
+                )
+            }
         }
 
         // Keep the chain alive by rescheduling the next day's alarms.
