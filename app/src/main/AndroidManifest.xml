@@ -51,6 +51,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".HadisDetailActivity"
+            android:exported="false"
+            android:label="@string/tab_hadis"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".FetvaActivity"
             android:exported="false"
             android:label="@string/tab_fetva"

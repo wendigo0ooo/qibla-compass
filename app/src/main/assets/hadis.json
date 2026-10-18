@@ -1,56 +1,736 @@
 {
-  "hadisler": [
-    {"k":"İman ve İslâm","ar":"إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ","tr":"Ameller ancak niyetlere göredir.","rf":"Buhârî, Müslim"},
-    {"k":"İman ve İslâm","ar":"الدِّينُ النَّصِيحَةُ","tr":"Din nasihattir.","rf":"Müslim"},
-    {"k":"İman ve İslâm","ar":"الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ","tr":"Müslüman, dilinden ve elinden Müslümanların güvende olduğu kimsedir.","rf":"Buhârî, Müslim"},
-    {"k":"İman ve İslâm","ar":"لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ","tr":"Sizden biri, kendisi için sevdiğini kardeşi için de sevmedikçe (kâmil manada) iman etmiş olmaz.","rf":"Buhârî, Müslim"},
-    {"k":"İman ve İslâm","ar":"مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ","tr":"Allah'a ve ahiret gününe iman eden, ya hayır söylesin ya da sussun.","rf":"Buhârî, Müslim"},
-    {"k":"İman ve İslâm","ar":"أَفْشُوا السَّلَامَ بَيْنَكُمْ","tr":"Selamı aranızda yayın.","rf":"Müslim"},
-
-    {"k":"Namaz","ar":"الصَّلَاةُ عَلَى وَقْتِهَا","tr":"Allah'ın en sevdiği amel, vaktinde kılınan namazdır.","rf":"Buhârî, Müslim"},
-    {"k":"Namaz","ar":"أَوَّلُ مَا يُحَاسَبُ بِهِ الْعَبْدُ الصَّلَاةُ","tr":"Kıyamet günü kulun ilk hesaba çekileceği şey namazdır.","rf":"Tirmizî, Nesâî"},
-    {"k":"Namaz","ar":"الطُّهُورُ شَطْرُ الْإِيمَانِ","tr":"Temizlik, imanın yarısıdır.","rf":"Müslim"},
-    {"k":"Namaz","ar":"الصَّلَوَاتُ الْخَمْسُ كَفَّارَةٌ لِمَا بَيْنَهُنَّ","tr":"Beş vakit namaz, aralarında işlenen günahlara kefarettir.","rf":"Müslim"},
-    {"k":"Namaz","ar":"بَيْنَ الرَّجُلِ وَبَيْنَ الْكُفْرِ تَرْكُ الصَّلَاةِ","tr":"Kişi ile küfür arasında namazı terk etmek vardır.","rf":"Müslim"},
-
-    {"k":"Kur'an","ar":"خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ","tr":"Sizin en hayırlınız, Kur'an'ı öğrenen ve öğretendir.","rf":"Buhârî"},
-    {"k":"Kur'an","ar":"اقْرَؤُوا الْقُرْآنَ فَإِنَّهُ يَأْتِي يَوْمَ الْقِيَامَةِ شَفِيعًا لِأَصْحَابِهِ","tr":"Kur'an okuyun; çünkü o, kıyamet günü sahiplerine şefaatçi olarak gelir.","rf":"Müslim"},
-    {"k":"Kur'an","ar":"زَيِّنُوا الْقُرْآنَ بِأَصْوَاتِكُمْ","tr":"Kur'an'ı seslerinizle güzelleştirin.","rf":"Ebû Dâvûd, Nesâî"},
-    {"k":"Kur'an","ar":"مَنْ قَرَأَ حَرْفًا مِنْ كِتَابِ اللَّهِ فَلَهُ بِهِ حَسَنَةٌ","tr":"Kim Allah'ın Kitabı'ndan bir harf okursa, ona bir sevap vardır.","rf":"Tirmizî"},
-
-    {"k":"İlim","ar":"طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ","tr":"İlim öğrenmek her Müslümana farzdır.","rf":"İbn Mâce"},
-    {"k":"İlim","ar":"مَنْ سَلَكَ طَرِيقًا يَطْلُبُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ","tr":"Kim ilim tahsili için bir yola girerse, Allah ona cennete giden yolu kolaylaştırır.","rf":"Müslim"},
-    {"k":"İlim","ar":"مَنْ يُرِدِ اللَّهُ بِهِ خَيْرًا يُفَقِّهْهُ فِي الدِّينِ","tr":"Allah kime hayır murat ederse, onu dinde derin anlayış sahibi kılar.","rf":"Buhârî, Müslim"},
-    {"k":"İlim","ar":"بَلِّغُوا عَنِّي وَلَوْ آيَةً","tr":"Benden (aldıklarınızı) bir âyet bile olsa tebliğ edin.","rf":"Buhârî"},
-
-    {"k":"Güzel Ahlâk","ar":"أَكْمَلُ الْمُؤْمِنِينَ إِيمَانًا أَحْسَنُهُمْ خُلُقًا","tr":"İman bakımından en olgun mümin, ahlâkı en güzel olanıdır.","rf":"Tirmizî"},
-    {"k":"Güzel Ahlâk","ar":"مَا شَيْءٌ أَثْقَلُ فِي مِيزَانِ الْمُؤْمِنِ مِنْ خُلُقٍ حَسَنٍ","tr":"Müminin mizanında güzel ahlâktan daha ağır bir şey yoktur.","rf":"Tirmizî, Ebû Dâvûd"},
-    {"k":"Güzel Ahlâk","ar":"تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ صَدَقَةٌ","tr":"Kardeşine gülümsemen sadakadır.","rf":"Tirmizî"},
-    {"k":"Güzel Ahlâk","ar":"الْمُؤْمِنُ مِرْآةُ أَخِيهِ","tr":"Mümin, kardeşinin aynasıdır.","rf":"Ebû Dâvûd"},
-    {"k":"Güzel Ahlâk","ar":"مَنْ غَشَّنَا فَلَيْسَ مِنَّا","tr":"Bizi aldatan bizden değildir.","rf":"Müslim"},
-    {"k":"Güzel Ahlâk","ar":"الْحَيَاءُ شُعْبَةٌ مِنَ الْإِيمَانِ","tr":"Haya, imanın bir koludur.","rf":"Buhârî, Müslim"},
-    {"k":"Güzel Ahlâk","ar":"مِنْ حُسْنِ إِسْلَامِ الْمَرْءِ تَرْكُهُ مَا لَا يَعْنِيهِ","tr":"Kişinin, kendisini ilgilendirmeyen şeyi terk etmesi, İslâm'ının güzelliğindendir.","rf":"Tirmizî"},
-
-    {"k":"Zikir ve Dua","ar":"الدُّعَاءُ مُخُّ الْعِبَادَةِ","tr":"Dua, ibadetin özüdür.","rf":"Tirmizî"},
-    {"k":"Zikir ve Dua","ar":"لَا يَزَالُ لِسَانُكَ رَطْبًا بِذِكْرِ اللَّهِ","tr":"Dilin, Allah'ı zikretmekle (daima) yaş kalsın.","rf":"Tirmizî"},
-    {"k":"Zikir ve Dua","ar":"كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ ثَقِيلَتَانِ فِي الْمِيزَانِ: سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ","tr":"Dile hafif, mizanda ağır iki kelime: Sübhânallahi ve bihamdih, Sübhânallahil azîm.","rf":"Buhârî, Müslim"},
-    {"k":"Zikir ve Dua","ar":"أَفْضَلُ الذِّكْرِ لَا إِلَهَ إِلَّا اللَّهُ","tr":"Zikrin en faziletlisi 'Lâ ilâhe illallah'tır.","rf":"Tirmizî"},
-    {"k":"Zikir ve Dua","ar":"مَنْ صَلَّى عَلَيَّ صَلَاةً صَلَّى اللَّهُ عَلَيْهِ بِهَا عَشْرًا","tr":"Kim bana bir salavat getirirse, Allah ona bununla on salât eder.","rf":"Müslim"},
-
-    {"k":"Anne-Baba ve Akrabalık","ar":"أُمُّكَ، أُمُّكَ، أُمُّكَ، ثُمَّ أَبُوكَ","tr":"(Sana en çok iyilik yapılacak kişi) annen, annen, annen, sonra babandır.","rf":"Buhârî, Müslim"},
-    {"k":"Anne-Baba ve Akrabalık","ar":"رِضَا الرَّبِّ فِي رِضَا الْوَالِدِ","tr":"Rabbin rızası, anne-babanın rızasındadır.","rf":"Tirmizî"},
-    {"k":"Anne-Baba ve Akrabalık","ar":"مَنْ أَحَبَّ أَنْ يُبْسَطَ لَهُ فِي رِزْقِهِ وَيُنْسَأَ لَهُ فِي أَثَرِهِ فَلْيَصِلْ رَحِمَهُ","tr":"Kim rızkının genişletilmesini ve ömrünün uzatılmasını isterse, akrabalık bağını gözetsin.","rf":"Buhârî, Müslim"},
-    {"k":"Anne-Baba ve Akrabalık","ar":"لَيْسَ مِنَّا مَنْ لَمْ يَرْحَمْ صَغِيرَنَا وَلَمْ يَعْرِفْ شَرَفَ كَبِيرِنَا","tr":"Küçüğümüze merhamet etmeyen ve büyüğümüzün değerini bilmeyen bizden değildir.","rf":"Tirmizî"},
-
-    {"k":"Sabır, Şükür ve Tevbe","ar":"عَجَبًا لِأَمْرِ الْمُؤْمِنِ، إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ","tr":"Müminin hâli ne hayret vericidir! Onun her hâli hayırdır.","rf":"Müslim"},
-    {"k":"Sabır, Şükür ve Tevbe","ar":"مَا أُعْطِيَ أَحَدٌ عَطَاءً خَيْرًا وَأَوْسَعَ مِنَ الصَّبْرِ","tr":"Hiç kimseye sabırdan daha hayırlı ve daha geniş bir nimet verilmemiştir.","rf":"Buhârî, Müslim"},
-    {"k":"Sabır, Şükür ve Tevbe","ar":"كُلُّ ابْنِ آدَمَ خَطَّاءٌ، وَخَيْرُ الْخَطَّائِينَ التَّوَّابُونَ","tr":"Her insan hata eder; hata edenlerin en hayırlısı tevbe edenlerdir.","rf":"Tirmizî, İbn Mâce"},
-    {"k":"Sabır, Şükür ve Tevbe","ar":"اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا، وَخَالِقِ النَّاسَ بِخُلُقٍ حَسَنٍ","tr":"Nerede olursan ol Allah'tan sakın; kötülüğün ardından iyilik yap ki onu silsin; insanlara güzel ahlâkla davran.","rf":"Tirmizî"},
-    {"k":"Sabır, Şükür ve Tevbe","ar":"الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ","tr":"Güçlü mümin, zayıf müminden daha hayırlı ve Allah'a daha sevimlidir.","rf":"Müslim"},
-
-    {"k":"Komşuluk ve İyilik","ar":"مَا زَالَ جِبْرِيلُ يُوصِينِي بِالْجَارِ","tr":"Cebrail bana komşu hakkını o kadar tavsiye etti ki...","rf":"Buhârî, Müslim"},
-    {"k":"Komşuluk ve İyilik","ar":"كُلُّ مَعْرُوفٍ صَدَقَةٌ","tr":"Her iyilik sadakadır.","rf":"Buhârî"},
-    {"k":"Komşuluk ve İyilik","ar":"مَنْ دَلَّ عَلَى خَيْرٍ فَلَهُ مِثْلُ أَجْرِ فَاعِلِهِ","tr":"Kim bir hayra vesile olursa, ona onu yapanın sevabı kadar sevap vardır.","rf":"Müslim"},
-    {"k":"Komşuluk ve İyilik","ar":"مَنْ نَفَّسَ عَنْ مُؤْمِنٍ كُرْبَةً نَفَّسَ اللَّهُ عَنْهُ كُرْبَةً مِنْ كُرَبِ يَوْمِ الْقِيَامَةِ","tr":"Kim bir müminin dünya sıkıntısını giderirse, Allah da onun kıyamet sıkıntılarından birini giderir.","rf":"Müslim"}
-  ]
+"hadisler": [
+{
+"k": "İman ve İslâm",
+"ar": "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ",
+"tr": "Ameller ancak niyetlere göredir.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "İman ve İslâm",
+"ar": "الدِّينُ النَّصِيحَةُ",
+"tr": "Din nasihattir.",
+"rf": "Müslim"
+},
+{
+"k": "İman ve İslâm",
+"ar": "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ",
+"tr": "Müslüman, dilinden ve elinden Müslümanların güvende olduğu kimsedir.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "İman ve İslâm",
+"ar": "لَا يُؤْمِنُ أَحَدُكُمْ حَتَّى يُحِبَّ لِأَخِيهِ مَا يُحِبُّ لِنَفْسِهِ",
+"tr": "Sizden biri, kendisi için sevdiğini kardeşi için de sevmedikçe (kâmil manada) iman etmiş olmaz.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "İman ve İslâm",
+"ar": "مَنْ كَانَ يُؤْمِنُ بِاللَّهِ وَالْيَوْمِ الآخِرِ فَلْيَقُلْ خَيْرًا أَوْ لِيَصْمُتْ",
+"tr": "Allah'a ve ahiret gününe iman eden, ya hayır söylesin ya da sussun.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "İman ve İslâm",
+"ar": "أَفْشُوا السَّلَامَ بَيْنَكُمْ",
+"tr": "Selamı aranızda yayın.",
+"rf": "Müslim"
+},
+{
+"k": "Namaz",
+"ar": "الصَّلَاةُ عَلَى وَقْتِهَا",
+"tr": "Allah'ın en sevdiği amel, vaktinde kılınan namazdır.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Namaz",
+"ar": "أَوَّلُ مَا يُحَاسَبُ بِهِ الْعَبْدُ الصَّلَاةُ",
+"tr": "Kıyamet günü kulun ilk hesaba çekileceği şey namazdır.",
+"rf": "Tirmizî, Nesâî"
+},
+{
+"k": "Namaz",
+"ar": "الطُّهُورُ شَطْرُ الْإِيمَانِ",
+"tr": "Temizlik, imanın yarısıdır.",
+"rf": "Müslim"
+},
+{
+"k": "Namaz",
+"ar": "الصَّلَوَاتُ الْخَمْسُ كَفَّارَةٌ لِمَا بَيْنَهُنَّ",
+"tr": "Beş vakit namaz, aralarında işlenen günahlara kefarettir.",
+"rf": "Müslim"
+},
+{
+"k": "Namaz",
+"ar": "بَيْنَ الرَّجُلِ وَبَيْنَ الْكُفْرِ تَرْكُ الصَّلَاةِ",
+"tr": "Kişi ile küfür arasında namazı terk etmek vardır.",
+"rf": "Müslim"
+},
+{
+"k": "Kur'an",
+"ar": "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
+"tr": "Sizin en hayırlınız, Kur'an'ı öğrenen ve öğretendir.",
+"rf": "Buhârî"
+},
+{
+"k": "Kur'an",
+"ar": "اقْرَؤُوا الْقُرْآنَ فَإِنَّهُ يَأْتِي يَوْمَ الْقِيَامَةِ شَفِيعًا لِأَصْحَابِهِ",
+"tr": "Kur'an okuyun; çünkü o, kıyamet günü sahiplerine şefaatçi olarak gelir.",
+"rf": "Müslim"
+},
+{
+"k": "Kur'an",
+"ar": "زَيِّنُوا الْقُرْآنَ بِأَصْوَاتِكُمْ",
+"tr": "Kur'an'ı seslerinizle güzelleştirin.",
+"rf": "Ebû Dâvûd, Nesâî"
+},
+{
+"k": "Kur'an",
+"ar": "مَنْ قَرَأَ حَرْفًا مِنْ كِتَابِ اللَّهِ فَلَهُ بِهِ حَسَنَةٌ",
+"tr": "Kim Allah'ın Kitabı'ndan bir harf okursa, ona bir sevap vardır.",
+"rf": "Tirmizî"
+},
+{
+"k": "İlim",
+"ar": "طَلَبُ الْعِلْمِ فَرِيضَةٌ عَلَى كُلِّ مُسْلِمٍ",
+"tr": "İlim öğrenmek her Müslümana farzdır.",
+"rf": "İbn Mâce"
+},
+{
+"k": "İlim",
+"ar": "مَنْ سَلَكَ طَرِيقًا يَطْلُبُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ طَرِيقًا إِلَى الْجَنَّةِ",
+"tr": "Kim ilim tahsili için bir yola girerse, Allah ona cennete giden yolu kolaylaştırır.",
+"rf": "Müslim"
+},
+{
+"k": "İlim",
+"ar": "مَنْ يُرِدِ اللَّهُ بِهِ خَيْرًا يُفَقِّهْهُ فِي الدِّينِ",
+"tr": "Allah kime hayır murat ederse, onu dinde derin anlayış sahibi kılar.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "İlim",
+"ar": "بَلِّغُوا عَنِّي وَلَوْ آيَةً",
+"tr": "Benden (aldıklarınızı) bir âyet bile olsa tebliğ edin.",
+"rf": "Buhârî"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "أَكْمَلُ الْمُؤْمِنِينَ إِيمَانًا أَحْسَنُهُمْ خُلُقًا",
+"tr": "İman bakımından en olgun mümin, ahlâkı en güzel olanıdır.",
+"rf": "Tirmizî"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "مَا شَيْءٌ أَثْقَلُ فِي مِيزَانِ الْمُؤْمِنِ مِنْ خُلُقٍ حَسَنٍ",
+"tr": "Müminin mizanında güzel ahlâktan daha ağır bir şey yoktur.",
+"rf": "Tirmizî, Ebû Dâvûd"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "تَبَسُّمُكَ فِي وَجْهِ أَخِيكَ صَدَقَةٌ",
+"tr": "Kardeşine gülümsemen sadakadır.",
+"rf": "Tirmizî"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "الْمُؤْمِنُ مِرْآةُ أَخِيهِ",
+"tr": "Mümin, kardeşinin aynasıdır.",
+"rf": "Ebû Dâvûd"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "مَنْ غَشَّنَا فَلَيْسَ مِنَّا",
+"tr": "Bizi aldatan bizden değildir.",
+"rf": "Müslim"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "الْحَيَاءُ شُعْبَةٌ مِنَ الْإِيمَانِ",
+"tr": "Haya, imanın bir koludur.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "مِنْ حُسْنِ إِسْلَامِ الْمَرْءِ تَرْكُهُ مَا لَا يَعْنِيهِ",
+"tr": "Kişinin, kendisini ilgilendirmeyen şeyi terk etmesi, İslâm'ının güzelliğindendir.",
+"rf": "Tirmizî"
+},
+{
+"k": "Zikir ve Dua",
+"ar": "الدُّعَاءُ مُخُّ الْعِبَادَةِ",
+"tr": "Dua, ibadetin özüdür.",
+"rf": "Tirmizî"
+},
+{
+"k": "Zikir ve Dua",
+"ar": "لَا يَزَالُ لِسَانُكَ رَطْبًا بِذِكْرِ اللَّهِ",
+"tr": "Dilin, Allah'ı zikretmekle (daima) yaş kalsın.",
+"rf": "Tirmizî"
+},
+{
+"k": "Zikir ve Dua",
+"ar": "كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ ثَقِيلَتَانِ فِي الْمِيزَانِ: سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ",
+"tr": "Dile hafif, mizanda ağır iki kelime: Sübhânallahi ve bihamdih, Sübhânallahil azîm.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Zikir ve Dua",
+"ar": "أَفْضَلُ الذِّكْرِ لَا إِلَهَ إِلَّا اللَّهُ",
+"tr": "Zikrin en faziletlisi 'Lâ ilâhe illallah'tır.",
+"rf": "Tirmizî"
+},
+{
+"k": "Zikir ve Dua",
+"ar": "مَنْ صَلَّى عَلَيَّ صَلَاةً صَلَّى اللَّهُ عَلَيْهِ بِهَا عَشْرًا",
+"tr": "Kim bana bir salavat getirirse, Allah ona bununla on salât eder.",
+"rf": "Müslim"
+},
+{
+"k": "Anne-Baba ve Akrabalık",
+"ar": "أُمُّكَ، أُمُّكَ، أُمُّكَ، ثُمَّ أَبُوكَ",
+"tr": "(Sana en çok iyilik yapılacak kişi) annen, annen, annen, sonra babandır.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Anne-Baba ve Akrabalık",
+"ar": "رِضَا الرَّبِّ فِي رِضَا الْوَالِدِ",
+"tr": "Rabbin rızası, anne-babanın rızasındadır.",
+"rf": "Tirmizî"
+},
+{
+"k": "Anne-Baba ve Akrabalık",
+"ar": "مَنْ أَحَبَّ أَنْ يُبْسَطَ لَهُ فِي رِزْقِهِ وَيُنْسَأَ لَهُ فِي أَثَرِهِ فَلْيَصِلْ رَحِمَهُ",
+"tr": "Kim rızkının genişletilmesini ve ömrünün uzatılmasını isterse, akrabalık bağını gözetsin.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Anne-Baba ve Akrabalık",
+"ar": "لَيْسَ مِنَّا مَنْ لَمْ يَرْحَمْ صَغِيرَنَا وَلَمْ يَعْرِفْ شَرَفَ كَبِيرِنَا",
+"tr": "Küçüğümüze merhamet etmeyen ve büyüğümüzün değerini bilmeyen bizden değildir.",
+"rf": "Tirmizî"
+},
+{
+"k": "Sabır, Şükür ve Tevbe",
+"ar": "عَجَبًا لِأَمْرِ الْمُؤْمِنِ، إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ",
+"tr": "Müminin hâli ne hayret vericidir! Onun her hâli hayırdır.",
+"rf": "Müslim"
+},
+{
+"k": "Sabır, Şükür ve Tevbe",
+"ar": "مَا أُعْطِيَ أَحَدٌ عَطَاءً خَيْرًا وَأَوْسَعَ مِنَ الصَّبْرِ",
+"tr": "Hiç kimseye sabırdan daha hayırlı ve daha geniş bir nimet verilmemiştir.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Sabır, Şükür ve Tevbe",
+"ar": "كُلُّ ابْنِ آدَمَ خَطَّاءٌ، وَخَيْرُ الْخَطَّائِينَ التَّوَّابُونَ",
+"tr": "Her insan hata eder; hata edenlerin en hayırlısı tevbe edenlerdir.",
+"rf": "Tirmizî, İbn Mâce"
+},
+{
+"k": "Sabır, Şükür ve Tevbe",
+"ar": "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ، وَأَتْبِعِ السَّيِّئَةَ الْحَسَنَةَ تَمْحُهَا، وَخَالِقِ النَّاسَ بِخُلُقٍ حَسَنٍ",
+"tr": "Nerede olursan ol Allah'tan sakın; kötülüğün ardından iyilik yap ki onu silsin; insanlara güzel ahlâkla davran.",
+"rf": "Tirmizî"
+},
+{
+"k": "Sabır, Şükür ve Tevbe",
+"ar": "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ",
+"tr": "Güçlü mümin, zayıf müminden daha hayırlı ve Allah'a daha sevimlidir.",
+"rf": "Müslim"
+},
+{
+"k": "Komşuluk ve İyilik",
+"ar": "مَا زَالَ جِبْرِيلُ يُوصِينِي بِالْجَارِ",
+"tr": "Cebrail bana komşu hakkını o kadar tavsiye etti ki...",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Komşuluk ve İyilik",
+"ar": "كُلُّ مَعْرُوفٍ صَدَقَةٌ",
+"tr": "Her iyilik sadakadır.",
+"rf": "Buhârî"
+},
+{
+"k": "Komşuluk ve İyilik",
+"ar": "مَنْ دَلَّ عَلَى خَيْرٍ فَلَهُ مِثْلُ أَجْرِ فَاعِلِهِ",
+"tr": "Kim bir hayra vesile olursa, ona onu yapanın sevabı kadar sevap vardır.",
+"rf": "Müslim"
+},
+{
+"k": "Komşuluk ve İyilik",
+"ar": "مَنْ نَفَّسَ عَنْ مُؤْمِنٍ كُرْبَةً نَفَّسَ اللَّهُ عَنْهُ كُرْبَةً مِنْ كُرَبِ يَوْمِ الْقِيَامَةِ",
+"tr": "Kim bir müminin dünya sıkıntısını giderirse, Allah da onun kıyamet sıkıntılarından birini giderir.",
+"rf": "Müslim"
+},
+{
+"k": "İman ve İslâm",
+"ar": "الْإِيمَانُ بِضْعٌ وَسِتُّونَ شُعْبَةً",
+"tr": "İman yetmiş küsur şubedir (bölümdür).",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "İman ve İslâm",
+"ar": "لَا يَزْنِي الزَّانِي حِينَ يَزْنِي وَهُوَ مُؤْمِنٌ",
+"tr": "Zina eden kişi, zina ederken (kâmil) mümin olarak zina etmez.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "İman ve İslâm",
+"ar": "إِنَّ اللَّهَ كَتَبَ الْإِحْسَانَ عَلَى كُلِّ شَيْءٍ",
+"tr": "Allah, her şeyi güzellikle (ihsanla) yapmayı farz kılmıştır.",
+"rf": "Müslim"
+},
+{
+"k": "İman ve İslâm",
+"ar": "الْحَلَالُ بَيِّنٌ وَالْحَرَامُ بَيِّنٌ",
+"tr": "Helâl apaçıktır, haram da apaçıktır; ikisi arasında şüpheli şeyler vardır.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Temizlik ve Abdest",
+"ar": "لَوْلَا أَنْ أَشُقَّ عَلَى أُمَّتِي لَأَمَرْتُهُمْ بِالسِّوَاكِ عِنْدَ كُلِّ صَلَاةٍ",
+"tr": "Ümmetime zor gelmeyeceğini bilseydim, her namazda misvak kullanmalarını emrederdim.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Temizlik ve Abdest",
+"ar": "الْفِطْرَةُ خَمْسٌ: الْخِتَانُ وَالِاسْتِحْدَادُ وَنَتْفُ الْإِبِطِ وَتَقْلِيمُ الْأَظْفَارِ وَقَصُّ الشَّارِبِ",
+"tr": "Fıtrattandır: sünnet olmak, kasık tüylerini temizlemek, koltuk altı tüylerini yolmak, tırnakları kesmek ve bıyığı kısaltmak.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Temizlik ve Abdest",
+"ar": "إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ وَيُحِبُّ الْمُتَطَهِّرِينَ",
+"tr": "Şüphesiz Allah çok tevbe edenleri ve çok temizlenenleri sever.",
+"rf": "Tirmizî"
+},
+{
+"k": "Temizlik ve Abdest",
+"ar": "مِفْتَاحُ الصَّلَاةِ الطُّهُورُ",
+"tr": "Namazın anahtarı temizliktir.",
+"rf": "Ebû Dâvûd, Tirmizî"
+},
+{
+"k": "Namaz",
+"ar": "مَنْ تَرَكَ صَلَاةَ الْعَصْرِ فَقَدْ حَبِطَ عَمَلُهُ",
+"tr": "İkindi namazını (kasten) terk edenin ameli boşa gitmiştir.",
+"rf": "Buhârî"
+},
+{
+"k": "Namaz",
+"ar": "أَقْرَبُ مَا يَكُونُ الْعَبْدُ مِنْ رَبِّهِ وَهُوَ سَاجِدٌ",
+"tr": "Kulun Rabbine en yakın olduğu an, secde ettiği andır.",
+"rf": "Müslim"
+},
+{
+"k": "Namaz",
+"ar": "لَا صَلَاةَ بِحَضْرَةِ الطَّعَامِ",
+"tr": "Yemek hazırken (kişi yemeğe ihtiyaç duyarken) namaz kılınmaz.",
+"rf": "Müslim"
+},
+{
+"k": "Namaz",
+"ar": "الصَّلَاةُ نُورٌ",
+"tr": "Namaz bir nurdur.",
+"rf": "Müslim"
+},
+{
+"k": "Namaz",
+"ar": "أَرَأَيْتُمْ لَوْ أَنَّ نَهْرًا بِبَابِ أَحَدِكُمْ يَغْتَسِلُ مِنْهُ خَمْسَ مَرَّاتٍ",
+"tr": "Kapınızın önünden günde beş kez yıkandığınız bir nehir gibi beş vakit namaz, günahları temizler.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Kur'an",
+"ar": "الْمَاهِرُ بِالْقُرْآنِ مَعَ السَّفَرَةِ الْكِرَامِ الْبَرَرَةِ",
+"tr": "Kur'an'ı ustaca okuyan, şerefli ve iyi meleklerle beraberdir.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Kur'an",
+"ar": "اقْرَءُوا الْقُرْآنَ فَإِنَّهُ يَأْتِي يَوْمَ الْقِيَامَةِ شَفِيعًا لِأَصْحَابِهِ",
+"tr": "Kur'an okuyun; çünkü o, kıyamet günü sahiplerine şefaatçi olarak gelecektir.",
+"rf": "Müslim"
+},
+{
+"k": "Kur'an",
+"ar": "إِنَّ الْبَيْتَ الَّذِي يُقْرَأُ فِيهِ الْقُرْآنُ يَتَرَاءَى لِأَهْلِ السَّمَاءِ",
+"tr": "İçinde Kur'an okunan ev, gökyüzü halkına ışıldar.",
+"rf": "Dârimî"
+},
+{
+"k": "İlim",
+"ar": "الْعُلَمَاءُ وَرَثَةُ الْأَنْبِيَاءِ",
+"tr": "Âlimler, peygamberlerin vârisleridir.",
+"rf": "Ebû Dâvûd, Tirmizî"
+},
+{
+"k": "İlim",
+"ar": "مَنْ تَعَلَّمَ عِلْمًا مِمَّا يُبْتَغَى بِهِ وَجْهُ اللَّهِ لَا يَتَعَلَّمُهُ إِلَّا لِيُصِيبَ بِهِ عَرَضًا مِنَ الدُّنْيَا لَمْ يَجِدْ عَرْفَ الْجَنَّةِ يَوْمَ الْقِيَامَةِ",
+"tr": "Allah rızası için öğrenilecek bir ilmi sırf dünya menfaati için öğrenen, kıyamet günü cennetin kokusunu alamaz.",
+"rf": "Ebû Dâvûd"
+},
+{
+"k": "İlim",
+"ar": "نَضَّرَ اللَّهُ امْرَأً سَمِعَ مِنَّا حَدِيثًا فَحَفِظَهُ حَتَّى يُبَلِّغَهُ",
+"tr": "Bizden bir hadis işitip onu (başkasına) ulaştırmak üzere ezberleyenin Allah yüzünü ağartsın.",
+"rf": "Tirmizî, İbn Mâce"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "إِنَّ مِنْ خِيَارِكُمْ أَحْسَنَكُمْ أَخْلَاقًا",
+"tr": "Sizin en hayırlınız, ahlâkı en güzel olanınızdır.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "الرِّفْقُ مَا كَانَ فِي شَيْءٍ إِلَّا زَانَهُ",
+"tr": "Yumuşaklık hangi şeyde bulunursa, onu güzelleştirir.",
+"rf": "Müslim"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "الْحَيَاءُ لَا يَأْتِي إِلَّا بِخَيْرٍ",
+"tr": "Haya, ancak hayır getirir.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "الْكِبْرُ بَطَرُ الْحَقِّ وَغَمْطُ النَّاسِ",
+"tr": "Kibir, hakkı inkâr etmek ve insanları küçümsemektir.",
+"rf": "Müslim"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "إِنَّ اللَّهَ رَفِيقٌ يُحِبُّ الرِّفْقَ",
+"tr": "Şüphesiz Allah Refîk'tir (yumuşaktır) ve yumuşaklığı sever.",
+"rf": "Müslim"
+},
+{
+"k": "Güzel Ahlâk",
+"ar": "الْمُؤْمِنُ لِلْمُؤْمِنِ كَالْبُنْيَانِ يَشُدُّ بَعْضُهُ بَعْضًا",
+"tr": "Mümin, mümin için birbirini destekleyen bir bina gibidir.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Zikir ve Dua",
+"ar": "مَنْ قَالَ سُبْحَانَ اللَّهِ وَبِحَمْدِهِ مِائَةَ مَرَّةٍ حُطَّتْ خَطَايَاهُ",
+"tr": "Kim günde yüz kez 'Sübhânallahi ve bihamdih' derse, hataları bağışlanır.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Zikir ve Dua",
+"ar": "أَحَبُّ الْكَلَامِ إِلَى اللَّهِ أَرْبَعٌ: سُبْحَانَ اللَّهِ وَالْحَمْدُ لِلَّهِ وَلَا إِلَهَ إِلَّا اللَّهُ وَاللَّهُ أَكْبَرُ",
+"tr": "Allah'a en sevimli söz dört tanedir: Sübhânallah, Elhamdülillah, Lâ ilâhe illallah ve Allahü ekber.",
+"rf": "Müslim"
+},
+{
+"k": "Zikir ve Dua",
+"ar": "مَنْ لَا يَسْأَلُ اللَّهَ يَغْضَبْ عَلَيْهِ",
+"tr": "Kim Allah'tan isteyip dilekte bulunmazsa, Allah ona gazab eder.",
+"rf": "Tirmizî, İbn Mâce"
+},
+{
+"k": "Zikir ve Dua",
+"ar": "اذْكُرُوا اللَّهَ فِي الرَّخَاءِ يَذْكُرْكُمْ فِي الشِّدَّةِ",
+"tr": "Bollukta Allah'ı anın ki, darlıkta O da sizi ansın.",
+"rf": "Ahmed b. Hanbel"
+},
+{
+"k": "Sabır, Şükür ve Tevbe",
+"ar": "مَنْ يُحْرَمِ الرِّفْقَ يُحْرَمِ الْخَيْرَ",
+"tr": "Yumuşaklıktan mahrum kalan, hayırdan da mahrum kalır.",
+"rf": "Müslim"
+},
+{
+"k": "Sabır, Şükür ve Tevbe",
+"ar": "إِنَّ اللَّهَ إِذَا أَحَبَّ عَبْدًا ابْتَلَاهُ",
+"tr": "Allah bir kulu sevdiğinde onu imtihana çeker.",
+"rf": "Tirmizî"
+},
+{
+"k": "Sabır, Şükür ve Tevbe",
+"ar": "قُلْ آمَنْتُ بِاللَّهِ ثُمَّ اسْتَقِمْ",
+"tr": "De ki: 'Allah'a iman ettim', sonra istikamet üzere ol.",
+"rf": "Tirmizî"
+},
+{
+"k": "Sabır, Şükür ve Tevbe",
+"ar": "عَجَبًا لِأَمْرِ الْمُؤْمِنِ إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ",
+"tr": "Müminin işi ne de hayret vericidir; onun her işi hayırdır.",
+"rf": "Müslim"
+},
+{
+"k": "Oruç ve Ramazan",
+"ar": "مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ",
+"tr": "Kim inanarak ve sevabını Allah'tan bekleyerek Ramazan'ı oruçla geçirirse, önceki günahları bağışlanır.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Oruç ve Ramazan",
+"ar": "الصِّيَامُ جُنَّةٌ",
+"tr": "Oruç bir kalkandır.",
+"rf": "Müslim"
+},
+{
+"k": "Oruç ve Ramazan",
+"ar": "تَسَحَّرُوا فَإِنَّ فِي السَّحُورِ بَرَكَةً",
+"tr": "Sahur yapın; çünkü sahurda bereket vardır.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Oruç ve Ramazan",
+"ar": "لِلصَّائِمِ فَرْحَتَانِ: فَرْحَةٌ عِنْدَ فِطْرِهِ وَفَرْحَةٌ عِنْدَ لِقَاءِ رَبِّهِ",
+"tr": "Oruçlunun iki sevinci vardır: İftar ettiği an ve Rabbine kavuştuğu an.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Oruç ve Ramazan",
+"ar": "مَنْ لَمْ يَدَعْ قَوْلَ الزُّورِ وَالْعَمَلَ بِهِ فَلَيْسَ لِلَّهِ حَاجَةٌ فِي أَنْ يَدَعَ طَعَامَهُ وَشَرَابَهُ",
+"tr": "Yalan sözü ve onunla ameli bırakmayanın, yemesini içmesini bırakmasına Allah'ın ihtiyacı yoktur.",
+"rf": "Buhârî"
+},
+{
+"k": "Oruç ve Ramazan",
+"ar": "أَفْضَلُ الصِّيَامِ بَعْدَ رَمَضَانَ شَهْرُ اللَّهِ الْمُحَرَّمُ",
+"tr": "Ramazan'dan sonra en faziletli oruç, Allah'ın ayı Muharrem'de tutulan oruçtur.",
+"rf": "Müslim"
+},
+{
+"k": "Oruç ve Ramazan",
+"ar": "صَوْمُ يَوْمِ عَرَفَةَ يُكَفِّرُ سَنَتَيْنِ",
+"tr": "Arefe günü orucu, geçmiş ve gelecek birer yılın günahlarına kefarettir.",
+"rf": "Müslim"
+},
+{
+"k": "Sadaka ve İnfak",
+"ar": "مَا نَقَصَتْ صَدَقَةٌ مِنْ مَالٍ",
+"tr": "Sadaka, malı eksiltmez.",
+"rf": "Müslim"
+},
+{
+"k": "Sadaka ve İnfak",
+"ar": "اتَّقُوا النَّارَ وَلَوْ بِشِقِّ تَمْرَةٍ",
+"tr": "(Yarım hurma ile de olsa) sadaka vererek ateşten korunun.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Sadaka ve İnfak",
+"ar": "الْمُؤْمِنُ لِلْمُؤْمِنِ كَالْبُنْيَانِ",
+"tr": "Mümin, mümin için bir bina gibidir (birbirini destekler).",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Sadaka ve İnfak",
+"ar": "كُلُّ مَعْرُوفٍ صَدَقَةٌ",
+"tr": "Her iyilik bir sadakadır.",
+"rf": "Buhârî"
+},
+{
+"k": "Sadaka ve İnfak",
+"ar": "مَنْ تَصَدَّقَ بِعَدْلِ تَمْرَةٍ مِنْ كَسْبٍ طَيِّبٍ فَإِنَّ اللَّهَ يَتَقَبَّلُهَا",
+"tr": "Kim helâl kazancından bir hurma değerinde sadaka verirse, Allah onu kabul eder.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Ticaret ve Emek",
+"ar": "التَّاجِرُ الصَّدُوقُ الْأَمِينُ مَعَ النَّبِيِّينَ وَالصِّدِّيقِينَ وَالشُّهَدَاءِ",
+"tr": "Doğru sözlü ve güvenilir tacir, peygamberler, sıddîklar ve şehitlerle beraberdir.",
+"rf": "İbn Mâce"
+},
+{
+"k": "Ticaret ve Emek",
+"ar": "مَنْ أَخَذَ أَمْوَالَ النَّاسِ يُرِيدُ أَدَاءَهَا أَدَّى اللَّهُ عَنْهُ",
+"tr": "Kim insanların malını ödemek niyetiyle alırsa, Allah da onun borcunu öder.",
+"rf": "Buhârî"
+},
+{
+"k": "Ticaret ve Emek",
+"ar": "لَيْسَ الْغِنَى عَنْ كَثْرَةِ الْعَرَضِ وَلَكِنَّ الْغِنَى غِنَى النَّفْسِ",
+"tr": "Zenginlik mal çokluğu değildir; asıl zenginlik gönül zenginliğidir.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Ticaret ve Emek",
+"ar": "مَطْلُ الْغَنِيِّ ظُلْمٌ",
+"tr": "Zenginin borcunu ödemeyi geciktirmesi zulümdür.",
+"rf": "Buhârî"
+},
+{
+"k": "Ticaret ve Emek",
+"ar": "مَا أَكَلَ أَحَدٌ طَعَامًا قَطُّ خَيْرًا مِنْ أَنْ يَأْكُلَ مِنْ عَمَلِ يَدِهِ",
+"tr": "Hiç kimse, kendi el emeğiyle kazandığından daha hayırlı bir yemek yememiştir.",
+"rf": "Buhârî"
+},
+{
+"k": "Aile ve Evlilik",
+"ar": "خَيْرُكُمْ خَيْرُكُمْ لِأَهْلِهِ",
+"tr": "Sizin en hayırlınız, ailesine karşı en hayırlı olanınızdır.",
+"rf": "Tirmizî, İbn Mâce"
+},
+{
+"k": "Aile ve Evlilik",
+"ar": "الدُّنْيَا مَتَاعٌ وَخَيْرُ مَتَاعِ الدُّنْيَا الْمَرْأَةُ الصَّالِحَةُ",
+"tr": "Dünya bir metâdır; dünya metâının en hayırlısı sâliha bir kadındır.",
+"rf": "Müslim"
+},
+{
+"k": "Aile ve Evlilik",
+"ar": "اسْتَوْصُوا بِالنِّسَاءِ خَيْرًا",
+"tr": "Kadınlara iyilikle davranmanızı tavsiye ederim.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Aile ve Evlilik",
+"ar": "كُلُّكُمْ رَاعٍ وَكُلُّكُمْ مَسْئُولٌ عَنْ رَعِيَّتِهِ",
+"tr": "Hepiniz çobansınız ve hepiniz güttüğünüzden sorumlusunuz.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Aile ve Evlilik",
+"ar": "أَكْمَلُ الْمُؤْمِنِينَ إِيمَانًا أَحْسَنُهُمْ خُلُقًا وَخِيَارُكُمْ خِيَارُكُمْ لِنِسَائِهِمْ",
+"tr": "Müminlerin imanca en kâmil olanı, ahlâkı en güzel olanı ve ailesine en iyi davrananıdır.",
+"rf": "Tirmizî"
+},
+{
+"k": "Selam ve Sosyal Hayat",
+"ar": "لَا تَدْخُلُونَ الْجَنَّةَ حَتَّى تُؤْمِنُوا وَلَا تُؤْمِنُوا حَتَّى تَحَابُّوا",
+"tr": "İman etmedikçe cennete giremezsiniz; birbirinizi sevmedikçe de (kâmil) iman etmiş olmazsınız.",
+"rf": "Müslim"
+},
+{
+"k": "Selam ve Sosyal Hayat",
+"ar": "الْمُسْلِمُ أَخُو الْمُسْلِمِ لَا يَظْلِمُهُ وَلَا يَخْذُلُهُ",
+"tr": "Müslüman, Müslümanın kardeşidir; ona zulmetmez ve onu yüzüstü bırakmaz.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Selam ve Sosyal Hayat",
+"ar": "إِنَّ اللَّهَ يَنْصُرُ الْعَبْدَ مَا دَامَ الْعَبْدُ فِي عَوْنِ أَخِيهِ",
+"tr": "Kul, kardeşinin yardımında olduğu sürece Allah da kulun yardımındadır.",
+"rf": "Müslim"
+},
+{
+"k": "Selam ve Sosyal Hayat",
+"ar": "يَسِّرُوا وَلَا تُعَسِّرُوا وَبَشِّرُوا وَلَا تُنَفِّرُوا",
+"tr": "Kolaylaştırın, zorlaştırmayın; müjdeleyin, nefret ettirmeyin.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Kalb ve Niyet",
+"ar": "أَلَا وَإِنَّ فِي الْجَسَدِ مُضْغَةً إِذَا صَلَحَتْ صَلَحَ الْجَسَدُ كُلُّهُ",
+"tr": "Dikkat! Bedende bir et parçası vardır; o sağlam olursa bütün beden sağlam olur: İyi bilin ki o, kalptir.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Kalb ve Niyet",
+"ar": "إِنَّ اللَّهَ لَا يَنْظُرُ إِلَى صُوَرِكُمْ وَأَمْوَالِكُمْ وَلَكِنْ يَنْظُرُ إِلَى قُلُوبِكُمْ وَأَعْمَالِكُمْ",
+"tr": "Allah sizin suretlerinize ve mallarınıza bakmaz; kalplerinize ve amellerinize bakar.",
+"rf": "Müslim"
+},
+{
+"k": "Kalb ve Niyet",
+"ar": "الْبِرُّ حُسْنُ الْخُلُقِ",
+"tr": "İyilik, güzel ahlâktır.",
+"rf": "Müslim"
+},
+{
+"k": "Kalb ve Niyet",
+"ar": "مَنْ كَانَ فِي قَلْبِهِ مِثْقَالُ ذَرَّةٍ مِنْ كِبْرٍ لَمْ يَدْخُلِ الْجَنَّةَ",
+"tr": "Kalbinde zerre kadar kibir bulunan kimse cennete giremez.",
+"rf": "Müslim"
+},
+{
+"k": "Anne-Baba ve Akrabalık",
+"ar": "أَحَبُّ الْأَعْمَالِ إِلَى اللَّهِ الصَّلَاةُ عَلَى وَقْتِهَا ثُمَّ بِرُّ الْوَالِدَيْنِ",
+"tr": "Allah'ın en sevdiği amel, vaktinde kılınan namaz; sonra anne-babaya iyiliktir.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Anne-Baba ve Akrabalık",
+"ar": "أَنَا وَكَافِلُ الْيَتِيمِ فِي الْجَنَّةِ هَكَذَا",
+"tr": "Ben ve yetimi kollayan, cennette şöyle (iki parmağını birleştirerek) beraberiz.",
+"rf": "Buhârî, Tirmizî"
+},
+{
+"k": "Anne-Baba ve Akrabalık",
+"ar": "الرَّاحِمُونَ يَرْحَمُهُمُ الرَّحْمَنُ",
+"tr": "Merhamet edenlere Rahman merhamet eder; siz yerdekilere merhamet edin ki göktekiler de size merhamet etsin.",
+"rf": "Ebû Dâvûd, Tirmizî"
+},
+{
+"k": "Cennet ve Cehennem",
+"ar": "إِنَّ فِي الْجَنَّةِ مَا لَا عَيْنٌ رَأَتْ وَلَا أُذُنٌ سَمِعَتْ وَلَا خَطَرَ عَلَى قَلْبِ بَشَرٍ",
+"tr": "Cennette öyle şeyler vardır ki, hiçbir göz görmemiş, hiçbir kulak duymamış ve hiçbir insan kalbine gelmemiştir.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Cennet ve Cehennem",
+"ar": "حُفَّتِ الْجَنَّةُ بِالْمَكَارِهِ وَحُفَّتِ النَّارُ بِالشَّهَوَاتِ",
+"tr": "Cennet, hoşa gitmeyen şeylerle; cehennem ise şehvetlerle kuşatılmıştır.",
+"rf": "Müslim"
+},
+{
+"k": "Cennet ve Cehennem",
+"ar": "مَنْ خَافَ اللَّهَ لَقِيَ اللَّهَ",
+"tr": "Kim Allah'tan korkarsa, (sonunda) Allah'a kavuşur.",
+"rf": "Tirmizî"
+},
+{
+"k": "Cennet ve Cehennem",
+"ar": "لَأَنْ يُمَزِّقَ أَحَدُكُمْ بِمِشْقَصٍ خَيْرٌ لَهُ مِنْ أَنْ يُزَنِّيَ",
+"tr": "Sizden birinin vücuduna demir saplanması, zinadan daha hayırlıdır.",
+"rf": "Beyhakî"
+},
+{
+"k": "Peygamberimiz (s.a.v.)",
+"ar": "إِنَّمَا بُعِثْتُ لِأُتَمِّمَ مَكَارِمَ الْأَخْلَاقِ",
+"tr": "Ben, ancak güzel ahlâkı tamamlamak için gönderildim.",
+"rf": "Ahmed b. Hanbel"
+},
+{
+"k": "Peygamberimiz (s.a.v.)",
+"ar": "كَانَ خُلُقُهُ الْقُرْآنَ",
+"tr": "Onun (Resûlullah'ın) ahlâkı Kur'an idi.",
+"rf": "Müslim"
+},
+{
+"k": "Peygamberimiz (s.a.v.)",
+"ar": "مَا عَابَ رَسُولُ اللَّهِ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ طَعَامًا قَطُّ",
+"tr": "Resûlullah (s.a.v.) hiçbir yemeği kusurlu görmedi; iştahı varsa yerdi, yoksa bırakırdı.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Peygamberimiz (s.a.v.)",
+"ar": "بُعِثْتُ بِالْحَنِيفِيَّةِ السَّمْحَةِ",
+"tr": "Ben, kolaylık esasına dayanan hanîflikle gönderildim.",
+"rf": "Ahmed b. Hanbel"
+},
+{
+"k": "Peygamberimiz (s.a.v.)",
+"ar": "خَيْرُ النَّاسِ أَنْفَعُهُمْ لِلنَّاسِ",
+"tr": "İnsanların en hayırlısı, insanlara en faydalı olanıdır.",
+"rf": "Kudâî, Taberânî"
+},
+{
+"k": "Bayram ve Dini Günler",
+"ar": "لِكُلِّ قَوْمٍ عِيدٌ وَهَذَا عِيدُنَا",
+"tr": "Her kavmin bir bayramı vardır; bu da bizim bayramımızdır.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Bayram ve Dini Günler",
+"ar": "مَنْ صَامَ يَوْمًا فِي سَبِيلِ اللَّهِ بَاعَدَ اللَّهُ وَجْهَهُ عَنِ النَّارِ سَبْعِينَ خَرِيفًا",
+"tr": "Kim Allah yolunda bir gün oruç tutarsa, Allah onun yüzünü cehennemden yetmiş yıl uzaklaştırır.",
+"rf": "Buhârî, Müslim"
+},
+{
+"k": "Bayram ve Dini Günler",
+"ar": "أَفْضَلُ الصِّيَامِ بَعْدَ رَمَضَانَ شَهْرُ اللَّهِ الْمُحَرَّمُ",
+"tr": "Ramazan'dan sonra en faziletli oruç, Allah'ın ayı Muharrem'deki oruçtur.",
+"rf": "Müslim"
+}
+]
 }

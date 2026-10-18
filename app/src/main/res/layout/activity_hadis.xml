@@ -15,11 +15,67 @@
         app:theme="@style/Theme.Qibla.Toolbar"
         app:titleTextColor="@color/text_primary" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/hadisList"
+    <EditText
+        android:id="@+id/hadisSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/chip_bg"
+        android:drawableStart="@drawable/ic_search"
+        android:drawableTint="@color/text_dim"
+        android:drawablePadding="8dp"
+        android:hint="@string/hadis_search_hint"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:maxLines="1"
+        android:paddingStart="14dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="14dp"
+        android:paddingBottom="10dp"
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_dim"
+        android:textSize="15sp" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:paddingBottom="4dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/hadisChips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:clipToPadding="false"
-        android:padding="8dp" />
+        android:layout_weight="1">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hadisList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="8dp" />
+
+        <TextView
+            android:id="@+id/hadisEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:padding="32dp"
+            android:gravity="center"
+            android:text="@string/hadis_empty"
+            android:textColor="@color/text_dim"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </FrameLayout>
 </LinearLayout>

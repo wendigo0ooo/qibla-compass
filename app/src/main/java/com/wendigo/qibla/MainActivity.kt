@@ -624,6 +624,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<View>(R.id.ibEsma).setOnClickListener {
             startActivity(Intent(this, EsmaActivity::class.java))
         }
+        findViewById<View>(R.id.ibZikir).setOnClickListener {
+            startActivity(Intent(this, TesbihActivity::class.java))
+        }
+        findViewById<View>(R.id.ibNamaz).setOnClickListener {
+            startActivity(Intent(this, NamazRehberActivity::class.java))
+        }
+        findViewById<View>(R.id.ibAbdest).setOnClickListener {
+            startActivity(Intent(this, AbdestRehberActivity::class.java))
+        }
     }
 
     private fun selectTab(index: Int) {

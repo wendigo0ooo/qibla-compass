@@ -15,6 +15,29 @@ object HadisRepository {
 
     data class Data(val hadisler: List<Hadis>, val categories: List<String>)
 
+    private const val PREFS = "qibla_prefs"
+    private const val KEY_FAVS = "hadis_favs"
+
+    fun favIndexes(context: Context): Set<String> {
+        val p = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        return p.getStringSet(KEY_FAVS, emptySet()) ?: emptySet()
+    }
+
+    fun isFav(context: Context, index: Int): Boolean = favIndexes(context).contains(index.toString())
+
+    fun toggleFav(context: Context, index: Int): Boolean {
+        val set = favIndexes(context).toMutableSet()
+        val key = index.toString()
+        val nowFav = if (set.contains(key)) {
+            set.remove(key); false
+        } else {
+            set.add(key); true
+        }
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .edit().putStringSet(KEY_FAVS, set).apply()
+        return nowFav
+    }
+
     @Volatile
     private var cache: Data? = null
     private val lock = Any()
