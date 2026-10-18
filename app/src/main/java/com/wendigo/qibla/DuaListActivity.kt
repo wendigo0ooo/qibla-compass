@@ -1,15 +1,10 @@
 package com.wendigo.qibla
 
-import android.graphics.Typeface
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -70,45 +65,6 @@ class DuaListActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun showDua(d: DuaRepository.Dua) {
-        val pad = (20 * resources.displayMetrics.density).toInt()
-        val col = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(pad, pad, pad, pad)
-        }
-
-        fun add(text: String, size: Float, colorRes: Int, rtl: Boolean = false, bold: Boolean = false) {
-            if (text.isBlank()) return
-            col.addView(TextView(this).apply {
-                this.text = text
-                textSize = size
-                setTextColor(getColor(colorRes))
-                if (bold) typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-                if (rtl) {
-                    textDirection = View.TEXT_DIRECTION_RTL
-                    gravity = Gravity.RIGHT
-                    setLineSpacing(10f, 1f)
-                } else {
-                    setLineSpacing(4f, 1f)
-                }
-                setPadding(0, 0, 0, pad / 2)
-            })
-        }
-
-        add(d.title, 17f, R.color.accent, bold = true)
-        add(d.arabic, 24f, R.color.text_primary, rtl = true)
-        if (d.okunus.isNotBlank()) add(d.okunus, 15f, R.color.text_dim)
-        add(d.meal, 16f, R.color.text_primary)
-        if (d.arabic.isBlank() && d.intro.isNotBlank()) add(d.intro, 15f, R.color.text_dim)
-        add(d.reference, 12f, R.color.text_dim)
-
-        val scroll = ScrollView(this).apply { addView(col) }
-        AlertDialog.Builder(this)
-            .setView(scroll)
-            .setPositiveButton(android.R.string.ok, null)
-            .show()
-    }
-
     private inner class RowAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         override fun getItemViewType(position: Int) =
             if (rows[position] is Row.Header) TYPE_HEADER else TYPE_DUA
@@ -131,7 +87,7 @@ class DuaListActivity : AppCompatActivity() {
                     val h = holder as DuaVH
                     h.title.text = r.dua.title
                     h.ref.text = r.dua.reference
-                    h.itemView.setOnClickListener { showDua(r.dua) }
+                    h.itemView.setOnClickListener { DuaDetail.show(this@DuaListActivity, r.dua) }
                 }
             }
         }
