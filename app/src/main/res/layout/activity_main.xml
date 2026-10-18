@@ -353,6 +353,47 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="@string/notif_test" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="14dp"
+                            android:text="@string/notif_reminders_title"
+                            android:textColor="@color/accent"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <CheckBox
+                            android:id="@+id/checkRemind30"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/notif_remind_30"
+                            android:textColor="@color/text_primary"
+                            android:textSize="15sp" />
+
+                        <CheckBox
+                            android:id="@+id/checkRemind15"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/notif_remind_15"
+                            android:textColor="@color/text_primary"
+                            android:textSize="15sp" />
+
+                        <CheckBox
+                            android:id="@+id/checkRemind5"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/notif_remind_5"
+                            android:textColor="@color/text_primary"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="2dp"
+                            android:text="@string/notif_reminders_hint"
+                            android:textColor="@color/text_dim"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <TextView

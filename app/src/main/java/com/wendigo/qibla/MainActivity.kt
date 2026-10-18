@@ -37,6 +37,7 @@ import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import android.widget.BaseAdapter
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -890,6 +891,27 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                 currentCityName ?: getString(R.string.app_name),
                 101
             )
+        }
+        bindReminderCheck(R.id.checkRemind30, 30)
+        bindReminderCheck(R.id.checkRemind15, 15)
+        bindReminderCheck(R.id.checkRemind5, 5)
+    }
+
+    private fun bindReminderCheck(id: Int, minutes: Int) {
+        val cb = findViewById<CheckBox>(id)
+        val key = PrayerScheduler.KEY_REMIND_PREFIX + minutes
+        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        suppressNotifListener = true
+        cb.isChecked = p.getBoolean(key, false)
+        suppressNotifListener = false
+        cb.setOnCheckedChangeListener { _, checked ->
+            if (suppressNotifListener) return@setOnCheckedChangeListener
+            p.edit().putBoolean(key, checked).apply()
+            if (p.getBoolean(PrayerScheduler.KEY_ENABLED, false)) {
+                val la = lat
+                val lo = lon
+                if (la != null && lo != null) PrayerScheduler.schedule(this, la, lo, currentCityName)
+            }
         }
     }
 
