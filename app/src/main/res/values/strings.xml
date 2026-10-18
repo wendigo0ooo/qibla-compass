@@ -82,6 +82,7 @@
     <string name="ib_esma_sub">Allah\'ın 99 güzel ismi ve anlamları</string>
     <string name="ib_head">İbadet ve Zikir</string>
     <string name="ib_gunun_sub">Günün âyeti, hadisi ve duası</string>
+    <string name="vakit_gunun_sub">Günün âyeti, hadisi ve duası</string>
     <string name="gunun_title">Günün İçeriği</string>
     <string name="gunun_tab_ayah">Günün Âyeti</string>
     <string name="gunun_tab_hadis">Günün Hadisi</string>
@@ -152,7 +153,7 @@
     <string name="notif_remind_30">30 dakika önce</string>
     <string name="notif_remind_15">15 dakika önce</string>
     <string name="notif_remind_5">5 dakika önce</string>
-    <string name="notif_reminders_hint">Sağdaki ayar simgesinden her süre için ayrı bildirim sesi seçebilirsiniz (telefon sesleri veya ney, çan, zil, saz). Varsayılan olarak her süre farklı sesle gelir.</string>
+    <string name="notif_reminders_hint">Sağdaki ayar simgesinden her süre için ayrı bildirim sesi seçebilirsiniz (telefon sesleri veya ezan, salât, tekbir, ney, zil, saz). Varsayılan olarak her süre farklı sesle gelir.</string>
     <string name="notif_reminder_title">%1$s namazına %2$d dakika kaldı</string>
     <string name="notif_channel_reminder_desc">Vakitten önce yapılan hatırlatmalar</string>
     <string name="notif_channel_r30">Hatırlatıcı · 30 dakika</string>
@@ -174,8 +175,10 @@
     <string name="sound_title">Hatırlatıcı sesi · %1$d dk</string>
     <string name="sound_default">Varsayılan (önerilen)</string>
     <string name="sound_silent">Sessiz</string>
+    <string name="sound_ezan">Ezan</string>
+    <string name="sound_salat">Salât / Kâmet</string>
+    <string name="sound_tekbir">Tekbir</string>
     <string name="sound_ney">Ney (enstrümantal)</string>
-    <string name="sound_bell">Çan (enstrümantal)</string>
     <string name="sound_chime">Zil (enstrümantal)</string>
     <string name="sound_saz">Saz (enstrümantal)</string>
     <string name="sound_phone">Telefon sesleri…</string>
@@ -183,7 +186,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru genel web araması, diyanet.gov.tr kaynakları veya      YouTube üzerinden aranabilir.\n\nSürüm %1$s</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri ve bildirim sesleri (ezan, salât, tekbir) Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru genel web araması, diyanet.gov.tr kaynakları veya      YouTube üzerinden aranabilir.\n\nSürüm %1$s</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>

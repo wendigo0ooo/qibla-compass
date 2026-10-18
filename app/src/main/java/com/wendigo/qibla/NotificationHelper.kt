@@ -34,8 +34,10 @@ object NotificationHelper {
     fun soundKey(minutes: Int): String = "remind_sound_$minutes"
 
     private fun rawId(name: String): Int = when (name) {
+        "ezan" -> R.raw.snd_ezan
+        "salat" -> R.raw.snd_salat
+        "tekbir" -> R.raw.snd_tekbir
         "ney" -> R.raw.snd_ney
-        "bell" -> R.raw.snd_bell
         "chime" -> R.raw.snd_chime
         "saz" -> R.raw.snd_saz
         else -> 0

@@ -31,8 +31,11 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.provider.Settings
+import android.text.Editable
 import android.text.InputType
+import android.text.TextWatcher
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -56,6 +59,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -90,6 +95,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private lateinit var recentChips: LinearLayout
     private lateinit var quranResume: View
     private lateinit var quranResumeText: TextView
+    private lateinit var etFetvaQuery: EditText
+    private lateinit var fetvaStatus: TextView
+    private lateinit var btnFetvaWeb: Button
+    private lateinit var fetvaChips: LinearLayout
+    private lateinit var fetvaList: RecyclerView
+    private val fetvaAdapter = FetvaAdapter()
+    private var fetvaAll: List<FetvaRepository.Fetva> = emptyList()
+    private var fetvaSelectedCat: String? = null
+    private var fetvaLoaded = false
+    private lateinit var toolsList: RecyclerView
     private val favSurahs = HashSet<Int>()
     private val quranSurahs = ArrayList<QuranRepository.Surah>()
     private val allSurahs = ArrayList<QuranRepository.Surah>()
@@ -115,7 +130,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private val tickHandler = Handler(Looper.getMainLooper())
     private val vakitTicker = object : Runnable {
         override fun run() {
-            if (currentTab == 1) {
+            if (currentTab == 0) {
                 updateVakitPage()
                 tickHandler.postDelayed(this, 1000L)
             }
@@ -248,6 +263,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         setupBottomBar()
         setupSettingsPage()
         setupIbadahPage()
+        setupFetvaPage()
+        setupToolsPage()
         setupNotifications()
 
         pageQuran = findViewById(R.id.pageQuran)
@@ -306,7 +323,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             manualOverride = false
             ensurePermissionAndLocate()
         }
-        findViewById<View>(R.id.qiblaGunun).setOnClickListener {
+        findViewById<View>(R.id.vakitGunun).setOnClickListener {
             startActivity(Intent(this, GununActivity::class.java))
         }
 
@@ -605,24 +622,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     // ---- bottom navigation ----
 
     private fun setupBottomBar() {
-        findViewById<View>(R.id.tabQibla).setOnClickListener { selectTab(0) }
-        findViewById<View>(R.id.tabPrayer).setOnClickListener { selectTab(1) }
-        findViewById<View>(R.id.tabQuran).setOnClickListener { selectTab(2) }
-        findViewById<View>(R.id.tabIbadah).setOnClickListener { selectTab(3) }
-        findViewById<View>(R.id.tabFetva).setOnClickListener {
-            startActivity(Intent(this, FetvaActivity::class.java))
-            overridePendingTransition(0, 0)
-        }
-        findViewById<View>(R.id.tabTools).setOnClickListener {
-            startActivity(Intent(this, ToolsActivity::class.java))
-            overridePendingTransition(0, 0)
-        }
-        findViewById<View>(R.id.tabSettings).setOnClickListener { selectTab(4) }
-        val dim = getColor(R.color.text_dim)
-        findViewById<ImageView>(R.id.tabFetvaIcon).setColorFilter(dim)
-        findViewById<TextView>(R.id.tabFetvaLabel).setTextColor(dim)
-        findViewById<ImageView>(R.id.tabToolsIcon).setColorFilter(dim)
-        findViewById<TextView>(R.id.tabToolsLabel).setTextColor(dim)
+        findViewById<View>(R.id.tabPrayer).setOnClickListener { selectTab(0) }
+        findViewById<View>(R.id.tabQuran).setOnClickListener { selectTab(1) }
+        findViewById<View>(R.id.tabIbadah).setOnClickListener { selectTab(2) }
+        findViewById<View>(R.id.tabFetva).setOnClickListener { selectTab(3) }
+        findViewById<View>(R.id.tabQibla).setOnClickListener { selectTab(4) }
+        findViewById<View>(R.id.tabTools).setOnClickListener { selectTab(5) }
+        findViewById<View>(R.id.tabSettings).setOnClickListener { selectTab(6) }
         selectTab(0)
     }
 
@@ -648,8 +654,259 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<View>(R.id.ibTakip).setOnClickListener {
             startActivity(Intent(this, PrayerTrackerActivity::class.java))
         }
-        findViewById<View>(R.id.ibGunun).setOnClickListener {
-            startActivity(Intent(this, GununActivity::class.java))
+    }
+
+    private fun setupFetvaPage() {
+        etFetvaQuery = findViewById(R.id.etFetvaQuery)
+        fetvaStatus = findViewById(R.id.fetvaStatus)
+        btnFetvaWeb = findViewById(R.id.btnFetvaWeb)
+        fetvaChips = findViewById(R.id.fetvaChips)
+        fetvaList = findViewById(R.id.fetvaList)
+        fetvaList.layoutManager = LinearLayoutManager(this)
+        fetvaList.adapter = fetvaAdapter
+        findViewById<Button>(R.id.btnFetvaSearch).setOnClickListener { performFetvaSearch() }
+        btnFetvaWeb.setOnClickListener { openFetvaWeb() }
+        etFetvaQuery.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                performFetvaSearch()
+                true
+            } else false
+        }
+        etFetvaQuery.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(s: Editable?) = performFetvaSearch()
+            override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+            override fun onTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
+        })
+    }
+
+    private fun ensureFetvaLoaded() {
+        if (fetvaLoaded) return
+        fetvaLoaded = true
+        loadExecutor.execute {
+            val loaded = try {
+                FetvaRepository.load(applicationContext)
+            } catch (_: Exception) {
+                emptyList()
+            }
+            runOnUiThread {
+                fetvaAll = loaded
+                buildFetvaChips(loaded.map { it.kategori }.distinct())
+                performFetvaSearch()
+            }
+        }
+    }
+
+    private fun buildFetvaChips(categories: List<String>) {
+        fetvaChips.removeAllViews()
+        addFetvaChip(getString(R.string.fetva_all), null)
+        for (c in categories) addFetvaChip(c, c)
+    }
+
+    private fun addFetvaChip(label: String, value: String?) {
+        val tv = TextView(this).apply {
+            text = label
+            textSize = 13f
+            setPadding(dp(14), dp(8), dp(14), dp(8))
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { marginEnd = dp(6) }
+            tag = value
+            setOnClickListener {
+                fetvaSelectedCat = value
+                refreshFetvaChips()
+                performFetvaSearch()
+            }
+        }
+        fetvaChips.addView(tv)
+    }
+
+    private fun refreshFetvaChips() {
+        for (i in 0 until fetvaChips.childCount) {
+            val tv = fetvaChips.getChildAt(i) as TextView
+            val sel = (tv.tag as String?) == fetvaSelectedCat
+            tv.setBackgroundResource(if (sel) R.drawable.chip_bg_selected else R.drawable.chip_bg)
+            tv.setTextColor(getColor(if (sel) android.R.color.white else R.color.text_primary))
+        }
+    }
+
+    private fun performFetvaSearch() {
+        val q = etFetvaQuery.text.toString()
+        var res = FetvaRepository.search(applicationContext, q)
+        val cat = fetvaSelectedCat
+        if (cat != null) res = res.filter { it.kategori == cat }
+        fetvaAdapter.setItems(res)
+        fetvaStatus.text = when {
+            q.isBlank() && cat == null -> getString(R.string.fetva_sub)
+            res.isEmpty() -> getString(R.string.fetva_none)
+            else -> getString(R.string.fetva_count, res.size)
+        }
+        btnFetvaWeb.visibility = if (q.isBlank()) View.GONE else View.VISIBLE
+    }
+
+    private fun isOnline(): Boolean {
+        val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as? android.net.ConnectivityManager
+            ?: return false
+        val net = cm.activeNetwork ?: return false
+        val caps = cm.getNetworkCapabilities(net) ?: return false
+        return caps.hasCapability(android.net.NetworkCapabilities.NET_CAPABILITY_INTERNET)
+    }
+
+    private fun openFetvaWeb() {
+        val q = etFetvaQuery.text.toString().trim()
+        if (q.isBlank()) {
+            Toast.makeText(this, getString(R.string.fetva_web_query), Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (!isOnline()) {
+            Toast.makeText(this, getString(R.string.fetva_no_internet), Toast.LENGTH_LONG).show()
+            return
+        }
+        val options = arrayOf(
+            getString(R.string.fetva_web_general),
+            getString(R.string.fetva_web_diyanet),
+            getString(R.string.fetva_web_youtube)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(R.string.fetva_web_title)
+            .setItems(options) { _, which ->
+                val url = when (which) {
+                    1 -> googleUrl("$q site:diyanet.gov.tr")
+                    2 -> "https://www.youtube.com/results?search_query=" +
+                        java.net.URLEncoder.encode(q, "UTF-8")
+                    else -> googleUrl(q)
+                }
+                openUrl(url)
+            }
+            .show()
+    }
+
+    private fun googleUrl(query: String): String =
+        "https://www.google.com/search?q=" + java.net.URLEncoder.encode(query, "UTF-8")
+
+    private fun openUrl(url: String) {
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        } catch (_: android.content.ActivityNotFoundException) {
+            Toast.makeText(this, getString(R.string.fetva_no_browser), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun showFetva(f: FetvaRepository.Fetva) {
+        val pad = (20 * resources.displayMetrics.density).toInt()
+        val col = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(pad, pad, pad, pad)
+        }
+        col.addView(TextView(this).apply {
+            text = f.soru
+            textSize = 16f
+            setTextColor(getColor(R.color.accent))
+            setPadding(0, 0, 0, pad / 2)
+        })
+        if (f.mezhep.isNotBlank()) {
+            col.addView(TextView(this).apply {
+                text = getString(R.string.fetva_mezhep) + ": " + f.mezhep
+                textSize = 12f
+                setTextColor(getColor(R.color.text_dim))
+                setPadding(0, 0, 0, pad / 3)
+            })
+        }
+        col.addView(TextView(this).apply {
+            text = f.cevap
+            textSize = 16f
+            setTextColor(getColor(R.color.text_primary))
+            setLineSpacing(5f, 1f)
+            setPadding(0, 0, 0, pad / 2)
+        })
+        col.addView(TextView(this).apply {
+            text = f.kaynak
+            textSize = 12f
+            setTextColor(getColor(R.color.text_dim))
+            gravity = Gravity.END
+        })
+        val scroll = ScrollView(this).apply { addView(col) }
+        AlertDialog.Builder(this)
+            .setView(scroll)
+            .setPositiveButton(android.R.string.ok, null)
+            .show()
+    }
+
+    private inner class FetvaAdapter : RecyclerView.Adapter<FetvaAdapter.VH>() {
+        private val items = ArrayList<FetvaRepository.Fetva>()
+
+        fun setItems(list: List<FetvaRepository.Fetva>) {
+            items.clear()
+            items.addAll(list)
+            notifyDataSetChanged()
+        }
+
+        inner class VH(v: View) : RecyclerView.ViewHolder(v) {
+            val question: TextView = v.findViewById(R.id.fetvaQuestion)
+            val tag: TextView = v.findViewById(R.id.fetvaTag)
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH =
+            VH(LayoutInflater.from(parent.context).inflate(R.layout.item_fetva, parent, false))
+
+        override fun getItemCount() = items.size
+
+        override fun onBindViewHolder(holder: VH, position: Int) {
+            val f = items[position]
+            holder.question.text = f.soru
+            holder.tag.text = if (f.mezhep.isBlank()) f.kategori else f.kategori + " • " + f.mezhep
+            holder.itemView.setOnClickListener { showFetva(f) }
+        }
+    }
+
+    private data class ToolItem(
+        val titleRes: Int,
+        val subRes: Int,
+        val iconRes: Int,
+        val target: Class<*>
+    )
+
+    private val tools = listOf(
+        ToolItem(
+            R.string.tool_hijri_title, R.string.tool_hijri_sub,
+            R.drawable.ic_calendar, HijriActivity::class.java
+        ),
+        ToolItem(
+            R.string.tool_zakat_title, R.string.tool_zakat_sub,
+            R.drawable.ic_zakat, ZakatActivity::class.java
+        ),
+        ToolItem(
+            R.string.tool_mescit_title, R.string.tool_mescit_sub,
+            R.drawable.ic_place, MescitActivity::class.java
+        )
+    )
+
+    private fun setupToolsPage() {
+        toolsList = findViewById(R.id.pageTools)
+        toolsList.layoutManager = LinearLayoutManager(this)
+        toolsList.adapter = ToolsAdapter()
+    }
+
+    private inner class ToolsAdapter : RecyclerView.Adapter<ToolsAdapter.VH>() {
+        inner class VH(v: View) : RecyclerView.ViewHolder(v) {
+            val icon: ImageView = v.findViewById(R.id.toolIcon)
+            val title: TextView = v.findViewById(R.id.toolTitle)
+            val sub: TextView = v.findViewById(R.id.toolSub)
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH =
+            VH(LayoutInflater.from(parent.context).inflate(R.layout.item_tool, parent, false))
+
+        override fun getItemCount() = tools.size
+
+        override fun onBindViewHolder(holder: VH, position: Int) {
+            val t = tools[position]
+            holder.icon.setImageResource(t.iconRes)
+            holder.title.setText(t.titleRes)
+            holder.sub.setText(t.subRes)
+            holder.itemView.setOnClickListener {
+                startActivity(Intent(this@MainActivity, t.target))
+            }
         }
     }
 
@@ -657,16 +914,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         val accent = getColor(R.color.accent)
         val dim = getColor(R.color.text_dim)
         val icons = intArrayOf(
-            R.id.tabQiblaIcon, R.id.tabPrayerIcon, R.id.tabQuranIcon,
-            R.id.tabIbadahIcon, R.id.tabSettingsIcon
+            R.id.tabPrayerIcon, R.id.tabQuranIcon, R.id.tabIbadahIcon,
+            R.id.tabFetvaIcon, R.id.tabQiblaIcon, R.id.tabToolsIcon, R.id.tabSettingsIcon
         )
         val labels = intArrayOf(
-            R.id.tabQiblaLabel, R.id.tabPrayerLabel, R.id.tabQuranLabel,
-            R.id.tabIbadahLabel, R.id.tabSettingsLabel
+            R.id.tabPrayerLabel, R.id.tabQuranLabel, R.id.tabIbadahLabel,
+            R.id.tabFetvaLabel, R.id.tabQiblaLabel, R.id.tabToolsLabel, R.id.tabSettingsLabel
         )
         val pages = intArrayOf(
-            R.id.pageQibla, R.id.pageVakit, R.id.pageQuran,
-            R.id.pageIbadat, R.id.pageAyarlar
+            R.id.pageVakit, R.id.pageQuran, R.id.pageIbadat,
+            R.id.pageFetva, R.id.pageQibla, R.id.pageTools, R.id.pageAyarlar
         )
         for (i in icons.indices) {
             val on = i == index
@@ -675,20 +932,23 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             findViewById<View>(pages[i]).visibility = if (on) View.VISIBLE else View.GONE
         }
         supportActionBar?.title = when (index) {
-            0 -> getString(R.string.app_name)
-            1 -> getString(R.string.tab_prayer)
-            2 -> getString(R.string.tab_quran)
-            3 -> getString(R.string.tab_ibadah)
+            0 -> getString(R.string.tab_prayer)
+            1 -> getString(R.string.tab_quran)
+            2 -> getString(R.string.tab_ibadah)
+            3 -> getString(R.string.tab_fetva)
+            4 -> getString(R.string.tab_qibla)
+            5 -> getString(R.string.tab_tools)
             else -> getString(R.string.tab_settings)
         }
         currentTab = index
-        if (index == 1) {
+        if (index == 0) {
             updateVakitPage()
             startVakitTicker()
         } else {
             stopVakitTicker()
         }
-        if (index == 2) ensureQuranLoaded()
+        if (index == 1) ensureQuranLoaded()
+        if (index == 3) ensureFetvaLoaded()
     }
 
     private fun startVakitTicker() {
@@ -969,8 +1229,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         val options = arrayOf(
             getString(R.string.sound_default),
             getString(R.string.sound_silent),
+            getString(R.string.sound_ezan),
+            getString(R.string.sound_salat),
+            getString(R.string.sound_tekbir),
             getString(R.string.sound_ney),
-            getString(R.string.sound_bell),
             getString(R.string.sound_chime),
             getString(R.string.sound_saz),
             getString(R.string.sound_phone)
@@ -981,11 +1243,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                 when (which) {
                     0 -> applyReminderSound(minutes, null)
                     1 -> applyReminderSound(minutes, NotificationHelper.SOUND_NONE)
-                    2 -> applyReminderSound(minutes, "raw:ney")
-                    3 -> applyReminderSound(minutes, "raw:bell")
-                    4 -> applyReminderSound(minutes, "raw:chime")
-                    5 -> applyReminderSound(minutes, "raw:saz")
-                    6 -> openRingtonePicker(minutes)
+                    2 -> applyReminderSound(minutes, "raw:ezan")
+                    3 -> applyReminderSound(minutes, "raw:salat")
+                    4 -> applyReminderSound(minutes, "raw:tekbir")
+                    5 -> applyReminderSound(minutes, "raw:ney")
+                    6 -> applyReminderSound(minutes, "raw:chime")
+                    7 -> applyReminderSound(minutes, "raw:saz")
+                    8 -> openRingtonePicker(minutes)
                 }
             }
             .show()
@@ -1000,8 +1264,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         NotificationHelper.updateReminderChannel(this, minutes)
         when (value) {
             null, NotificationHelper.SOUND_NONE -> {}
+            "raw:ezan" -> previewRes(R.raw.snd_ezan)
+            "raw:salat" -> previewRes(R.raw.snd_salat)
+            "raw:tekbir" -> previewRes(R.raw.snd_tekbir)
             "raw:ney" -> previewRes(R.raw.snd_ney)
-            "raw:bell" -> previewRes(R.raw.snd_bell)
             "raw:chime" -> previewRes(R.raw.snd_chime)
             "raw:saz" -> previewRes(R.raw.snd_saz)
             else -> previewSound(Uri.parse(value))
@@ -1601,7 +1867,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         if (!manualOverride && hasLocationPermission()) startLocationUpdates()
         PrayerScheduler.rescheduleFromPrefs(this)
         refreshQuranResume()
-        if (currentTab == 1) startVakitTicker()
+        if (currentTab == 0) startVakitTicker()
     }
 
     override fun onPause() {
@@ -1715,7 +1981,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
                 tvInfo.text = getString(R.string.waiting_location)
             }
             updatePrayerPanel()
-            if (currentTab == 1) updateVakitPage()
+            if (currentTab == 0) updateVakitPage()
             return
         }
 
@@ -1742,7 +2008,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         }
 
         updatePrayerPanel()
-        if (currentTab == 1) updateVakitPage()
+        if (currentTab == 0) updateVakitPage()
 
         val calibrated = sensorAccuracy >= SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM
         setStatus(
