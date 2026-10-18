@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.AudioAttributes
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -24,8 +25,50 @@ object NotificationHelper {
 
     const val CHANNEL_VAKIT = "prayer_times"
     const val CHANNEL_COUNTDOWN = "prayer_countdown"
+    const val SOUND_NONE = "none"
+
+    private const val PREFS = "qibla_prefs"
 
     fun channelFor(minutes: Int): String = "prayer_reminder_$minutes"
+
+    fun soundKey(minutes: Int): String = "remind_sound_$minutes"
+
+    private fun rawId(name: String): Int = when (name) {
+        "ney" -> R.raw.snd_ney
+        "bell" -> R.raw.snd_bell
+        "chime" -> R.raw.snd_chime
+        "saz" -> R.raw.snd_saz
+        else -> 0
+    }
+
+    /**
+     * Resolves the sound chosen for a reminder interval.
+     *  - absent            -> system default for that interval
+     *  - "none"            -> silent
+     *  - "raw:<name>"      -> bundled instrumental sound
+     *  - anything else     -> a device sound (content/file URI picked by the user)
+     */
+    fun reminderSoundUri(context: Context, minutes: Int): Uri? {
+        val v = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString(soundKey(minutes), null)
+        return when {
+            v == null -> RingtoneManager.getDefaultUri(reminderRingtoneType(minutes))
+            v == SOUND_NONE -> null
+            v.startsWith("raw:") -> {
+                val id = rawId(v.substring(4))
+                if (id == 0) null else Uri.parse("android.resource://${context.packageName}/$id")
+            }
+            else -> Uri.parse(v)
+        }
+    }
+
+    /** Recreates the reminder channel so a newly chosen sound takes effect. */
+    fun updateReminderChannel(context: Context, minutes: Int) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+        val nm = context.getSystemService(NotificationManager::class.java) ?: return
+        nm.deleteNotificationChannel(channelFor(minutes))
+        ensureReminderChannel(nm, context, minutes)
+    }
 
     fun ensureChannel(context: Context) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
@@ -74,12 +117,16 @@ object NotificationHelper {
             description = context.getString(R.string.notif_channel_reminder_desc)
             enableVibration(true)
         }
-        RingtoneManager.getDefaultUri(reminderRingtoneType(minutes))?.let { uri ->
+        val uri = reminderSoundUri(context, minutes)
+        if (uri != null) {
             val attrs = AudioAttributes.Builder()
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
                 .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
                 .build()
             channel.setSound(uri, attrs)
+        } else {
+            channel.setSound(null, null)
+            channel.enableVibration(true)
         }
         nm.createNotificationChannel(channel)
     }
@@ -127,7 +174,8 @@ object NotificationHelper {
             .setContentIntent(openAppIntent(context))
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             if (minutes > 0) {
-                builder.setSound(RingtoneManager.getDefaultUri(reminderRingtoneType(minutes)))
+                val uri = reminderSoundUri(context, minutes)
+                if (uri != null) builder.setSound(uri)
                 builder.setDefaults(NotificationCompat.DEFAULT_VIBRATE)
             } else {
                 builder.setDefaults(NotificationCompat.DEFAULT_ALL)

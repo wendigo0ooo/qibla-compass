@@ -392,29 +392,83 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
-                        <CheckBox
-                            android:id="@+id/checkRemind30"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/notif_remind_30"
-                            android:textColor="@color/text_primary"
-                            android:textSize="15sp" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
 
-                        <CheckBox
-                            android:id="@+id/checkRemind15"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/notif_remind_15"
-                            android:textColor="@color/text_primary"
-                            android:textSize="15sp" />
+                            <CheckBox
+                                android:id="@+id/checkRemind30"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/notif_remind_30"
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp" />
 
-                        <CheckBox
-                            android:id="@+id/checkRemind5"
+                            <ImageButton
+                                android:id="@+id/remindSet30"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:contentDescription="@string/sound_settings"
+                                android:padding="7dp"
+                                android:src="@drawable/ic_settings"
+                                app:tint="@color/text_dim" />
+                        </LinearLayout>
+
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/notif_remind_5"
-                            android:textColor="@color/text_primary"
-                            android:textSize="15sp" />
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <CheckBox
+                                android:id="@+id/checkRemind15"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/notif_remind_15"
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp" />
+
+                            <ImageButton
+                                android:id="@+id/remindSet15"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:contentDescription="@string/sound_settings"
+                                android:padding="7dp"
+                                android:src="@drawable/ic_settings"
+                                app:tint="@color/text_dim" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <CheckBox
+                                android:id="@+id/checkRemind5"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="@string/notif_remind_5"
+                                android:textColor="@color/text_primary"
+                                android:textSize="15sp" />
+
+                            <ImageButton
+                                android:id="@+id/remindSet5"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:contentDescription="@string/sound_settings"
+                                android:padding="7dp"
+                                android:src="@drawable/ic_settings"
+                                app:tint="@color/text_dim" />
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -488,6 +542,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/aboutText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="4dp"

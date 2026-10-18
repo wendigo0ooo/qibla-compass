@@ -139,7 +139,7 @@
     <string name="notif_remind_30">30 dakika önce</string>
     <string name="notif_remind_15">15 dakika önce</string>
     <string name="notif_remind_5">5 dakika önce</string>
-    <string name="notif_reminders_hint">Her süre farklı bildirim sesiyle gelir; kalan dakikayı sesinden anlarsınız. Ayrı sesler için telefon Ayarları → Bildirimler’den kanalları düzenleyebilirsiniz.</string>
+    <string name="notif_reminders_hint">Sağdaki ayar simgesinden her süre için ayrı bildirim sesi seçebilirsiniz (telefon sesleri veya ney, çan, zil, saz). Varsayılan olarak her süre farklı sesle gelir.</string>
     <string name="notif_reminder_title">%1$s namazına %2$d dakika kaldı</string>
     <string name="notif_channel_reminder_desc">Vakitten önce yapılan hatırlatmalar</string>
     <string name="notif_channel_r30">Hatırlatıcı · 30 dakika</string>
@@ -157,9 +157,20 @@
     <string name="nc_next_small">SIRADAKİ VAKİT</string>
     <string name="nc_left">kaldı</string>
 
+    <string name="sound_settings">Bildirim sesi ayarı</string>
+    <string name="sound_title">Hatırlatıcı sesi · %1$d dk</string>
+    <string name="sound_default">Varsayılan (önerilen)</string>
+    <string name="sound_silent">Sessiz</string>
+    <string name="sound_ney">Ney (enstrümantal)</string>
+    <string name="sound_bell">Çan (enstrümantal)</string>
+    <string name="sound_chime">Zil (enstrümantal)</string>
+    <string name="sound_saz">Saz (enstrümantal)</string>
+    <string name="sound_phone">Telefon sesleri…</string>
+    <string name="sound_saved">Hatırlatıcı sesi güncellendi</string>
+
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru genel web araması, diyanet.gov.tr kaynakları veya YouTube üzerinden aranabilir.\n\nSürüm 5.10</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru genel web araması, diyanet.gov.tr kaynakları veya      YouTube üzerinden aranabilir.\n\nSürüm %1$s</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>

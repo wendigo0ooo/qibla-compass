@@ -20,6 +20,8 @@ import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
+import android.media.MediaPlayer
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -174,10 +176,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private var lastInfo = ""
     private var lastStatus = ""
 
+    private var soundPreview: MediaPlayer? = null
+    private var pendingSoundMinutes = 0
+
     companion object {
         private const val REQ_LOCATION = 1001
         private const val REQ_NOTIF = 1002
         private const val REQ_NOTIF_COUNTDOWN = 1003
+        private const val REQ_PICK_SOUND = 1004
         private const val ALIGN_TOLERANCE = 5f
         private const val PREFS = "qibla_prefs"
         private const val KEY_RECENT_SURAHS = "recent_surahs"
@@ -916,6 +922,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<Button>(R.id.btnThemeAyar).setOnClickListener { toggleTheme() }
         findViewById<Button>(R.id.btnBgAyar).setOnClickListener { showBackgroundDialog() }
         findViewById<Button>(R.id.btnMapAyar).setOnClickListener { openMap() }
+        val version = try {
+            packageManager.getPackageInfo(packageName, 0).versionName ?: ""
+        } catch (_: Exception) {
+            ""
+        }
+        findViewById<TextView>(R.id.aboutText).text = getString(R.string.about_text, version)
     }
 
     // ---- prayer notifications ----
@@ -942,6 +954,115 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         bindReminderCheck(R.id.checkRemind30, 30)
         bindReminderCheck(R.id.checkRemind15, 15)
         bindReminderCheck(R.id.checkRemind5, 5)
+        findViewById<View>(R.id.remindSet30).setOnClickListener { showSoundPicker(30) }
+        findViewById<View>(R.id.remindSet15).setOnClickListener { showSoundPicker(15) }
+        findViewById<View>(R.id.remindSet5).setOnClickListener { showSoundPicker(5) }
+    }
+
+    private fun showSoundPicker(minutes: Int) {
+        val options = arrayOf(
+            getString(R.string.sound_default),
+            getString(R.string.sound_silent),
+            getString(R.string.sound_ney),
+            getString(R.string.sound_bell),
+            getString(R.string.sound_chime),
+            getString(R.string.sound_saz),
+            getString(R.string.sound_phone)
+        )
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.sound_title, minutes))
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> applyReminderSound(minutes, null)
+                    1 -> applyReminderSound(minutes, NotificationHelper.SOUND_NONE)
+                    2 -> applyReminderSound(minutes, "raw:ney")
+                    3 -> applyReminderSound(minutes, "raw:bell")
+                    4 -> applyReminderSound(minutes, "raw:chime")
+                    5 -> applyReminderSound(minutes, "raw:saz")
+                    6 -> openRingtonePicker(minutes)
+                }
+            }
+            .show()
+    }
+
+    private fun applyReminderSound(minutes: Int, value: String?) {
+        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        p.edit().apply {
+            val key = NotificationHelper.soundKey(minutes)
+            if (value == null) remove(key) else putString(key, value)
+        }.apply()
+        NotificationHelper.updateReminderChannel(this, minutes)
+        when (value) {
+            null, NotificationHelper.SOUND_NONE -> {}
+            "raw:ney" -> previewRes(R.raw.snd_ney)
+            "raw:bell" -> previewRes(R.raw.snd_bell)
+            "raw:chime" -> previewRes(R.raw.snd_chime)
+            "raw:saz" -> previewRes(R.raw.snd_saz)
+            else -> previewSound(Uri.parse(value))
+        }
+        Toast.makeText(this, R.string.sound_saved, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun openRingtonePicker(minutes: Int) {
+        pendingSoundMinutes = minutes
+        val current = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString(NotificationHelper.soundKey(minutes), null)
+        val intent = Intent(RingtoneManager.ACTION_RINGTONE_PICKER).apply {
+            putExtra(
+                RingtoneManager.EXTRA_RINGTONE_TYPE,
+                RingtoneManager.TYPE_NOTIFICATION or
+                    RingtoneManager.TYPE_ALARM or RingtoneManager.TYPE_RINGTONE
+            )
+            putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+            putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true)
+            putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, getString(R.string.sound_title, minutes))
+            if (current != null && current != NotificationHelper.SOUND_NONE && !current.startsWith("raw:")) {
+                putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, Uri.parse(current))
+            }
+        }
+        startActivityForResult(intent, REQ_PICK_SOUND)
+    }
+
+    private fun previewRes(resId: Int) {
+        soundPreview?.let { runCatching { it.release() } }
+        soundPreview = null
+        val mp = try {
+            MediaPlayer.create(this, resId)
+        } catch (_: Exception) {
+            null
+        } ?: return
+        mp.setOnCompletionListener {
+            it.release()
+            if (soundPreview === it) soundPreview = null
+        }
+        soundPreview = mp
+        runCatching { mp.start() }
+    }
+
+    private fun previewSound(uri: Uri?) {
+        soundPreview?.let { runCatching { it.release() } }
+        soundPreview = null
+        if (uri == null) return
+        val mp = try {
+            MediaPlayer.create(this, uri)
+        } catch (_: Exception) {
+            null
+        } ?: return
+        mp.setOnCompletionListener {
+            it.release()
+            if (soundPreview === it) soundPreview = null
+        }
+        soundPreview = mp
+        runCatching { mp.start() }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQ_PICK_SOUND && resultCode == RESULT_OK) {
+            val uri: Uri? =
+                data?.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI)
+            applyReminderSound(pendingSoundMinutes, uri?.toString())
+        }
     }
 
     private fun bindReminderCheck(id: Int, minutes: Int) {
@@ -1479,6 +1600,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
 
     override fun onPause() {
         super.onPause()
+        soundPreview?.let { runCatching { it.release() } }
+        soundPreview = null
         stopVakitTicker()
         sensorManager?.unregisterListener(this)
         stopGps()
