@@ -41,8 +41,18 @@ class ZakatActivity : AppCompatActivity() {
         findViewById<Button>(R.id.zCalc).setOnClickListener { calculate() }
     }
 
-    private fun num(e: EditText): Double =
-        e.text.toString().trim().replace(",", ".").toDoubleOrNull() ?: 0.0
+    private fun parseNum(raw: String): Double {
+        var t = raw.trim().replace(" ", "").replace("\u00A0", "")
+        if (t.isEmpty()) return 0.0
+        t = if (t.contains(",") && t.contains(".")) {
+            t.replace(".", "").replace(",", ".")
+        } else {
+            t.replace(",", ".")
+        }
+        return t.toDoubleOrNull() ?: 0.0
+    }
+
+    private fun num(e: EditText): Double = parseNum(e.text.toString())
 
     private fun money(v: Double): String = String.format(tr, "%,.2f ₺", v)
 
@@ -66,12 +76,13 @@ class ZakatActivity : AppCompatActivity() {
         val sb = StringBuilder()
         sb.append(getString(R.string.zk_total)).append(": ").append(money(toplam)).append('\n')
         sb.append(getString(R.string.zk_debt)).append(": ").append(money(borc)).append('\n')
-        sb.append(getString(R.string.zk_net)).append(": ").append(money(net)).append("\n\n")
-        if (altinFiyat > 0) sb.append(getString(R.string.zk_nisab_gold)).append(": ")
-            .append(money(nisabAltin)).append('\n')
-        if (gumusFiyat > 0) sb.append(getString(R.string.zk_nisab_silver)).append(": ")
-            .append(money(nisabGumus)).append('\n')
-        sb.append('\n')
+        sb.append(getString(R.string.zk_net)).append(": ").append(money(net)).append('\n')
+        if (altinFiyat > 0) {
+            sb.append(getString(R.string.zk_nisab_gold)).append(": ").append(money(nisabAltin)).append('\n')
+        }
+        if (gumusFiyat > 0) {
+            sb.append(getString(R.string.zk_nisab_silver)).append(": ").append(money(nisabGumus)).append('\n')
+        }
 
         val nisab = when {
             altinFiyat > 0 -> nisabAltin
@@ -79,13 +90,23 @@ class ZakatActivity : AppCompatActivity() {
             else -> 0.0
         }
 
-        if (nisab <= 0.0) {
-            sb.append(getString(R.string.zk_need_prices))
-        } else if (net >= nisab) {
-            val zakat = net * 0.025
-            sb.append(getString(R.string.zk_due)).append(": ").append(money(zakat))
-        } else {
-            sb.append(getString(R.string.zk_below))
+        when {
+            nisab <= 0.0 -> {
+                sb.append('\n').append(getString(R.string.zk_need_prices))
+                result.setTextColor(getColor(R.color.text_primary))
+            }
+            net >= nisab -> {
+                val zakat = net * 0.025
+                sb.append('\n').append(getString(R.string.zk_due)).append(": ").append(money(zakat))
+                if (altinFiyat > 0 && gumusFiyat > 0) {
+                    sb.append('\n').append(getString(R.string.zk_note_both))
+                }
+                result.setTextColor(getColor(R.color.accent))
+            }
+            else -> {
+                sb.append('\n').append(getString(R.string.zk_below))
+                result.setTextColor(getColor(R.color.text_primary))
+            }
         }
 
         result.text = sb.toString()

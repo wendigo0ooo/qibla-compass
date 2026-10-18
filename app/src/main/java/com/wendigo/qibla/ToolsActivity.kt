@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,15 +13,17 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ToolsActivity : AppCompatActivity() {
 
-    private data class Tool(val titleRes: Int, val subRes: Int, val target: Class<*>)
+    private data class Tool(
+        val titleRes: Int,
+        val subRes: Int,
+        val iconRes: Int,
+        val target: Class<*>
+    )
 
     private val tools = listOf(
-        Tool(R.string.tool_namaz_title, R.string.tool_namaz_sub, NamazRehberActivity::class.java),
-        Tool(R.string.tool_abdest_title, R.string.tool_abdest_sub, AbdestRehberActivity::class.java),
-        Tool(R.string.tool_hijri_title, R.string.tool_hijri_sub, HijriActivity::class.java),
-        Tool(R.string.tool_zakat_title, R.string.tool_zakat_sub, ZakatActivity::class.java),
-        Tool(R.string.tool_mescit_title, R.string.tool_mescit_sub, MescitActivity::class.java),
-        Tool(R.string.tab_tesbih, R.string.ib_tesbih_sub, TesbihActivity::class.java)
+        Tool(R.string.tool_hijri_title, R.string.tool_hijri_sub, R.drawable.ic_calendar, HijriActivity::class.java),
+        Tool(R.string.tool_zakat_title, R.string.tool_zakat_sub, R.drawable.ic_zakat, ZakatActivity::class.java),
+        Tool(R.string.tool_mescit_title, R.string.tool_mescit_sub, R.drawable.ic_place, MescitActivity::class.java)
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +43,7 @@ class ToolsActivity : AppCompatActivity() {
 
     private inner class ToolAdapter : RecyclerView.Adapter<ToolAdapter.VH>() {
         inner class VH(v: View) : RecyclerView.ViewHolder(v) {
+            val icon: ImageView = v.findViewById(R.id.toolIcon)
             val title: TextView = v.findViewById(R.id.toolTitle)
             val sub: TextView = v.findViewById(R.id.toolSub)
         }
@@ -51,6 +55,7 @@ class ToolsActivity : AppCompatActivity() {
 
         override fun onBindViewHolder(holder: VH, position: Int) {
             val t = tools[position]
+            holder.icon.setImageResource(t.iconRes)
             holder.title.setText(t.titleRes)
             holder.sub.setText(t.subRes)
             holder.itemView.setOnClickListener {

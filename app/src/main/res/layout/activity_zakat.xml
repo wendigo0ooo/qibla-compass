@@ -18,7 +18,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,70 +30,112 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="4dp"
-                android:text="@string/zk_assets"
-                android:textColor="@color/accent"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:paddingBottom="12dp"
+                android:text="@string/zk_hint"
+                android:textColor="@color/text_dim"
+                android:textSize="13sp" />
 
-            <EditText
-                android:id="@+id/zNakit"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/zk_nakit"
-                android:inputType="numberDecimal" />
+                android:background="@drawable/panel_bg"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <EditText
-                android:id="@+id/zAltinG"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="6dp"
+                    android:text="@string/zk_sec_cash"
+                    android:textColor="@color/accent"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/zNakit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zk_nakit"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/zDiger"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zk_diger"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/zk_altin_g"
-                android:inputType="numberDecimal" />
+                android:layout_marginTop="12dp"
+                android:background="@drawable/panel_bg"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <EditText
-                android:id="@+id/zGumusG"
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="6dp"
+                    android:text="@string/zk_sec_metal"
+                    android:textColor="@color/accent"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/zAltinG"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zk_altin_g"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/zAltinFiyat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zk_altin_fiyat"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/zGumusG"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zk_gumus_g"
+                    android:inputType="numberDecimal" />
+
+                <EditText
+                    android:id="@+id/zGumusFiyat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zk_gumus_fiyat"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/zk_gumus_g"
-                android:inputType="numberDecimal" />
+                android:layout_marginTop="12dp"
+                android:background="@drawable/panel_bg"
+                android:orientation="vertical"
+                android:padding="16dp">
 
-            <EditText
-                android:id="@+id/zDiger"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/zk_diger"
-                android:inputType="numberDecimal" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="6dp"
+                    android:text="@string/zk_sec_debt"
+                    android:textColor="@color/accent"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/zBorc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/zk_borc"
-                android:inputType="numberDecimal" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="12dp"
-                android:paddingBottom="4dp"
-                android:text="@string/zk_prices"
-                android:textColor="@color/accent"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/zAltinFiyat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/zk_altin_fiyat"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/zGumusFiyat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/zk_gumus_fiyat"
-                android:inputType="numberDecimal" />
+                <EditText
+                    android:id="@+id/zBorc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zk_borc"
+                    android:inputType="numberDecimal" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/zCalc"
@@ -101,17 +144,31 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/zk_calc" />
 
-            <TextView
-                android:id="@+id/zResult"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/panel_bg"
-                android:lineSpacingExtra="4dp"
-                android:padding="16dp"
-                android:text="@string/zk_hint"
-                android:textColor="@color/text_primary"
-                android:textSize="15sp" />
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/zk_result_title"
+                    android:textColor="@color/text_dim"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/zResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="8dp"
+                    android:lineSpacingExtra="4dp"
+                    android:text="@string/zk_result_placeholder"
+                    android:textColor="@color/text_primary"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

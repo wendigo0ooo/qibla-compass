@@ -1,13 +1,17 @@
 package com.wendigo.qibla
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationListener
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,26 +29,33 @@ import java.net.URL
 import java.net.URLEncoder
 import java.util.Locale
 
-class MescitActivity : AppCompatActivity() {
+class MescitActivity : AppCompatActivity(), LocationListener {
 
     private data class Mosque(val name: String, val lat: Double, val lon: Double, val distance: Float)
 
     private companion object {
         const val REQ_LOC = 2001
         const val PREFS = "qibla_prefs"
+        const val LOC_TIMEOUT_MS = 12000L
+
+        val RADII = intArrayOf(3000, 8000, 15000)
 
         val ENDPOINTS = arrayOf(
-            "https://overpass.private.coffee/api/interpreter",
             "https://overpass-api.de/api/interpreter",
+            "https://overpass.private.coffee/api/interpreter",
             "https://overpass.kumi.systems/api/interpreter"
         )
     }
 
-    private var lat: Double? = null
-    private var lon: Double? = null
     private val items = ArrayList<Mosque>()
     private lateinit var adapter: MosqueAdapter
     private lateinit var status: TextView
+    private lateinit var findButton: Button
+    private var locationManager: LocationManager? = null
+    private val handler = Handler(Looper.getMainLooper())
+    private var listening = false
+
+    private val timeout = Runnable { onLocationTimeout() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,38 +67,15 @@ class MescitActivity : AppCompatActivity() {
         }
 
         status = findViewById(R.id.mescitStatus)
+        findButton = findViewById(R.id.btnFind)
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+
         val list = findViewById<RecyclerView>(R.id.mescitList)
         list.layoutManager = LinearLayoutManager(this)
         adapter = MosqueAdapter()
         list.adapter = adapter
 
-        loadKnownLocation()
-        findViewById<Button>(R.id.btnFind).setOnClickListener { onFind() }
-    }
-
-    private fun loadKnownLocation() {
-        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-        lat = p.getString("device_lat", null)?.toDoubleOrNull()
-        lon = p.getString("device_lon", null)?.toDoubleOrNull()
-        if (hasPermission()) {
-            val lm = getSystemService(Context.LOCATION_SERVICE) as? LocationManager
-            var best: Location? = null
-            for (provider in listOf(
-                LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER,
-                LocationManager.PASSIVE_PROVIDER
-            )) {
-                try {
-                    if (!lm!!.isProviderEnabled(provider)) continue
-                    val l = lm.getLastKnownLocation(provider) ?: continue
-                    if (best == null || l.time > best!!.time) best = l
-                } catch (_: Exception) {
-                }
-            }
-            if (best != null) {
-                lat = best!!.latitude
-                lon = best!!.longitude
-            }
-        }
+        findButton.setOnClickListener { onFind() }
     }
 
     private fun hasPermission(): Boolean =
@@ -108,14 +96,102 @@ class MescitActivity : AppCompatActivity() {
             )
             return
         }
-        loadKnownLocation()
-        val la = lat
-        val lo = lon
-        if (la == null || lo == null) {
-            status.text = getString(R.string.mescit_no_loc)
+        stopListening()
+        findButton.isEnabled = false
+        status.text = getString(R.string.mescit_locating)
+
+        val known = bestLastKnown()
+        if (known != null && System.currentTimeMillis() - known.time < 60_000L) {
+            useLocation(known)
             return
         }
-        query(la, lo)
+        startListening()
+        if (listening) handler.postDelayed(timeout, LOC_TIMEOUT_MS)
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun startListening() {
+        val lm = locationManager ?: run {
+            fallbackLocation()
+            return
+        }
+        try {
+            val gpsOn = lm.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            val netOn = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+            if (!gpsOn && !netOn) {
+                fallbackLocation()
+                return
+            }
+            listening = true
+            if (gpsOn) lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000L, 0f, this)
+            if (netOn) lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000L, 0f, this)
+        } catch (_: SecurityException) {
+            fallbackLocation()
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun stopListening() {
+        if (!listening) return
+        listening = false
+        try {
+            locationManager?.removeUpdates(this)
+        } catch (_: Exception) {
+        }
+    }
+
+    override fun onLocationChanged(location: Location) {
+        if (!listening) return
+        stopListening()
+        handler.removeCallbacks(timeout)
+        useLocation(location)
+    }
+
+    private fun onLocationTimeout() {
+        stopListening()
+        fallbackLocation()
+    }
+
+    private fun fallbackLocation() {
+        val l = bestLastKnown() ?: savedLocation()
+        if (l != null) useLocation(l) else {
+            status.text = getString(R.string.mescit_no_loc)
+            findButton.isEnabled = true
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun bestLastKnown(): Location? {
+        val lm = locationManager ?: return null
+        var best: Location? = null
+        for (p in listOf(
+            LocationManager.GPS_PROVIDER,
+            LocationManager.NETWORK_PROVIDER,
+            LocationManager.PASSIVE_PROVIDER
+        )) {
+            try {
+                if (!lm.isProviderEnabled(p)) continue
+                val l = lm.getLastKnownLocation(p) ?: continue
+                if (best == null || l.time > best!!.time) best = l
+            } catch (_: Exception) {
+            }
+        }
+        return best
+    }
+
+    private fun savedLocation(): Location? {
+        val p = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val la = p.getString("device_lat", null)?.toDoubleOrNull() ?: return null
+        val lo = p.getString("device_lon", null)?.toDoubleOrNull() ?: return null
+        return Location("saved").apply {
+            latitude = la
+            longitude = lo
+        }
+    }
+
+    private fun useLocation(loc: Location) {
+        status.text = getString(R.string.mescit_you_are_here, loc.latitude, loc.longitude)
+        query(loc.latitude, loc.longitude)
     }
 
     override fun onRequestPermissionsResult(
@@ -135,32 +211,52 @@ class MescitActivity : AppCompatActivity() {
 
     private fun query(la: Double, lo: Double) {
         status.text = getString(R.string.mescit_searching)
+        findButton.isEnabled = false
         items.clear()
         adapter.notifyDataSetChanged()
+
         Thread {
-            val found = try {
-                fetchMosques(la, lo)
-            } catch (_: Exception) {
-                null
-            }
-            runOnUiThread {
-                if (found == null) {
-                    status.text = getString(R.string.mescit_error)
-                    return@runOnUiThread
+            var found: List<Mosque>? = null
+            var usedRadius = RADII.first()
+
+            for (r in RADII) {
+                val res = try {
+                    fetchMosques(la, lo, r)
+                } catch (_: Exception) {
+                    null
                 }
-                items.clear()
-                items.addAll(found)
-                adapter.notifyDataSetChanged()
-                status.text = if (found.isEmpty()) getString(R.string.mescit_none)
-                else getString(R.string.mescit_count, found.size)
+                if (res == null) {
+                    found = null
+                    break
+                }
+                found = res
+                usedRadius = r
+                if (res.isNotEmpty()) break
+            }
+
+            runOnUiThread {
+                findButton.isEnabled = true
+                val result = found
+                when {
+                    result == null -> status.text = getString(R.string.mescit_error)
+                    result.isEmpty() -> status.text = getString(R.string.mescit_none)
+                    else -> {
+                        items.clear()
+                        items.addAll(result)
+                        adapter.notifyDataSetChanged()
+                        status.text = getString(R.string.mescit_count, result.size) +
+                                " · " + getString(R.string.mescit_radius_info, usedRadius / 1000)
+                    }
+                }
             }
         }.start()
     }
 
-    private fun fetchMosques(la: Double, lo: Double): List<Mosque> {
+    private fun fetchMosques(la: Double, lo: Double, radius: Int): List<Mosque> {
         val q = "[out:json][timeout:40];" +
-                "nwr[\"amenity\"=\"place_of_worship\"][\"religion\"=\"muslim\"](around:5000,$la,$lo);" +
-                "out center 60;"
+                "(nwr[\"amenity\"=\"place_of_worship\"][\"religion\"=\"muslim\"](around:$radius,$la,$lo);" +
+                "nwr[\"building\"=\"mosque\"](around:$radius,$la,$lo););" +
+                "out center;"
         var last: Exception? = null
         for (endpoint in ENDPOINTS) {
             try {
@@ -173,12 +269,16 @@ class MescitActivity : AppCompatActivity() {
     }
 
     private fun request(endpoint: String, q: String, la: Double, lo: Double): List<Mosque> {
-        val conn = (URL("$endpoint?data=" + URLEncoder.encode(q, "UTF-8")).openConnection()
-                as HttpURLConnection)
-        conn.requestMethod = "GET"
+        val conn = (URL(endpoint).openConnection() as HttpURLConnection)
+        conn.requestMethod = "POST"
+        conn.doOutput = true
+        conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
+        conn.setRequestProperty("User-Agent", "KiblePusulasi/5.9 (mosque finder)")
         conn.connectTimeout = 15000
         conn.readTimeout = 60000
-        conn.setRequestProperty("User-Agent", "KiblePusulasi/4.4")
+        conn.outputStream.use {
+            it.write(("data=" + URLEncoder.encode(q, "UTF-8")).toByteArray(Charsets.UTF_8))
+        }
         val code = conn.responseCode
         if (code !in 200..299) {
             conn.disconnect()
@@ -194,12 +294,12 @@ class MescitActivity : AppCompatActivity() {
         val elements = json.getJSONArray("elements")
 
         val out = ArrayList<Mosque>()
+        val seen = HashSet<String>()
         for (i in 0 until elements.length()) {
             val el = elements.getJSONObject(i)
             val tags = el.optJSONObject("tags")
             val name = tags?.let {
-                it.optString("name:tr").ifBlank { "" }
-                    .ifBlank { it.optString("name") }
+                it.optString("name:tr").ifBlank { "" }.ifBlank { it.optString("name") }
             }.orEmpty().ifBlank { getString(R.string.mescit_unnamed) }
 
             var mlat = el.optDouble("lat", Double.NaN)
@@ -211,6 +311,9 @@ class MescitActivity : AppCompatActivity() {
             }
             if (mlat.isNaN() || mlon.isNaN()) continue
 
+            val key = String.format(Locale.US, "%.5f,%.5f", mlat, mlon)
+            if (!seen.add(key)) continue
+
             val res = FloatArray(1)
             Location.distanceBetween(la, lo, mlat, mlon, res)
             out.add(Mosque(name, mlat, mlon, res[0]))
@@ -221,12 +324,23 @@ class MescitActivity : AppCompatActivity() {
 
     private fun openInMap(m: Mosque) {
         val label = Uri.encode(m.name)
-        val uri = Uri.parse("geo:${m.lat},${m.lon}?q=${m.lat},${m.lon}($label)")
+        val geo = Uri.parse("geo:${m.lat},${m.lon}?q=${m.lat},${m.lon}($label)")
         try {
-            startActivity(Intent(Intent.ACTION_VIEW, uri))
+            startActivity(Intent(Intent.ACTION_VIEW, geo))
         } catch (_: Exception) {
-            Toast.makeText(this, R.string.mescit_no_map, Toast.LENGTH_SHORT).show()
+            val web = Uri.parse("https://www.google.com/maps/search/?api=1&query=${m.lat},${m.lon}")
+            try {
+                startActivity(Intent(Intent.ACTION_VIEW, web))
+            } catch (_: Exception) {
+                Toast.makeText(this, R.string.mescit_no_map, Toast.LENGTH_SHORT).show()
+            }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopListening()
+        handler.removeCallbacks(timeout)
     }
 
     private inner class MosqueAdapter : RecyclerView.Adapter<MosqueAdapter.VH>() {
@@ -243,11 +357,23 @@ class MescitActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: VH, position: Int) {
             val m = items[position]
             holder.name.text = m.name
-            val dist = if (m.distance >= 1000)
+            val dist = if (m.distance >= 1000) {
                 String.format(Locale.US, "%.1f km", m.distance / 1000f)
-            else String.format(Locale.US, "%d m", m.distance.toInt())
-            holder.meta.text = dist
+            } else {
+                String.format(Locale.US, "%d m", m.distance.toInt())
+            }
+            val walk = if (m.distance <= 2000f) {
+                " · " + getString(
+                    R.string.mescit_walk,
+                    maxOf(1, (m.distance / 83.3f).toInt())
+                )
+            } else ""
+            holder.meta.text = dist + walk
             holder.itemView.setOnClickListener { openInMap(m) }
+            holder.itemView.setOnLongClickListener {
+                openInMap(m)
+                true
+            }
         }
     }
 }

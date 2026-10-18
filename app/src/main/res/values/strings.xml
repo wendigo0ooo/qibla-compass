@@ -131,7 +131,7 @@
 
     <string name="settings_appearance">Görünüm</string>
     <string name="about_title">Hakkında</string>
-    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru genel web araması, diyanet.gov.tr kaynakları veya YouTube üzerinden aranabilir.\n\nSürüm 5.8</string>
+    <string name="about_text">Kıble Pusulası — namaz vakitleri, kıble yönü ve harita. Vakitler Diyanet takvimine (temkinli) göre hesaplanır.\n\nArka plan görselleri Wikimedia Commons (CC0 / kamu malı). Sunulan bilgiler yalnızca rehber niteliğindedir; resmî vakitler için Diyanet’e başvurun.\n\nFetvalar, Diyanet İşleri Başkanlığı’nın yayınladığı görüşlerin özetleridir; bağlayıcı fetva için müftülüğe başvurun. Uygulamada cevap bulunamazsa, cihaz internete bağlıysa soru genel web araması, diyanet.gov.tr kaynakları veya YouTube üzerinden aranabilir.\n\nSürüm 5.9</string>
 
     <string name="kaaba">Kâbe</string>
     <string name="you">Siz</string>
@@ -198,8 +198,25 @@
     <string name="abdest_rehber_farz">Abdestin farzları: yüzü yıkamak, dirseklerle birlikte kolları yıkamak, başın dörtte birini meshetmek, topuklarla birlikte ayakları yıkamaktır. Sıraya uymak ve ara vermemek ise sünnettir.</string>
     <string name="hijri_today">Bugünün hicrî tarihi</string>
     <string name="hijri_convert">Tarih dönüştür</string>
-    <string name="hijri_convert_hint">Bir milâdî tarih seçin; hicrî karşılığı burada görünür.</string>
+    <string name="hijri_convert_hint">Milâdî ya da hicrî bir tarih girip karşılığını görün.</string>
+    <string name="hijri_g2h">Miladi → Hicrî</string>
+    <string name="hijri_h2g">Hicrî → Miladi</string>
+    <string name="hijri_conv_label_greg">Miladi tarihi seçin</string>
+    <string name="hijri_conv_label_hijri">Hicrî tarihi girin</string>
+    <string name="hijri_none_selected">Henüz tarih seçilmedi</string>
+    <string name="hijri_selected">Seçilen: %1$s</string>
+    <string name="hijri_day">Gün</string>
+    <string name="hijri_month">Ay</string>
+    <string name="hijri_year">Yıl</string>
+    <string name="hijri_pick">Tarih seç</string>
+    <string name="hijri_result_label">Sonuç</string>
+    <string name="hijri_invalid">Geçerli bir hicrî tarih girin (gün 1–30, ay 1–12).</string>
 
+    <string name="zk_sec_cash">Nakit ve Diğer Varlıklar</string>
+    <string name="zk_sec_metal">Altın ve Gümüş</string>
+    <string name="zk_sec_debt">Borçlar</string>
+    <string name="zk_result_title">Sonuç</string>
+    <string name="zk_result_placeholder">Değerleri girip «Hesapla»ya dokunun.</string>
     <string name="zk_assets">Mal Varlığı (₺)</string>
     <string name="zk_nakit">Nakit / banka</string>
     <string name="zk_altin_g">Altın (gram)</string>
@@ -217,7 +234,8 @@
     <string name="zk_nisab_gold">Altın nisabı (80,18 g)</string>
     <string name="zk_nisab_silver">Gümüş nisabı (595 g)</string>
     <string name="zk_need_prices">Nisabı hesaplamak için altın veya gümüş gram fiyatını girin.</string>
-    <string name="zk_due">Verilecek zekât</string>
+    <string name="zk_due">Verilecek zekât (%2,5)</string>
+    <string name="zk_note_both">Altın nisabı esas alındı. Dilerseniz daha düşük olan gümüş nisabına göre de değerlendirebilirsiniz.</string>
     <string name="zk_below">Net malınız nisabın altında; zekât yükümlülüğü yok.</string>
 
     <string name="mescit_find">Yakınımdaki mescitleri bul</string>
@@ -229,6 +247,12 @@
     <string name="mescit_unnamed">İsimsiz mescit</string>
     <string name="mescit_no_map">Harita uygulaması bulunamadı.</string>
     <string name="mescit_no_loc">Konum alınamadı. Ana ekranda konumunuzun belirlenmesini bekleyin.</string>
+    <string name="mescit_locating">Konum alınıyor…</string>
+    <string name="mescit_you_are_here">Konumunuz: %1$.5f, %2$.5f</string>
+    <string name="mescit_radius_info">%1$d km yarıçap</string>
+    <string name="mescit_walk">~%1$d dk yürüme</string>
+    <string name="mescit_open_map">Haritada aç</string>
+    <string name="mescit_osm_note">Sonuçlar OpenStreetMap verisine dayanır; haritada kayıtlı olmayan yerler görünmeyebilir.</string>
 
     <string name="dur_hm">%1$d sa %2$d dk</string>
     <string name="dur_m">%1$d dk</string>
