@@ -59,7 +59,6 @@ class FetvaActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btnFetvaSearch).setOnClickListener { performSearch() }
         webButton.setOnClickListener { openWebSearch() }
-
         queryField.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 performSearch()
@@ -226,6 +225,11 @@ class FetvaActivity : AppCompatActivity() {
             .setView(scroll)
             .setPositiveButton(android.R.string.ok, null)
             .show()
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(0, 0)
     }
 
     private inner class FetvaAdapter : RecyclerView.Adapter<FetvaAdapter.VH>() {

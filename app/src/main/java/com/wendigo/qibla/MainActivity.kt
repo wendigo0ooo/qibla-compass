@@ -86,6 +86,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     private lateinit var surahSearch: EditText
     private lateinit var recentRow: View
     private lateinit var recentChips: LinearLayout
+    private lateinit var quranResume: View
+    private lateinit var quranResumeText: TextView
     private val favSurahs = HashSet<Int>()
     private val quranSurahs = ArrayList<QuranRepository.Surah>()
     private val allSurahs = ArrayList<QuranRepository.Surah>()
@@ -260,8 +262,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         surahSearch = findViewById(R.id.etSurahSearch)
         recentRow = findViewById(R.id.recentRow)
         recentChips = findViewById(R.id.recentChips)
+        quranResume = findViewById(R.id.quranResume)
+        quranResumeText = findViewById(R.id.quranResumeText)
+        quranResume.setOnClickListener { openResume() }
         loadFavs()
         refreshRecentChips()
+        refreshQuranResume()
         surahSearch.addTextChangedListener(object : android.text.TextWatcher {
             override fun afterTextChanged(s: android.text.Editable?) = applySurahFilter()
             override fun beforeTextChanged(s: CharSequence?, a: Int, b: Int, c: Int) {}
@@ -596,9 +602,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         findViewById<View>(R.id.tabIbadah).setOnClickListener { selectTab(3) }
         findViewById<View>(R.id.tabFetva).setOnClickListener {
             startActivity(Intent(this, FetvaActivity::class.java))
+            overridePendingTransition(0, 0)
         }
         findViewById<View>(R.id.tabTools).setOnClickListener {
             startActivity(Intent(this, ToolsActivity::class.java))
+            overridePendingTransition(0, 0)
         }
         findViewById<View>(R.id.tabSettings).setOnClickListener { selectTab(4) }
         val dim = getColor(R.color.text_dim)
@@ -700,6 +708,32 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         }
     }
 
+    private fun refreshQuranResume() {
+        if (!::quranResume.isInitialized) return
+        val prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val surahIndex = prefs.getInt(SurahActivity.KEY_AUDIO_SURAH, -1)
+        val ayahIndex = prefs.getInt(SurahActivity.KEY_AUDIO_AYAH, -1)
+        if (surahIndex < 0 || ayahIndex < 0) {
+            quranResume.visibility = View.GONE
+            return
+        }
+        val name = allSurahs.getOrNull(surahIndex)?.name ?: "Sûre ${surahIndex + 1}"
+        quranResumeText.text = getString(R.string.quran_resume_fmt, name, ayahIndex + 1)
+        quranResume.visibility = View.VISIBLE
+    }
+
+    private fun openResume() {
+        val prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        val surahIndex = prefs.getInt(SurahActivity.KEY_AUDIO_SURAH, -1)
+        val ayahIndex = prefs.getInt(SurahActivity.KEY_AUDIO_AYAH, 0)
+        if (surahIndex < 0) return
+        startActivity(
+            Intent(this, SurahActivity::class.java)
+                .putExtra(SurahActivity.EXTRA_SURAH, surahIndex)
+                .putExtra(SurahActivity.EXTRA_AUTOPLAY, ayahIndex)
+        )
+    }
+
     private fun applySurahFilter() {
         val q = surahSearch.text.toString().trim()
         val filtered = if (q.isBlank()) {
@@ -719,6 +753,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         quranSurahs.addAll(filtered)
         quranAdapter.notifyDataSetChanged()
         updateRecentVisibility()
+        refreshQuranResume()
         if (quranAllLoaded) {
             quranEmpty.visibility = if (filtered.isEmpty()) View.VISIBLE else View.GONE
             quranEmpty.text = if (filtered.isEmpty())
@@ -1438,6 +1473,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         registerSensors()
         if (!manualOverride && hasLocationPermission()) startLocationUpdates()
         PrayerScheduler.rescheduleFromPrefs(this)
+        refreshQuranResume()
         if (currentTab == 1) startVakitTicker()
     }
 

@@ -63,6 +63,7 @@
             android:exported="false"
             android:label="@string/tab_fetva"
             android:screenOrientation="portrait"
+            android:theme="@style/Theme.Qibla.NoAnim"
             android:windowSoftInputMode="adjustResize" />
 
         <activity
@@ -92,7 +93,8 @@
             android:name=".ToolsActivity"
             android:exported="false"
             android:label="@string/menu_tools"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Qibla.NoAnim" />
 
         <activity
             android:name=".HijriActivity"

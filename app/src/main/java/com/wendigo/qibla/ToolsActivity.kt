@@ -43,6 +43,11 @@ class ToolsActivity : AppCompatActivity() {
         }
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(0, 0)
+    }
+
     private inner class ToolAdapter : RecyclerView.Adapter<ToolAdapter.VH>() {
         inner class VH(v: View) : RecyclerView.ViewHolder(v) {
             val icon: ImageView = v.findViewById(R.id.toolIcon)
