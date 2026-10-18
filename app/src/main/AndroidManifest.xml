@@ -90,6 +90,12 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".GununActivity"
+            android:exported="false"
+            android:label="@string/gunun_title"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ToolsActivity"
             android:exported="false"
             android:label="@string/menu_tools"

@@ -306,6 +306,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             manualOverride = false
             ensurePermissionAndLocate()
         }
+        findViewById<View>(R.id.qiblaGunun).setOnClickListener {
+            startActivity(Intent(this, GununActivity::class.java))
+        }
 
         if (!restoreState(savedInstanceState)) {
             loadDeviceLocation()?.let { applyLocation(it.first, it.second, 0.0, LocationSource.DEVICE) }
@@ -644,6 +647,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
         }
         findViewById<View>(R.id.ibTakip).setOnClickListener {
             startActivity(Intent(this, PrayerTrackerActivity::class.java))
+        }
+        findViewById<View>(R.id.ibGunun).setOnClickListener {
+            startActivity(Intent(this, GununActivity::class.java))
         }
     }
 

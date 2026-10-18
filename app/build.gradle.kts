@@ -11,8 +11,8 @@ android {
         applicationId = "com.wendigo.qibla"
         minSdk = 24
         targetSdk = 34
-        versionCode = 42
-        versionName = "5.19"
+        versionCode = 43
+        versionName = "5.20"
     }
 
     signingConfigs {
