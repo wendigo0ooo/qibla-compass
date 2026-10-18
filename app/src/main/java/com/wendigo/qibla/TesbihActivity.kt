@@ -1,6 +1,8 @@
 package com.wendigo.qibla
 
 import android.content.Context
+import android.media.AudioAttributes
+import android.media.SoundPool
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -13,10 +15,13 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import kotlin.random.Random
 
 class TesbihActivity : AppCompatActivity() {
 
@@ -25,6 +30,7 @@ class TesbihActivity : AppCompatActivity() {
         private const val KEY_COUNT = "tesbih_count"
         private const val KEY_TARGET = "tesbih_target"
         private const val KEY_PRESET = "tesbih_preset"
+        private const val KEY_SOUND = "tesbih_sound"
 
         private val PRESETS = listOf(
             "Sübhânallâh" to 33,
@@ -44,6 +50,11 @@ class TesbihActivity : AppCompatActivity() {
     private lateinit var tvTarget: TextView
     private lateinit var tvPreset: TextView
     private lateinit var dial: TesbihDialView
+    private lateinit var btnSound: ImageButton
+
+    private var soundOn = true
+    private var soundPool: SoundPool? = null
+    private var clickId = 0
 
     private val celebrateHandler = Handler(Looper.getMainLooper())
     private val prefs by lazy { getSharedPreferences(PREFS, Context.MODE_PRIVATE) }
@@ -61,10 +72,16 @@ class TesbihActivity : AppCompatActivity() {
         tvTarget = findViewById(R.id.tbTarget)
         tvPreset = findViewById(R.id.tbPreset)
         dial = findViewById(R.id.tbDial)
+        btnSound = findViewById(R.id.tbSound)
 
         count = prefs.getInt(KEY_COUNT, 0)
         target = prefs.getInt(KEY_TARGET, 33)
         preset = prefs.getInt(KEY_PRESET, 0)
+        soundOn = prefs.getBoolean(KEY_SOUND, true)
+
+        initSound()
+        btnSound.setOnClickListener { toggleSound() }
+        updateSoundIcon()
 
         findViewById<FrameLayout>(R.id.tbTap).setOnClickListener { increment() }
         findViewById<Button>(R.id.tbReset).setOnClickListener { reset() }
@@ -89,11 +106,14 @@ class TesbihActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         celebrateHandler.removeCallbacksAndMessages(null)
+        soundPool?.release()
+        soundPool = null
     }
 
     private fun increment() {
         count++
         vibrate(15)
+        playClick()
         animateCount()
         val reached = target > 0 && count == target
         prefs.edit { putInt(KEY_COUNT, count) }
@@ -220,6 +240,45 @@ class TesbihActivity : AppCompatActivity() {
         celebrateHandler.removeCallbacksAndMessages(null)
         overlay.animate().alpha(0f).setDuration(160)
             .withEndAction { overlay.visibility = View.GONE }.start()
+    }
+
+    private fun initSound() {
+        val sp = SoundPool.Builder()
+            .setMaxStreams(4)
+            .setAudioAttributes(
+                AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_MEDIA)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build()
+            )
+            .build()
+        clickId = sp.load(this, R.raw.tesbih_click, 1)
+        soundPool = sp
+    }
+
+    private fun playClick() {
+        if (!soundOn) return
+        val sp = soundPool ?: return
+        val rate = 0.95f + Random.nextFloat() * 0.1f
+        sp.play(clickId, 0.5f, 0.5f, 1, 0, rate)
+    }
+
+    private fun toggleSound() {
+        soundOn = !soundOn
+        prefs.edit { putBoolean(KEY_SOUND, soundOn) }
+        updateSoundIcon()
+        if (soundOn) {
+            playClick()
+            Toast.makeText(this, getString(R.string.tb_sound_on), Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, getString(R.string.tb_sound_off), Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateSoundIcon() {
+        btnSound.setImageResource(
+            if (soundOn) R.drawable.ic_volume_on else R.drawable.ic_volume_off
+        )
     }
 
     @Suppress("DEPRECATION")
