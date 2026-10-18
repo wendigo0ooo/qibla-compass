@@ -30,6 +30,8 @@ class ToolsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_tools)
 
+        AppBackground.apply(this, findViewById(R.id.bgImage), findViewById(R.id.bgScrim))
+
         findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolsToolbar).apply {
             title = getString(R.string.menu_tools)
             setNavigationOnClickListener { finish() }

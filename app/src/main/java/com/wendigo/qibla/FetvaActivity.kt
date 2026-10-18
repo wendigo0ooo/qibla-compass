@@ -31,11 +31,17 @@ class FetvaActivity : AppCompatActivity() {
     private lateinit var queryField: EditText
     private lateinit var status: TextView
     private lateinit var webButton: Button
+    private lateinit var chips: LinearLayout
     private val adapter = FetvaAdapter()
+
+    private var all: List<FetvaRepository.Fetva> = emptyList()
+    private var selectedCat: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fetva)
+
+        AppBackground.apply(this, findViewById(R.id.bgImage), findViewById(R.id.bgScrim))
 
         findViewById<androidx.appcompat.widget.Toolbar>(R.id.fetvaToolbar).apply {
             title = getString(R.string.tab_fetva)
@@ -45,6 +51,7 @@ class FetvaActivity : AppCompatActivity() {
         queryField = findViewById(R.id.etFetvaQuery)
         status = findViewById(R.id.fetvaStatus)
         webButton = findViewById(R.id.btnFetvaWeb)
+        chips = findViewById(R.id.fetvaChips)
 
         val list = findViewById<RecyclerView>(R.id.fetvaList)
         list.layoutManager = LinearLayoutManager(this)
@@ -66,21 +73,63 @@ class FetvaActivity : AppCompatActivity() {
         })
 
         Thread {
-            val all = try {
+            val loaded = try {
                 FetvaRepository.load(applicationContext)
             } catch (_: Exception) {
                 emptyList()
             }
-            runOnUiThread { adapter.setItems(all) }
+            runOnUiThread {
+                all = loaded
+                buildChips(loaded.map { it.kategori }.distinct())
+                performSearch()
+            }
         }.start()
     }
 
+    private fun buildChips(categories: List<String>) {
+        chips.removeAllViews()
+        addChip(getString(R.string.fetva_all), null)
+        for (c in categories) addChip(c, c)
+    }
+
+    private fun addChip(label: String, value: String?) {
+        val tv = TextView(this).apply {
+            text = label
+            textSize = 13f
+            setPadding(dp(14), dp(8), dp(14), dp(8))
+            layoutParams = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply { marginEnd = dp(6) }
+            tag = value
+            setOnClickListener {
+                selectedCat = value
+                refreshChips()
+                performSearch()
+            }
+        }
+        chips.addView(tv)
+    }
+
+    private fun refreshChips() {
+        for (i in 0 until chips.childCount) {
+            val tv = chips.getChildAt(i) as TextView
+            val sel = (tv.tag as String?) == selectedCat
+            tv.setBackgroundResource(if (sel) R.drawable.chip_bg_selected else R.drawable.chip_bg)
+            tv.setTextColor(getColor(if (sel) android.R.color.white else R.color.text_primary))
+        }
+    }
+
+    private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
+
     private fun performSearch() {
         val q = queryField.text.toString()
-        val res = FetvaRepository.search(applicationContext, q)
+        var res = FetvaRepository.search(applicationContext, q)
+        val cat = selectedCat
+        if (cat != null) res = res.filter { it.kategori == cat }
         adapter.setItems(res)
         status.text = when {
-            q.isBlank() -> getString(R.string.fetva_sub)
+            q.isBlank() && cat == null -> getString(R.string.fetva_sub)
             res.isEmpty() -> getString(R.string.fetva_none)
             else -> getString(R.string.fetva_count, res.size)
         }

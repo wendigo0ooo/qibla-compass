@@ -198,14 +198,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             "Ramazan", "Şevval", "Zilkade", "Zilhicce"
         )
 
-        private val BG_LABELS = intArrayOf(
-            R.string.bg_plain, R.string.bg_day, R.string.bg_crowd, R.string.bg_kiswah,
-            R.string.bg_door, R.string.bg_night, R.string.bg_old
-        )
-        private val BG_DRAWABLES = intArrayOf(
-            0, R.drawable.kaaba_day, R.drawable.kaaba_crowd, R.drawable.kaaba_kiswah,
-            R.drawable.kaaba_door, R.drawable.kaaba_night, R.drawable.kaaba_old
-        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -1068,7 +1060,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
 
     private fun showBackgroundDialog() {
         val reqPx = (76 * resources.displayMetrics.density).toInt()
-        val current = getSharedPreferences(PREFS, Context.MODE_PRIVATE).getInt(KEY_BG, 0)
+        val current = AppBackground.current(this)
 
         val column = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -1082,23 +1074,23 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
             .setNegativeButton(android.R.string.cancel, null)
             .create()
 
-        for (i in BG_LABELS.indices) {
+        for (i in AppBackground.LABELS.indices) {
             val row = layoutInflater.inflate(R.layout.item_bg_option, column, false)
             val thumb = row.findViewById<ImageView>(R.id.bgThumb)
             val label = row.findViewById<TextView>(R.id.bgLabel)
-            val res = BG_DRAWABLES[i]
+            val res = AppBackground.DRAWABLES[i]
             if (res != 0) {
                 thumb.setImageBitmap(decodeThumb(res, reqPx))
             }
-            label.text = getString(BG_LABELS[i])
-            if (i == current.coerceIn(0, BG_DRAWABLES.size - 1)) {
+            label.text = getString(AppBackground.LABELS[i])
+            if (i == current.coerceIn(0, AppBackground.DRAWABLES.size - 1)) {
                 label.setTypeface(Typeface.DEFAULT, Typeface.BOLD)
                 label.setTextColor(getColor(R.color.accent))
                 row.setBackgroundColor(getColor(R.color.panel_stroke))
             }
             row.setOnClickListener {
                 getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
-                    .putInt(KEY_BG, i).apply()
+                    .putInt(AppBackground.KEY_BG, i).apply()
                 applyBackground()
                 dialog.dismiss()
             }
@@ -1123,17 +1115,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener, LocationListener 
     }
 
     private fun applyBackground() {
-        val idx = getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-            .getInt(KEY_BG, 0).coerceIn(0, BG_DRAWABLES.size - 1)
-        val res = BG_DRAWABLES[idx]
-        if (res == 0) {
-            bgImage.visibility = View.GONE
-            bgScrim.visibility = View.GONE
-        } else {
-            bgImage.setImageResource(res)
-            bgImage.visibility = View.VISIBLE
-            bgScrim.visibility = View.VISIBLE
-        }
+        AppBackground.apply(this, bgImage, bgScrim)
     }
 
     // ---- location ----
