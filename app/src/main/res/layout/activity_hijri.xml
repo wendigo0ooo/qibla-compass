@@ -178,7 +178,7 @@
                     android:visibility="gone" />
             </LinearLayout>
 
-            <Button
+            <Button style="@style/Widget.Qibla.Button"
                 android:id="@+id/btnConvert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

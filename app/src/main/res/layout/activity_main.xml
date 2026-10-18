@@ -134,7 +134,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <Button
+                    <Button style="@style/Widget.Qibla.Button"
                         android:id="@+id/btnCity"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                         android:layout_weight="1"
                         android:text="@string/city" />
 
-                    <Button
+                    <Button style="@style/Widget.Qibla.Button"
                         android:id="@+id/btnManual"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -151,7 +151,7 @@
                         android:layout_weight="1"
                         android:text="@string/manual" />
 
-                    <Button
+                    <Button style="@style/Widget.Qibla.Button"
                         android:id="@+id/btnRefresh"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -400,7 +400,7 @@
                             android:textColor="@color/text_dim"
                             android:textSize="12sp" />
 
-                        <Button
+                        <Button style="@style/Widget.Qibla.Button"
                             android:id="@+id/btnNotifTest"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -531,7 +531,7 @@
                             android:textColor="@color/text_dim"
                             android:textSize="12sp" />
 
-                        <Button
+                        <Button style="@style/Widget.Qibla.Button"
                             android:id="@+id/btnRemindTest"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -571,20 +571,20 @@
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <Button
+                    <Button style="@style/Widget.Qibla.Button"
                         android:id="@+id/btnThemeAyar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/menu_theme" />
 
-                    <Button
+                    <Button style="@style/Widget.Qibla.Button"
                         android:id="@+id/btnBgAyar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="@string/menu_bg" />
 
-                    <Button
+                    <Button style="@style/Widget.Qibla.Button"
                         android:id="@+id/btnMapAyar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1133,7 +1133,7 @@
                         android:textColor="@color/text_primary"
                         android:textColorHint="@color/text_dim" />
 
-                    <Button
+                    <Button style="@style/Widget.Qibla.Button"
                         android:id="@+id/btnFetvaSearch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -1169,7 +1169,7 @@
                     android:textColor="@color/text_dim"
                     android:textSize="12sp" />
 
-                <Button
+                <Button style="@style/Widget.Qibla.Button"
                     android:id="@+id/btnFetvaWeb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

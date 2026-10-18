@@ -88,7 +88,7 @@
                 android:orientation="horizontal"
                 android:paddingTop="12dp">
 
-                <Button
+                <Button style="@style/Widget.Qibla.Button"
                     android:id="@+id/gununRefresh"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
                     android:layout_weight="1"
                     android:text="@string/gunun_refresh" />
 
-                <Button
+                <Button style="@style/Widget.Qibla.Button"
                     android:id="@+id/gununCopy"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
                     android:layout_weight="1"
                     android:text="@string/gunun_copy" />
 
-                <Button
+                <Button style="@style/Widget.Qibla.Button"
                     android:id="@+id/gununShare"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"

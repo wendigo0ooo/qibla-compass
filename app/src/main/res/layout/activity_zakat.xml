@@ -137,7 +137,7 @@
                     android:inputType="numberDecimal" />
             </LinearLayout>
 
-            <Button
+            <Button style="@style/Widget.Qibla.Button"
                 android:id="@+id/zCalc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

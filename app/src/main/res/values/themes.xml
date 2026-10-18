@@ -7,6 +7,8 @@
         <item name="android:textColorPrimary">@color/text_primary</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="buttonStyle">@style/Widget.Qibla.Button</item>
+        <item name="colorButtonNormal">@color/accent_tint</item>
+        <item name="android:colorButtonNormal">@color/accent_tint</item>
     </style>
 
     <style name="Widget.Qibla.Button" parent="Widget.AppCompat.Button">
